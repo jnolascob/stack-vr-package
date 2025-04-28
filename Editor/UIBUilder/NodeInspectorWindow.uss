@@ -1,0 +1,172 @@
+.custom-label {
+    font-size: 20px;
+    -unity-font-style: bold;
+    color: rgb(68, 138, 255);
+}
+
+.unity-button {
+}
+
+#image-container {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+#north-bar {
+    width: 6px;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 50%;
+    margin-left: -3px;
+    background-color: rgb(3, 196, 255);
+}
+
+.btn-right-aligned {
+    margin-left: auto;
+}
+
+#dropdown-navigation > .unity-label {
+    min-width: 50px;
+}
+
+#main-toolbar .btn-active {
+    background-color: rgb(3, 196, 255);
+    color: rgb(44, 44, 44);
+}
+
+#north-bar .handler {
+    flex-grow: 1;
+    background-image: url("project://database/Assets/Singularis/StackVR/Sprites/icons/icon_north_active.png?fileID=2800000&guid=abfa8ca3d335f1847b435a60c7863a91&type=3#icon_north_active");
+    width: 32px;
+    height: 32px;
+    position: absolute;
+    background-color: rgb(3, 196, 255);
+    border-top-left-radius: 16px;
+    border-top-right-radius: 16px;
+    border-bottom-right-radius: 16px;
+    border-bottom-left-radius: 16px;
+    background-size: 24px 24px;
+    left: 50%;
+    margin-left: -16px;
+    top: 50%;
+    margin-top: -16px;
+}
+
+#degrees-container {
+    flex-grow: 1;
+    background-color: rgb(91, 91, 91);
+    height: 60px;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    position: absolute;
+    justify-content: flex-start;
+    width: 280px;
+    bottom: 0;
+    align-self: center;
+    align-content: auto;
+    align-items: center;
+    padding-bottom: 5px;
+}
+
+#degrees-container .unity-toolbar-button {
+    width: 40px;
+    margin-right: 2px;
+    margin-left: 2px;
+}
+
+#degress-field {
+}
+
+#degress-field .unity-label {
+    display: none;
+}
+
+#degress-field .unity-base-field__input {
+    width: 50px;
+}
+
+#components-container {
+    position: absolute;
+    width: 115px;
+    height: 200px;
+    background-color: rgba(91, 91, 91, 0.78);
+    left: 0;
+    top: 200px;
+}
+
+.hotspot {
+    height: 20px;
+    background-color: rgb(45, 45, 45);
+    margin-top: 5px;
+    flex-direction: row;
+    border-radius: 10px;
+}
+
+.hotspot:focus {
+    border-style: solid;
+    border-color: white;
+    border-width: 0.1px;
+}
+
+.hotspot .icon {
+    width: 20px;
+    height: 20px;
+    background-image: url("project://database/Assets/Singularis/StackVR/Sprites/icons/icon%20ToolBarHotspot%20Normal.png?fileID=2800000&guid=69763791eeaecb14c99ac4a51c404c27&type=3#icon ToolBarHotspot Normal");
+    background-size: 80% 80%;
+}
+
+.hotspot Label {
+    padding-top: 0;
+    padding-bottom: 0;
+    padding-right: 0;
+    padding-left: 0;
+    margin-top: 2px;
+    color: rgb(191, 191, 191);
+}
+
+#outliner {
+    position: absolute;
+    width: 115px;
+    height: 200px;
+    background-color: rgba(91, 91, 91, 0.78);
+    right: 0;
+    top: 200px;
+}
+
+#show-panels {
+    align-self: flex-start;
+    -unity-text-align: middle-center;
+    color: rgb(196, 196, 196);
+}
+
+#show-panels .unity-label {
+    min-width: auto;
+}
+
+#title {
+    position: absolute;
+    top: 0;
+    -unity-text-align: middle-center;
+    color: rgb(255, 255, 255);
+    background-color: rgb(91, 91, 91);
+    padding-top: 3px;
+    padding-right: 5px;
+    padding-bottom: 3px;
+    padding-left: 5px;
+    margin-top: 2px;
+    margin-right: 0;
+    margin-bottom: 0;
+    margin-left: 0;
+}
+
+.toggle {
+}
+
+.toggle Label {
+    min-width: auto;
+}

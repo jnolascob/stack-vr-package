@@ -1,0 +1,67 @@
+<engine:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:engine="UnityEngine.UIElements" xmlns:editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../UIElementsSchema/UIElements.xsd" editor-extension-mode="True">
+    <engine:Template name="buttonHotspot" src="project://database/Assets/Singularis/StackVR/buttonHotspot.uxml?fileID=9197481963319205126&amp;guid=22c63a2875caeab468e1b154c3fdf35e&amp;type=3#buttonHotspot" />
+    <Style src="project://database/Assets/Singularis/StackVR/Editor/UIBUilder/NodeInspectorWindow.uss?fileID=7433441132597879392&amp;guid=29b1b0bd1f2423841a19a7a17aa2d1e9&amp;type=3#NodeInspectorWindow" />
+    <editor:Toolbar name="main-toolbar">
+        <editor:ToolbarButton text="Save Changes" icon-image="project://database/Assets/Singularis/StackVR/Sprites/icons/content-save.png?fileID=2800000&amp;guid=49c4d245cb217e040a07ee91ba94bdb5&amp;type=3#content-save" name="btn-save" />
+        <editor:ToolbarButton text="Discard Changes" icon-image="project://database/Assets/Singularis/StackVR/Sprites/icons/content-save.png?fileID=2800000&amp;guid=49c4d245cb217e040a07ee91ba94bdb5&amp;type=3#content-save" name="btn-discard" />
+        <editor:ToolbarButton text="Generate Scenes" icon-image="project://database/Assets/Singularis/StackVR/Sprites/icons/content-save.png?fileID=2800000&amp;guid=49c4d245cb217e040a07ee91ba94bdb5&amp;type=3#content-save" name="btn-generate" />
+        <editor:ToolbarSpacer />
+        <editor:ToolbarToggle label="Edit North" name="toggle-north" class="toggle" style="-unity-text-align: middle-left;" />
+        <engine:VisualElement style="flex-grow: 1;" />
+        <editor:ToolbarSpacer />
+        <editor:ToolbarToggle label="Show panels" name="show-panels" value="true" />
+        <engine:DropdownField label="Navigate" name="dropdown-navigation" class="btn-right-aligned" />
+        <editor:ToolbarButton text="Go" name="btn-change-spot" class="btn-right-aligned" />
+    </editor:Toolbar>
+    <engine:VisualElement name="image-container" style="-unity-background-scale-mode: scale-to-fit;">
+        <engine:VisualElement name="image-bg">
+            <engine:VisualElement name="hotspots-container" style="flex-grow: 1; width: 100%; height: 100%; position: absolute;" />
+            <engine:VisualElement name="north-bar">
+                <engine:VisualElement name="north-bar-handler" class="handler" />
+            </engine:VisualElement>
+        </engine:VisualElement>
+        <engine:VisualElement name="components-container" style="border-top-right-radius: 5px; border-top-left-radius: 5px;">
+            <engine:VisualElement name="Title" style="flex-grow: 1; height: 20px; max-height: 20px; min-height: 0; background-color: rgb(0, 0, 0); border-top-left-radius: 5px; border-top-right-radius: 5px; -unity-text-align: upper-center;">
+                <engine:Label text="Components" style="margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0; color: rgb(255, 255, 255);" />
+            </engine:VisualElement>
+            <engine:VisualElement name="hotspot-location" focusable="true" class="hotspot" style="padding-right: 3px; padding-left: 3px;">
+                <engine:VisualElement class="icon" />
+                <engine:Label text="Location" />
+                <engine:VisualElement class="icon btn-right-aligned" style="background-image: url(&quot;project://database/Assets/Singularis/StackVR/Sprites/icons/icon_dragableItem_inactive.png?fileID=2800000&amp;guid=4e938414cda553840a2e305581e010d0&amp;type=3#icon_dragableItem_inactive&quot;); width: 13px; height: 13px; align-self: center;" />
+            </engine:VisualElement>
+            <engine:VisualElement name="hotspot-custom" focusable="true" class="hotspot" style="padding-right: 3px; padding-left: 3px;">
+                <engine:VisualElement class="icon" />
+                <engine:Label text="Custom" />
+                <engine:VisualElement class="icon btn-right-aligned" style="background-image: url(&quot;project://database/Assets/Singularis/StackVR/Sprites/icons/icon_dragableItem_inactive.png?fileID=2800000&amp;guid=4e938414cda553840a2e305581e010d0&amp;type=3#icon_dragableItem_inactive&quot;); width: 13px; height: 13px; align-self: center;" />
+            </engine:VisualElement>
+            <engine:VisualElement name="hotspot-question" focusable="true" class="hotspot" style="padding-right: 3px; padding-left: 3px;">
+                <engine:VisualElement class="icon" style="background-image: url(&quot;project://database/Assets/Singularis/StackVR/Sprites/icons/ico_hotspot_question.png?fileID=2800000&amp;guid=467f850f95e4c5b4382329d22d548e3a&amp;type=3#ico_hotspot_question&quot;);" />
+                <engine:Label text="Question" />
+                <engine:VisualElement class="icon btn-right-aligned" style="background-image: url(&quot;project://database/Assets/Singularis/StackVR/Sprites/icons/icon_dragableItem_inactive.png?fileID=2800000&amp;guid=4e938414cda553840a2e305581e010d0&amp;type=3#icon_dragableItem_inactive&quot;); width: 13px; height: 13px; align-self: center;" />
+            </engine:VisualElement>
+        </engine:VisualElement>
+        <engine:VisualElement name="outliner" picking-mode="Ignore" style="top: 200px; right: 0; color: rgb(45, 45, 45); border-top-left-radius: 5px; border-top-right-radius: 5px;">
+            <engine:VisualElement name="Title" style="flex-grow: 1; height: 20px; max-height: 20px; min-height: 0; background-color: rgb(0, 0, 0); border-top-left-radius: 5px; border-top-right-radius: 5px; -unity-text-align: upper-center;">
+                <engine:Label text="Outliner" style="margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0; color: rgb(255, 255, 255);" />
+            </engine:VisualElement>
+            <engine:VisualElement name="outlinerContainer" style="flex-grow: 1;">
+                <engine:Instance template="buttonHotspot" name="buttonHotspot" picking-mode="Ignore" />
+            </engine:VisualElement>
+        </engine:VisualElement>
+        <engine:Label text="Label" name="title" />
+    </engine:VisualElement>
+    <engine:VisualElement name="degrees-container" style="height: 50px; align-self: center;">
+        <engine:VisualElement style="height: 22px; width: auto; flex-direction: row;">
+            <engine:Label text="Degress:" style="-unity-text-align: middle-left;" />
+            <engine:FloatField label="Degress" value="0" name="degress-field" />
+        </engine:VisualElement>
+        <engine:VisualElement style="flex-grow: 1; flex-direction: row; justify-content: center;">
+            <editor:ToolbarButton text="-15º" name="btn-subtract-15" />
+            <editor:ToolbarButton text="-10º" name="btn-subtract-10" />
+            <editor:ToolbarButton text="-5º" name="btn-subtract-5" />
+            <editor:ToolbarButton text="5º" name="btn-add-5" />
+            <editor:ToolbarButton text="10º" name="btn-add-10" />
+            <editor:ToolbarButton text="15º" name="btn-add-15" />
+        </engine:VisualElement>
+    </engine:VisualElement>
+</engine:UXML>

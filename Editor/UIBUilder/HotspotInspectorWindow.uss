@@ -1,0 +1,43 @@
+#default {
+    background-color: rgb(45, 45, 45);
+    width: 100%;
+    height: 100%;
+    display: none;
+}
+
+#default .unity-label {
+    color: rgb(191, 191, 191);
+    width: 100%;
+    height: 100%;
+    -unity-text-align: middle-center;
+    margin-top: 0;
+    margin-right: 0;
+    margin-bottom: 0;
+    margin-left: 0;
+}
+
+#main {
+    display: flex;
+    background-color: rgb(45, 45, 45);
+    width: 100%;
+    height: 100%;
+}
+
+#main .title {
+    color: rgb(191, 191, 191);
+    -unity-font-style: bold;
+    font-size: 14px;
+    padding-left: 25px;
+    background-image: url("project://database/Assets/Singularis/Stack%20VR/Sprites/icons/icon_inspector_transform.png?fileID=2800000&guid=739be15c8337c944b9663e1c2b15816c&type=3#icon_inspector_transform");
+    background-size: 18px 18px;
+    background-position-x: left 0;
+    -unity-text-align: middle-left;
+    margin-top: 3px;
+}
+
+.line {
+    height: 1px;
+    background-color: rgb(0, 0, 0);
+    margin-top: 2px;
+    margin-bottom: 2px;
+}
