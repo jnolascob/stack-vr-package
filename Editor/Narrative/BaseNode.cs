@@ -54,7 +54,7 @@ namespace Singularis.StackVR.Narrative.Editor {
         public UnityEngine.Object currentImage;
 
 
-        public BaseNode() : base("Assets/Singularis/StackVR/Nodes/NodeElement.uxml") {
+        public BaseNode() : base("Packages/com.singularisvr.stackvr/Editor/UIBUilder/NodeElement.uxml") {
 
             var bg = this.Q<VisualElement>("Background");
             border = this.Q<VisualElement>("Border");
@@ -68,11 +68,11 @@ namespace Singularis.StackVR.Narrative.Editor {
             borderColor = bg.style.backgroundColor.value;
 
             this.Q<VisualElement>("NodeImage").RegisterCallback<MouseUpEvent>((e) => { OnReleaseNode(); }, TrickleDown.TrickleDown);
-           
+
             RegisterCallback<MouseOverEvent>((e) => {
                 OnMouseHoverEvent();
             }, TrickleDown.TrickleDown);
-           
+
             RegisterCallback<MouseDownEvent>((e) => {
                 OnMouseDownEvent(e);
 
@@ -345,6 +345,9 @@ namespace Singularis.StackVR.Narrative.Editor {
 
             List<HotspotDataJson> hotspost = new List<HotspotDataJson>();
 
+            Debug.LogWarning($"[BaseNode] graphViewExperiences: {graphViewExperiences == null}");
+            Debug.LogWarning($"[BaseNode] graphViewExperiences.currentNarrative: {graphViewExperiences.currentNarrative == null}");
+
             foreach (var node in graphViewExperiences.currentNarrative.nodes) {
                 if (node.id == id) {
 
@@ -467,7 +470,8 @@ namespace Singularis.StackVR.Narrative.Editor {
             newScriptable.hotspots = new List<HotspotData>();
             string filePath = "";
             if (string.IsNullOrEmpty(path)) {
-                filePath = $"Assets/Singularis/StackVR/Scriptables/{newScriptable.name}_{newScriptable.id}.asset";
+                //filePath = $"Assets/Singularis/StackVR/Scriptables/{newScriptable.name}_{newScriptable.id}.asset";
+                filePath = Path.Combine(StackProjectConfig.currentNarrative.narrativeDirectoryPath, $"{newScriptable.name}_{newScriptable.id}.asset");
             }
             else {
                 filePath = Path.Combine(path, $"{newScriptable.name}{newScriptable.id}.asset");

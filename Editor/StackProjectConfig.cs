@@ -63,6 +63,9 @@ namespace Singularis.StackVR.Editor {
 
         [SerializeField]
         public NarrativeScriptableObject narrativeScriptableObject;
+
+        [SerializeField]
+        public string narrativeDirectoryPath;
         [SerializeField]
         public string narrativeSavePath;
     }

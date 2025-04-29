@@ -23,6 +23,7 @@ namespace Singularis.StackVR.Narrative.Editor {
             }
 
             StackProjectConfig.currentNarrative.narrativeSavePath = path;
+            StackProjectConfig.currentNarrative.narrativeDirectoryPath = Path.GetDirectoryName(path);
 
             ResetNarrative();
 
