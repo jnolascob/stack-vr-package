@@ -50,8 +50,9 @@ namespace Singularis.StackVR.Narrative.Editor {
         [MenuItem("Singularis/Develop/ResetNarrative")]
         static public void ResetNarrative() {
             var currentNarrative = StackProjectConfig.currentNarrative.narrativeScriptableObject;
-            currentNarrative.nodes.Clear();
+            currentNarrative?.nodes.Clear();
 
+            // TODO check how to delete the scriptable object
             string folderPath = $"Assets/Singularis/StackVR/Scriptables/";
             try {
                 foreach (string file in Directory.GetFiles(folderPath)) {
@@ -77,17 +78,16 @@ namespace Singularis.StackVR.Narrative.Editor {
         }
 
         private void AddGraphView() {
-            var visualTree = AssetDatabase.LoadAssetAtPath<VisualTreeAsset>("Assets/Singularis/StackVR/Editor/UIBUilder/TestEditorWindow.uxml");
+            Debug.Log("AddGraphView");
+            var visualTree = AssetDatabase.LoadAssetAtPath<VisualTreeAsset>("Packages/com.singularisvr.stackvr/Editor/UIBUilder/NarrativeEditorWindow.uxml");
+            Debug.Log($"Elemento es nulo: {visualTree == null}");
 
-            if (visualTree == null) {
-                Debug.Log("Elemento Nulo");
-            }
             TemplateContainer templateContainer = visualTree.CloneTree();
             templateContainer.style.flexGrow = 1;
 
             // Instantiate UXML
             VisualElement labelFromUXML = templateContainer;
-            var styleSheet = AssetDatabase.LoadAssetAtPath<StyleSheet>("Assets/Singularis/StackVR/Editor/UIBUilder/TestEditorWindow.uss");
+            var styleSheet = AssetDatabase.LoadAssetAtPath<StyleSheet>("Packages/com.singularisvr.stackvr/Editor/UIBUilder/NarrativeEditorWindow.uss");
             rootVisualElement.styleSheets.Add(styleSheet);
             rootVisualElement.Add(labelFromUXML);
             LoadDocument(templateContainer);
@@ -95,12 +95,30 @@ namespace Singularis.StackVR.Narrative.Editor {
 
         private void LoadDocument(TemplateContainer templateContainer) {
             var root = templateContainer;
-            var graphViewExperience = templateContainer.Q<GraphViewExperiences>();
+            //var graphViewExperience = templateContainer.Q<GraphViewExperiences>(name: "GraphViewExperiences");
+            var graphContainer = root.Q<VisualElement>(name: "graphContainer");
+            var graphElement = graphContainer.Q<VisualElement>(name: "GraphViewExperiences");
+            var graphViewExperience = new GraphViewExperiences();
+            graphViewExperience.StretchToParentSize();
+            graphViewExperience.Add(graphElement);
+            graphContainer.Add(graphViewExperience);
+
+            graphViewExperience.Init();
+
             var button = root.Q<Button>("TestButton");
             var boxElement = root.Q<VisualElement>("InspectorPanel");
             var dropDownMenu = root.Q<VisualElement>("DropDownMenu");
             var nodeMenu = root.Q<VisualElement>("NodeMenu");
             var buildButton = root.Q<Button>("BuildButton");
+
+            //Debug.Log($"templateContainer es nulo: {templateContainer == null}"); 
+            //Debug.Log($"graphViewExperience es nulo: {graphViewExperience == null}");
+            //Debug.Log($"graphContainer es nulo: {graphContainer == null}");
+            //Debug.Log($"dropDownMenu es nulo: {dropDownMenu == null}");
+            //Debug.Log($"boxElement es nulo: {boxElement == null}");
+            //Debug.Log($"nodeMenu es nulo: {nodeMenu == null}");
+            //Debug.Log($"buildButton es nulo: {buildButton == null}");
+
             graphViewExperience.SetVisualElements(dropDownMenu, boxElement, nodeMenu, buildButton);
 
 

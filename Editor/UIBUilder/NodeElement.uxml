@@ -1,0 +1,26 @@
+<UXML xmlns:ui="UnityEngine.UIElements" editor-extension-mode="True">
+    <Style src="project://database/Assets/Nodes/NodeElement.uss?fileID=7433441132597879392&amp;guid=f2c8a3e4d85c8d14aacdfaf0b005d752&amp;type=3#NodeElement" />
+    <ui:VisualElement name="node-border" style="height: 450px;">
+        <ui:VisualElement name="contents">
+            <ui:VisualElement name="divider" class="horizontal" />
+            <ui:VisualElement name="top">
+                <ui:VisualElement name="divider" class="vertical" />
+            </ui:VisualElement>
+        </ui:VisualElement>
+        <ui:VisualElement name="Border" style="flex-grow: 1; background-color: rgb(0, 42, 255); border-top-left-radius: 300px; border-top-right-radius: 300px; border-bottom-right-radius: 300px; border-bottom-left-radius: 300px; border-top-width: 3px; border-right-width: 3px; border-bottom-width: 3px; border-left-width: 3px; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0;">
+            <ui:VisualElement name="Background" style="flex-grow: 1; background-color: rgb(47, 47, 47); border-top-left-radius: 300px; border-top-right-radius: 300px; border-bottom-right-radius: 300px; border-bottom-left-radius: 300px; border-top-width: 5px; border-right-width: 5px; border-bottom-width: 5px; border-left-width: 5px; margin-top: -1.8px; margin-right: -1.8px; margin-bottom: -1.8px; margin-left: -1.8px;">
+                <ui:VisualElement name="NodeImage" style="flex-grow: 1; background-color: rgb(0, 0, 255); border-top-left-radius: 300px; border-top-right-radius: 300px; border-bottom-right-radius: 300px; border-bottom-left-radius: 300px; background-image: resource(&apos;export_icon&apos;); margin-top: -2px; margin-bottom: -2px; margin-right: -2px; margin-left: -2px; -unity-background-scale-mode: scale-and-crop; background-position-x: center 0; background-position-y: center 0; background-size: cover;">
+                    <ui:VisualElement style="flex-grow: 1; background-color: rgb(47, 47, 47); position: absolute; height: 31px; width: 88px; top: 19px; margin-left: 12px; border-top-left-radius: 5px; border-top-right-radius: 5px; border-bottom-right-radius: 5px; border-bottom-left-radius: 5px; border-top-width: 1px; border-right-width: 1px; border-bottom-width: 1px; border-left-width: 1px; border-left-color: rgb(255, 255, 255); border-right-color: rgb(255, 255, 255); border-top-color: rgb(255, 255, 255); border-bottom-color: rgb(255, 255, 255); flex-direction: row; left: 12px;">
+                        <ui:VisualElement name="VisualElement" style="flex-grow: 1;">
+                            <ui:VisualElement name="Icon" style="flex-grow: 1; position: absolute; background-image: resource(&apos;image_icon&apos;); background-color: rgba(255, 255, 255, 0); height: 13px; width: 14px; top: 8px; left: 5px;" />
+                        </ui:VisualElement>
+                        <ui:VisualElement style="flex-grow: 1; background-color: rgb(255, 255, 255); width: 0.5px; max-width: 1px; min-width: 0.5px; height: 21px; margin-top: 3px;" />
+                        <ui:Label text="Label" style="flex-grow: 1; align-self: auto; -unity-font-definition: url(&quot;project://database/Assets/Fonts/micross.ttf?fileID=12800000&amp;guid=f93e646c1d1dc434093e10676cf9aabd&amp;type=3#micross&quot;); color: rgb(255, 255, 255); -unity-text-align: middle-center;" />
+                    </ui:VisualElement>
+                    <ui:VisualElement name="InitialNode" style="flex-grow: 1; background-color: rgb(47, 47, 47); position: absolute; height: 40px; width: 40px; top: 92px; margin-left: 12px; border-top-left-radius: 200px; border-top-right-radius: 200px; border-bottom-right-radius: 200px; border-bottom-left-radius: 200px; border-top-width: 0; border-right-width: 0; border-bottom-width: 0; border-left-width: 0; border-left-color: rgb(255, 255, 255); border-right-color: rgb(255, 255, 255); border-top-color: rgb(255, 255, 255); border-bottom-color: rgb(255, 255, 255); flex-direction: row; left: 37px; background-image: resource(&apos;Asset 23&apos;); -unity-background-image-tint-color: rgb(255, 255, 255);" />
+                </ui:VisualElement>
+            </ui:VisualElement>
+        </ui:VisualElement>
+    </ui:VisualElement>
+    <ui:VisualElement name="selection-border" />
+</UXML>

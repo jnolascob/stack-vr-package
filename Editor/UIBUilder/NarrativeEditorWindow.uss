@@ -1,0 +1,156 @@
+GridBackground {
+    --grid-background-color: rgb(30, 36, 51);
+    --line-color: rgba(255, 255, 255, 0.1);
+    --thick-line-color: rgb(51, 51, 51);
+    --spacing: 25;
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    align-items: auto;
+    align-content: auto;
+}
+
+.ButtonToolbar {
+    height: 21.69px;
+    width: 71.6px;
+    overflow: hidden;
+    flex-direction: row;
+    -unity-text-align: middle-right;
+    padding-right: 10px;
+    padding-left: 10px;
+    -unity-font-definition: url("project://database/Packages/com.singularisvr.stackvr/Editor/UIBUilder/Fonts/micross.ttf");
+    white-space: nowrap;
+    align-items: flex-start;
+    align-self: flex-start;
+    justify-content: center;
+    background-color: rgb(60, 60, 60);
+    border-top-left-radius: 3.8px;
+    border-top-right-radius: 3.8px;
+    border-bottom-right-radius: 3.8px;
+    border-bottom-left-radius: 3.8px;
+    border-top-width: 0;
+    border-right-width: 0;
+    border-bottom-width: 0;
+    border-left-width: 0;
+}
+
+.IconButtonToolbar {
+    flex-grow: 0;
+    height: 12px;
+    width: 15px;
+    background-image: resource('export_icon');
+    position: relative;
+    top: 8px;
+    left: 0;
+    flex-direction: row;
+    flex-shrink: 0;
+    padding-left: 0;
+    -unity-text-align: middle-left;
+    align-items: auto;
+    justify-content: space-evenly;
+    align-self: center;
+    align-content: flex-start;
+    margin-bottom: 15px;
+    background-color: rgb(255, 255, 255);
+    -unity-background-image-tint-color: rgb(255, 255, 255);
+}
+
+#GraphViewExperiences {
+    background-color: rgb(45, 45, 45);
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+    border-bottom-left-radius: 0;
+    padding-top: 0;
+    padding-right: 0;
+    padding-bottom: 0;
+    padding-left: 0;
+    margin-top: 0;
+    margin-right: 0;
+    margin-bottom: 0;
+    margin-left: 0;
+    width: 83px;
+}
+
+.ButtonDropDown:hover {
+    background-color: rgb(3, 196, 255);
+}
+
+.ButtonDropDown:active {
+    background-color: rgb(191, 191, 191);
+}
+
+.ButtonToolbar:hover {
+    background-color: rgb(3, 196, 255);
+}
+
+.ButtonToolbar:active {
+    background-color: rgb(191, 191, 191);
+}
+
+.ButtonInspector:hover {
+    background-color: rgb(255, 0, 0);
+}
+
+.ButtonSelector {
+    position: absolute;
+    top: 314px;
+    left: 13px;
+    color: rgb(0, 0, 0);
+    border-left-color: rgb(45, 45, 45);
+    border-right-color: rgb(45, 45, 45);
+    border-top-color: rgb(45, 45, 45);
+    border-bottom-color: rgb(45, 45, 45);
+    background-color: rgb(86, 86, 86);
+    -unity-font-definition: url("project://database/Packages/com.singularisvr.stackvr/Editor/UIBUilder/Fonts/micross.ttf");
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
+    border-bottom-left-radius: 5px;
+}
+
+.ButtonSelector:hover {
+    background-color: rgb(3, 196, 255);
+}
+
+.ButtonSelector:active {
+    background-color: rgb(191, 191, 191);
+}
+.radial-progress {
+    min-width: 26px;
+    min-height: 20px;
+    --track-color: blue;
+    --progress-color: blue;
+    --percentage-color: white;
+    margin-left: 5px;
+    margin-right: 5px;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    flex-direction: row;
+    justify-content: center;
+    width: 100px; 
+    height: 100px;
+}
+
+.radial-progress__label {
+    -unity-text-align: middle-left;
+    color: var(--percentage-color);
+}
+
+
+
+.edge {
+    --ghost-edge-color :rgb(191, 191, 191);
+    --selected-edge-color: rgb(191, 191, 191);
+    --edge-color: rgb(191, 191, 191);
+    --layer: 10;
+
+    border-top-width: 2px;
+    border-top-color: var(--edge-color, red); /* Default color red if --edge-color is not defined */
+}
+
+.edge.highlighted {
+    border-top-color: rgb(191, 191, 191); /* Custom style for a highlighted edge */
+}

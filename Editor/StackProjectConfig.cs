@@ -1,3 +1,4 @@
+using System.IO;
 using UnityEditor;
 using UnityEngine;
 using Singularis.StackVR.Scriptables.Editor;
@@ -45,6 +46,11 @@ namespace Singularis.StackVR.Editor {
         static public void GetProjectConfig() {
             if (currentNarrative == null && !BuildPipeline.isBuildingPlayer) {
                 Debug.LogFormat($"Creating ProjectConfig at path {configPath}");
+
+                if (!File.Exists(configPath)) {
+                    Directory.CreateDirectory(Path.GetDirectoryName(configPath));
+                }
+
                 StackProjectConfig projectConfig = CreateInstance<StackProjectConfig>();
                 projectConfig.narrativeScriptableObject = null;
                 AssetDatabase.CreateAsset(projectConfig, configPath);
