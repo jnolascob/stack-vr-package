@@ -345,9 +345,6 @@ namespace Singularis.StackVR.Narrative.Editor {
 
             List<HotspotDataJson> hotspost = new List<HotspotDataJson>();
 
-            Debug.LogWarning($"[BaseNode] graphViewExperiences: {graphViewExperiences == null}");
-            Debug.LogWarning($"[BaseNode] graphViewExperiences.currentNarrative: {graphViewExperiences.currentNarrative == null}");
-
             foreach (var node in graphViewExperiences.currentNarrative.nodes) {
                 if (node.id == id) {
 

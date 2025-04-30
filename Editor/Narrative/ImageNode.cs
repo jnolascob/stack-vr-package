@@ -20,9 +20,10 @@ namespace Singularis.StackVR.Narrative.Editor {
 
             kindOfNode = KindOfNode.image;
 
-            Texture2D iconImage = Resources.Load<Texture2D>("image_icon");
+            string bgImage = $"Packages/com.singularisvr.stackvr/Editor/Sprites/ico_image.png";
+            Texture2D nodeBGTexture = AssetDatabase.LoadAssetAtPath<Texture2D>(bgImage);
 
-            this.Q<VisualElement>("Icon").style.backgroundImage = new StyleBackground(iconImage);
+            this.Q<VisualElement>("Icon").style.backgroundImage = new StyleBackground(nodeBGTexture);
             var defaultImage = Resources.Load<Texture2D>("PlaceHolderImage");
             UpdateImage(defaultImage);
         }

@@ -29,7 +29,7 @@ namespace Singularis.StackVR.Narrative.Editor {
 
             isImportGraph = false;
             isEditGraph = false;
-            // Create and show the window
+            // TODO Create and show the window
             GetWindow<SimpleConsoleWindow>("Simple Console");
         }
 
