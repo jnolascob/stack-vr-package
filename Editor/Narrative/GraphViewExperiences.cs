@@ -635,7 +635,7 @@ namespace Singularis.StackVR.Narrative.Editor {
 
         public void OnButtonSave() {
             CheckAllNodes(true);
-            string resourcesPath = "Assets/Singularis/StackVR/Resources/tour_data.json";
+            string resourcesPath = StackProjectConfig.currentNarrative.narrativeSavePath.Replace("yaml", "json");
             string jsonData = File.ReadAllText(resourcesPath);
 
             Tour tour = JsonConvert.DeserializeObject<Tour>(jsonData);
@@ -996,7 +996,7 @@ namespace Singularis.StackVR.Narrative.Editor {
                 Debug.Log(fileName); // Esto imprimirá "7.jpg" y "167-200x302.jpg"
 
                 Vector2 posNode = new Vector2(node.xPos, node.yPos);
-                NodeData currentNode = new NodeData();
+                NodeData currentNode = new NodeData(); // TODO update code to prevent warning
 
 
                 if (node.type.Equals("image")) {
