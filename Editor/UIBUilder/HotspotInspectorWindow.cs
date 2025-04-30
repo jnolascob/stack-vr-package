@@ -84,7 +84,7 @@ namespace Singularis.StackVR.UIBuilder.Editor {
             root = rootVisualElement;
             root.Clear();
 
-            visualTree = AssetDatabase.LoadAssetAtPath<VisualTreeAsset>("Assets/Singularis/StackVR/Editor/UIBUilder/HotspotInspectorWindow.uxml");
+            visualTree = AssetDatabase.LoadAssetAtPath<VisualTreeAsset>("Packages/com.singularisvr.stackvr/Editor/UIBUilder/HotspotInspectorWindow.uxml");
             var container = visualTree.CloneTree();
             root.Add(container);
 

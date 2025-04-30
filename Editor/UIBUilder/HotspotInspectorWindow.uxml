@@ -1,25 +1,25 @@
 <engine:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:engine="UnityEngine.UIElements" xmlns:editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../UIElementsSchema/UIElements.xsd" editor-extension-mode="True">
-    <Style src="project://database/Assets/Singularis/StackVR/Editor/UIBUilder/HotspotInspectorWindow.uss?fileID=7433441132597879392&amp;guid=d680c1e2ace67724cb0fbbcf513303ac&amp;type=3#HotspotInspectorWindow" />
+    <Style src="project://database/Packages/com.singularisvr.stackvr/Editor/UIBUilder/HotspotInspectorWindow.uss?fileID=7433441132597879392&amp;guid=9b2bd7c1acd4056468b36694c0de30d0&amp;type=3#HotspotInspectorWindow" />
     <engine:VisualElement name="default">
         <engine:Label text="Hotspot not selected" />
     </engine:VisualElement>
     <engine:VisualElement name="main">
-        <engine:Label text="Transform" class="title" />
+        <engine:Label text="Transform" class="title" style="background-image: url(&quot;project://database/Packages/com.singularisvr.stackvr/Editor/Sprites/ico_inspector_transform.png?fileID=21300000&amp;guid=ec38368fe631c0b43969c704205447ec&amp;type=3#ico_inspector_transform&quot;);" />
         <engine:Slider label="Distance" value="5" high-value="10" show-input-field="true" name="distanceSlider" />
         <engine:Slider label="Angle X" value="0" high-value="180" show-input-field="true" name="angleXSlider" low-value="-180" />
         <engine:Slider label="Angle Y" value="0" high-value="80" show-input-field="true" name="angleYSlider" low-value="-80" />
         <engine:Slider label="Scale" value="1" high-value="10" show-input-field="true" name="scaleSlider" low-value="0.5" />
         <engine:VisualElement class="line" />
-        <engine:Label text="Hotspot" class="title" style="background-image: url(&quot;project://database/Assets/Singularis/StackVR/Sprites/icons/icon%20ToolBarHotspot%20Normal.png?fileID=2800000&amp;guid=69763791eeaecb14c99ac4a51c404c27&amp;type=3#icon ToolBarHotspot Normal&quot;);" />
+        <engine:Label text="Hotspot" class="title" style="background-image: url(&quot;project://database/Packages/com.singularisvr.stackvr/Editor/Sprites/ico_hotspot_outline.png?fileID=21300000&amp;guid=5765df8d8737abe43b1b60bf5ca09c25&amp;type=3#ico_hotspot_outline&quot;);" />
         <engine:TextField label="Name" placeholder-text="filler text" name="nameTextField" />
         <editor:ObjectField label="Icon" type="UnityEngine.Texture2D, UnityEngine.CoreModule" name="iconObjectField" />
         <editor:ColorField label="Color" value="#00FFFFFF" name="colorField" />
         <engine:VisualElement class="line" />
-        <engine:Label text="Navigation" class="title" style="background-image: url(&quot;project://database/Assets/Singularis/StackVR/Sprites/icons/icon_inspector_navigate.png?fileID=2800000&amp;guid=54573aa017b16db4bb5908bd64a20cf8&amp;type=3#icon_inspector_navigate&quot;);" />
-        <editor:ObjectField label="Target" type="Singularis.Narrative.NodeData, Assembly-CSharp-Editor" name="targetObjectField" />
+        <engine:Label text="Navigation" class="title" style="background-image: url(&quot;project://database/Packages/com.singularisvr.stackvr/Editor/Sprites/ico_inspector_navigate.png?fileID=21300000&amp;guid=c0f5107b5d18a6b4f8f3e34a98d3b8cf&amp;type=3#ico_inspector_navigate&quot;);" />
+        <editor:ObjectField label="Target" type="Singularis.StackVR.Scriptables.Editor.NodeData, SingularisVR.StackVR.Editor" name="targetObjectField" />
         <engine:VisualElement name="Questions" style="flex-grow: 1; display: flex;">
             <engine:VisualElement class="line" />
-            <engine:Label text="Questions" class="title" style="background-image: url(&quot;project://database/Assets/Singularis/StackVR/Sprites/icons/icon%20ToolBarHotspot%20Normal.png?fileID=2800000&amp;guid=69763791eeaecb14c99ac4a51c404c27&amp;type=3#icon ToolBarHotspot Normal&quot;);" />
+            <engine:Label text="Questions" class="title" style="background-image: url(&quot;project://database/Packages/com.singularisvr.stackvr/Editor/Sprites/ico_hotspot_question_outline.png?fileID=21300000&amp;guid=aee20e0b56893d043b2ce6bb9058a733&amp;type=3#ico_hotspot_question_outline&quot;);" />
             <engine:TextField label="Question" name="NameQuestion" />
             <engine:Label text="ANSWERS" class="title" style="background-image: none; align-items: stretch; justify-content: flex-end; align-self: center; padding-top: 10px; padding-right: 10px; padding-bottom: 10px; padding-left: 10px; margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0;" />
             <engine:TextField label="First Answer(A)" name="FirstAnswer" />

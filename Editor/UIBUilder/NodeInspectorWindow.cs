@@ -466,7 +466,7 @@ namespace Singularis.StackVR.UIBuilder.Editor {
         private void CreateHotspot(HotspotData hotspot, VisualElement hotspotsContainer, VisualElement componentContainer, VisualElement outliner) {
             VisualElement hotspotClone = new VisualElement();
 
-            string assetPath = $"Assets/Singularis/StackVR/Sprites/icons/ico_hotspot_{hotspot.type}.png";
+            string assetPath = $"Packages/com.singularisvr.stackvr/Editor/Sprites/ico_hotspot_{hotspot.type}.png";
             Texture2D hotspotTexture = AssetDatabase.LoadAssetAtPath<Texture2D>(assetPath);
             hotspotClone.style.backgroundImage = new StyleBackground(hotspotTexture);
             hotspotClone.style.unityBackgroundImageTintColor = new StyleColor(hotspot.color);
@@ -563,7 +563,7 @@ namespace Singularis.StackVR.UIBuilder.Editor {
         private void CreateHostpotInUI(VisualElement parent, string hostpotName, string nameHotspot) {
             Debug.Log($"[NodeInspectorWindow] CreateHostpotInUI: {hostpotName} {nameHotspot}");
 
-            VisualTreeAsset buttonTemplate = AssetDatabase.LoadAssetAtPath<VisualTreeAsset>("Assets/Singularis/StackVR/buttonHotspot.uxml");
+            VisualTreeAsset buttonTemplate = AssetDatabase.LoadAssetAtPath<VisualTreeAsset>("Packages/com.singularisvr.stackvr/Editor/UIBUilder/buttonHotspot.uxml");
             VisualElement buttonInstance = buttonTemplate.Instantiate();
             buttonInstance.name = nameHotspot;
 
