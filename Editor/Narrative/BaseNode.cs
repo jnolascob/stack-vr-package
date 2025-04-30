@@ -39,7 +39,7 @@ namespace Singularis.StackVR.Narrative.Editor {
         private Color borderColor;
         public List<CustomPort> ports = new List<CustomPort>();
         public VisualElement border;
-        private bool isDrawing = false;
+        //private bool isDrawing = false;
         public VisualElement buttonAddNode;
         public VisualElement buttonSetInitialNode;
         public VisualElement buttonRemoveNode;
@@ -170,7 +170,7 @@ namespace Singularis.StackVR.Narrative.Editor {
             Debug.Log("Selecting Node");
             Vector2 newPos = this.LocalToWorld(mousePosition);
             graphViewExperiences.ShowLine(mousePosition, this);
-            isDrawing = true;
+            //isDrawing = true;
         }
 
 

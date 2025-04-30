@@ -593,7 +593,7 @@ namespace Singularis.StackVR.Narrative.Editor {
 
             toggleSteroscopic = inspectorPanel.Q<Toggle>("Steroscopic");
 
-            dropDownMenu.Q<VisualElement>("AddVideo").RegisterCallback<MouseDownEvent>(async (e) => {
+            dropDownMenu.Q<VisualElement>("AddVideo").RegisterCallback<MouseDownEvent>((e) => {
                 var position = contentViewContainer.WorldToLocal(mousePosition);
                 BaseNode node = CreateVideoNode(position);
                 NodeData nodeData = node.SaveAsset("");
@@ -644,8 +644,6 @@ namespace Singularis.StackVR.Narrative.Editor {
                 .WithNamingConvention(CamelCaseNamingConvention.Instance)
                 .Build();
 
-            //Debug.Log(serializer.Serialize(tour));
-            string savePath = "Assets/Singularis/StackVR/Narrative/tour.yaml";
             File.WriteAllText(StackProjectConfig.currentNarrative.narrativeSavePath, serializer.Serialize(tour));
         }
 
@@ -985,7 +983,6 @@ namespace Singularis.StackVR.Narrative.Editor {
                 return;
             }
 
-            string savePath = "Assets/Singularis/StackVR/Narrative/tour.yaml";
             string yamlContent = File.ReadAllText(StackProjectConfig.currentNarrative.narrativeSavePath);
             Debug.Log(yamlContent);
             var deserializer = new DeserializerBuilder()
@@ -998,7 +995,6 @@ namespace Singularis.StackVR.Narrative.Editor {
             // Optionally, deserialize it into a class
             var resultJson = JsonConvert.DeserializeObject<Tour>(jsonContent);
 
-            int index = 0;
             foreach (var node in resultJson.nodes) {
                 string fileName = Path.GetFileName(node.resource.path);
                 Debug.Log(fileName); // Esto imprimirá "7.jpg" y "167-200x302.jpg"

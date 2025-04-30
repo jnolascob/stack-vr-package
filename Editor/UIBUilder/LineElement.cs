@@ -94,7 +94,7 @@ namespace Singularis.StackVR.UIBuilder.Editor {
             Vector2 directionToEnd = (p0 - midPoint).normalized;
 
             float arrowLength = 10f;
-            float arrowWidth = 5f;
+            //float arrowWidth = 5f;
 
             Vector2 leftWing = midPoint + (Vector2)(Quaternion.Euler(0, 0, -25) * directionToEnd * arrowLength);
             Vector2 rightWing = midPoint + (Vector2)(Quaternion.Euler(0, 0, 25) * directionToEnd * arrowLength);
