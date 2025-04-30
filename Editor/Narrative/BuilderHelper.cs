@@ -119,18 +119,19 @@ namespace Singularis.StackVR.Narrative.Editor {
         }
 
         public static void SaveJsonFile(ref List<string> pathFiles, int nodeId, List<NodeDataOld> nodesData) {
-            Tour testExperience = new Tour();
-            testExperience.version = 1;
-            testExperience.date = "000";
-            testExperience.start = nodeId;
-            testExperience.nodes = nodesData;
-            testExperience.createAt = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
-            testExperience.updateAt = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+            Tour testExperience = new() {
+                version = 1,
+                date = "000",
+                start = nodeId,
+                nodes = nodesData,
+                createAt = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"),
+                updateAt = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")
+            };
 
             string resultJson = JsonConvert.SerializeObject(testExperience, Formatting.Indented);
             Debug.Log(resultJson);
 
-            string resourcesPath = "Assets/Singularis/StackVR/Resources/tour_data.json";
+            string resourcesPath = StackProjectConfig.currentNarrative.narrativeSavePath.Replace("yaml", "json");
             File.WriteAllText(resourcesPath, resultJson);
             Debug.Log($"?? JSON guardado en: {resourcesPath}");
 

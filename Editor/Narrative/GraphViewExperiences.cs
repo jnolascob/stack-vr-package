@@ -823,6 +823,7 @@ namespace Singularis.StackVR.Narrative.Editor {
             }
 
 
+            // TODO check duplicated code
             BuilderHelper.SaveJsonFile(ref pathFiles, nodeId, nodesData);
 
 
@@ -836,13 +837,11 @@ namespace Singularis.StackVR.Narrative.Editor {
             };
 
 
-
-
             Debug.Log("The total edges are" + edges.Count());
             string resultJson = JsonConvert.SerializeObject(testExperience, Formatting.Indented);
             Debug.Log(resultJson);
 
-            string resourcesPath = "Assets/Singularis/StackVR/Resources/tour_data.json";
+            string resourcesPath = StackProjectConfig.currentNarrative.narrativeSavePath.Replace("yaml", "json");
             File.WriteAllText(resourcesPath, resultJson);
             Debug.Log($"?? JSON guardado en: {resourcesPath}");
 
@@ -851,9 +850,6 @@ namespace Singularis.StackVR.Narrative.Editor {
             pathFiles.Add(resourcesPath);
 
             return pathFiles.ToArray();
-            //if (pathFiles.Count > 0) {
-            //    BuilderHelper.ExportFileAsZip(pathFiles.ToArray());
-            //}
         }
 
         public BaseNode CreateImageNode(Vector2 position) // Method to create An Image Node
