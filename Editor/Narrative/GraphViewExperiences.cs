@@ -617,10 +617,6 @@ namespace Singularis.StackVR.Narrative.Editor {
             buttonSaveGraph = this.Q<Button>("ExportButton");
             buttonLoadGraph = this.Q<Button>("LoadGraph");
 
-            Debug.Log($"buttonSave: {buttonSave==null}");
-            Debug.Log($"buttonSaveGraph: {buttonSaveGraph == null}");
-            Debug.Log($"buttonLoadGraph: {buttonLoadGraph == null}");
-
             buttonSave.RegisterCallback<ClickEvent>((e) => { OnButtonSave(); });
 
 

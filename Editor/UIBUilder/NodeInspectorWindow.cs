@@ -205,7 +205,7 @@ namespace Singularis.StackVR.UIBuilder.Editor {
             // Obtener la ra�z del UI Toolkit
             root = rootVisualElement;
             // Cargar el UXML
-            visualTree = AssetDatabase.LoadAssetAtPath<VisualTreeAsset>("Assets/Singularis/StackVR/Editor/UIBUilder/NodeInspectorWindow.uxml");
+            visualTree = AssetDatabase.LoadAssetAtPath<VisualTreeAsset>("Packages/com.singularisvr.stackvr/Editor/UIBUilder/NodeInspectorWindow.uxml");
             container = visualTree.CloneTree();
             container.style.flexGrow = 1;
             root.Add(container);

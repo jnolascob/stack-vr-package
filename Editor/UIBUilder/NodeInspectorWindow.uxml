@@ -1,6 +1,6 @@
 <engine:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:engine="UnityEngine.UIElements" xmlns:editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../UIElementsSchema/UIElements.xsd" editor-extension-mode="True">
-    <engine:Template name="buttonHotspot" src="project://database/Assets/Singularis/StackVR/buttonHotspot.uxml?fileID=9197481963319205126&amp;guid=22c63a2875caeab468e1b154c3fdf35e&amp;type=3#buttonHotspot" />
-    <Style src="project://database/Assets/Singularis/StackVR/Editor/UIBUilder/NodeInspectorWindow.uss?fileID=7433441132597879392&amp;guid=29b1b0bd1f2423841a19a7a17aa2d1e9&amp;type=3#NodeInspectorWindow" />
+    <engine:Template name="buttonHotspot" src="project://database/Packages/com.singularisvr.stackvr/Editor/UIBUilder/buttonHotspot.uxml?fileID=9197481963319205126&amp;guid=0ab8ccefe07adf34a851ce1f6814e00b&amp;type=3#buttonHotspot" />
+    <Style src="project://database/Packages/com.singularisvr.stackvr/Editor/UIBUilder/NodeInspectorWindow.uss?fileID=7433441132597879392&amp;guid=282a9f4f5531570449581ea22ff666f6&amp;type=3#NodeInspectorWindow" />
     <editor:Toolbar name="main-toolbar">
         <editor:ToolbarButton text="Save Changes" icon-image="project://database/Assets/Singularis/StackVR/Sprites/icons/content-save.png?fileID=2800000&amp;guid=49c4d245cb217e040a07ee91ba94bdb5&amp;type=3#content-save" name="btn-save" />
         <editor:ToolbarButton text="Discard Changes" icon-image="project://database/Assets/Singularis/StackVR/Sprites/icons/content-save.png?fileID=2800000&amp;guid=49c4d245cb217e040a07ee91ba94bdb5&amp;type=3#content-save" name="btn-discard" />
@@ -17,7 +17,7 @@
         <engine:VisualElement name="image-bg">
             <engine:VisualElement name="hotspots-container" style="flex-grow: 1; width: 100%; height: 100%; position: absolute;" />
             <engine:VisualElement name="north-bar">
-                <engine:VisualElement name="north-bar-handler" class="handler" />
+                <engine:VisualElement name="north-bar-handler" class="handler" style="background-image: url(&quot;project://database/Packages/com.singularisvr.stackvr/Editor/Sprites/ico_north_active.png?fileID=21300000&amp;guid=2deba240219ce0f4e89fd607f8a44ed6&amp;type=3#ico_north_active&quot;);" />
             </engine:VisualElement>
         </engine:VisualElement>
         <engine:VisualElement name="components-container" style="border-top-right-radius: 5px; border-top-left-radius: 5px;">
@@ -25,19 +25,19 @@
                 <engine:Label text="Components" style="margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0; color: rgb(255, 255, 255);" />
             </engine:VisualElement>
             <engine:VisualElement name="hotspot-location" focusable="true" class="hotspot" style="padding-right: 3px; padding-left: 3px;">
-                <engine:VisualElement class="icon" />
+                <engine:VisualElement class="icon" style="background-image: url(&quot;project://database/Packages/com.singularisvr.stackvr/Editor/Sprites/ico_hotspot_outline.png?fileID=21300000&amp;guid=5765df8d8737abe43b1b60bf5ca09c25&amp;type=3#ico_hotspot_outline&quot;);" />
                 <engine:Label text="Location" />
-                <engine:VisualElement class="icon btn-right-aligned" style="background-image: url(&quot;project://database/Assets/Singularis/StackVR/Sprites/icons/icon_dragableItem_inactive.png?fileID=2800000&amp;guid=4e938414cda553840a2e305581e010d0&amp;type=3#icon_dragableItem_inactive&quot;); width: 13px; height: 13px; align-self: center;" />
+                <engine:VisualElement class="icon btn-right-aligned" style="background-image: url(&quot;project://database/Packages/com.singularisvr.stackvr/Editor/Sprites/ico_dragableItem_inactive.png?fileID=21300000&amp;guid=370c07b6093015946bffdffaab3db6e4&amp;type=3#ico_dragableItem_inactive&quot;); width: 13px; height: 13px; align-self: center;" />
             </engine:VisualElement>
             <engine:VisualElement name="hotspot-custom" focusable="true" class="hotspot" style="padding-right: 3px; padding-left: 3px;">
-                <engine:VisualElement class="icon" />
+                <engine:VisualElement class="icon" style="background-image: url(&quot;project://database/Packages/com.singularisvr.stackvr/Editor/Sprites/ico_hotspot_outline.png?fileID=21300000&amp;guid=5765df8d8737abe43b1b60bf5ca09c25&amp;type=3#ico_hotspot_outline&quot;);" />
                 <engine:Label text="Custom" />
-                <engine:VisualElement class="icon btn-right-aligned" style="background-image: url(&quot;project://database/Assets/Singularis/StackVR/Sprites/icons/icon_dragableItem_inactive.png?fileID=2800000&amp;guid=4e938414cda553840a2e305581e010d0&amp;type=3#icon_dragableItem_inactive&quot;); width: 13px; height: 13px; align-self: center;" />
+                <engine:VisualElement class="icon btn-right-aligned" style="background-image: url(&quot;project://database/Packages/com.singularisvr.stackvr/Editor/Sprites/ico_dragableItem_inactive.png?fileID=21300000&amp;guid=370c07b6093015946bffdffaab3db6e4&amp;type=3#ico_dragableItem_inactive&quot;); width: 13px; height: 13px; align-self: center;" />
             </engine:VisualElement>
             <engine:VisualElement name="hotspot-question" focusable="true" class="hotspot" style="padding-right: 3px; padding-left: 3px;">
-                <engine:VisualElement class="icon" style="background-image: url(&quot;project://database/Assets/Singularis/StackVR/Sprites/icons/ico_hotspot_question.png?fileID=2800000&amp;guid=467f850f95e4c5b4382329d22d548e3a&amp;type=3#ico_hotspot_question&quot;);" />
+                <engine:VisualElement class="icon" style="background-image: url(&quot;project://database/Packages/com.singularisvr.stackvr/Editor/Sprites/ico_hotspot_question.png?fileID=21300000&amp;guid=4df67c265fe168b46964c3b5abe99e20&amp;type=3#ico_hotspot_question&quot;);" />
                 <engine:Label text="Question" />
-                <engine:VisualElement class="icon btn-right-aligned" style="background-image: url(&quot;project://database/Assets/Singularis/StackVR/Sprites/icons/icon_dragableItem_inactive.png?fileID=2800000&amp;guid=4e938414cda553840a2e305581e010d0&amp;type=3#icon_dragableItem_inactive&quot;); width: 13px; height: 13px; align-self: center;" />
+                <engine:VisualElement class="icon btn-right-aligned" style="background-image: url(&quot;project://database/Packages/com.singularisvr.stackvr/Editor/Sprites/ico_dragableItem_inactive.png?fileID=21300000&amp;guid=370c07b6093015946bffdffaab3db6e4&amp;type=3#ico_dragableItem_inactive&quot;); width: 13px; height: 13px; align-self: center;" />
             </engine:VisualElement>
         </engine:VisualElement>
         <engine:VisualElement name="outliner" picking-mode="Ignore" style="top: 200px; right: 0; color: rgb(45, 45, 45); border-top-left-radius: 5px; border-top-right-radius: 5px;">
