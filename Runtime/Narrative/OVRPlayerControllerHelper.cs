@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace Singularis.StackVR.Narrative {
     public class OVRPlayerControllerHelper : MonoBehaviour {
-
+        
         static private OVRPlayerControllerHelper instance;
 
         static public void ChangeLocation(SpotController spot) {
@@ -14,8 +14,7 @@ namespace Singularis.StackVR.Narrative {
             }
         }
 
-
-
+        
         private CharacterController characterController;
 
 
@@ -61,7 +60,7 @@ namespace Singularis.StackVR.Narrative {
 
             //characterController.enabled = true;
         }
-
+        
 
     }
 }

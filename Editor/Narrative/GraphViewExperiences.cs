@@ -651,7 +651,7 @@ namespace Singularis.StackVR.Narrative.Editor {
             Debug.Log("Building Node");
             CheckAllNodes(true);
 
-            string resourcesPath = "Assets/Singularis/StackVR/Resources/tour_data.json";
+            string resourcesPath = StackProjectConfig.currentNarrative.narrativeSavePath.Replace("yaml", "json");
             SceneGenerator.GenerateScene(resourcesPath);
         }
 

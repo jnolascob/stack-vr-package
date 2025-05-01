@@ -1,6 +1,3 @@
-
-using Singularis.StackVR.Narrative.Editor;
-using System.Security.Policy;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;

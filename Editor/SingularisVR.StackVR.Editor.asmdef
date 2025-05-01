@@ -6,6 +6,7 @@
         "GUID:1d80d71c04eb5724594dacc224f1afcd"
     ],
     "includePlatforms": [
+        "Android",
         "Editor"
     ],
     "excludePlatforms": [],

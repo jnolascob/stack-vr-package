@@ -1,9 +1,9 @@
-using Newtonsoft.Json;
 using UnityEditor;
 using UnityEditor.SceneManagement;
 using UnityEngine;
-using Oculus.Interaction;
 using UnityEngine.EventSystems;
+using Oculus.Interaction;
+using Newtonsoft.Json;
 using Singularis.StackVR.Editor;
 
 namespace Singularis.StackVR.Narrative.Editor {
@@ -46,22 +46,21 @@ namespace Singularis.StackVR.Narrative.Editor {
 
 
             // Instanciar OVRCameraRig
-            string prefabPath = "Assets/Singularis/StackVR/Prefabs/OVRCameraRig.prefab";
+            string prefabPath = "Packages/com.meta.xr.sdk.core/Prefabs/OVRCameraRig.prefab";
             //string prefabPath = "Packages/com.meta.xr.sdk.core/Prefabs/OVRPlayerController.prefab";
             GameObject prefab = AssetDatabase.LoadAssetAtPath<GameObject>(prefabPath);
 
             if (prefab != null) {
                 GameObject instance = (GameObject)PrefabUtility.InstantiatePrefab(prefab);
-                instance.GetComponent<OVRPlayerControllerHelper>().initialSpotId = tour.start;
+                instance.AddComponent<OVRPlayerControllerHelper>().initialSpotId = tour.start;
             }
             else {
                 Debug.LogError("[Singularis - SceneGenerator::GenerateScene] Prefab no encontrado en: " + prefabPath);
             }
 
-
             // Crear ExperienceManager
             GameObject experienceManagerObj = new("ExperienceManager");
-            Narrative.ExperienceManager experienceManager = experienceManagerObj.AddComponent<Narrative.ExperienceManager>();
+            ExperienceManager experienceManager = experienceManagerObj.AddComponent<ExperienceManager>();
 
 
             // Crear PointableCanvasModule
@@ -80,7 +79,7 @@ namespace Singularis.StackVR.Narrative.Editor {
 
 
             foreach (NodeDataOld node in tour.nodes) {
-                string spotPrefabPath = $"Assets/Singularis/StackVR/Prefabs/{(node.isSteroscopic ? "Spot-stereo" : "Spot-mono")}.prefab";
+                string spotPrefabPath = $"Packages/com.singularisvr.stackvr/Runtime/Prefabs/{(node.isSteroscopic ? "Spot-stereo" : "Spot-mono")}.prefab";
                 SpotController spotPrefab = AssetDatabase.LoadAssetAtPath<SpotController>(spotPrefabPath);
                 SpotController spotInstance = (SpotController)PrefabUtility.InstantiatePrefab(spotPrefab);
                 spotInstance.id = node.id;
@@ -117,11 +116,8 @@ namespace Singularis.StackVR.Narrative.Editor {
                         );
 
 
-
                         string UIQuestionPrefabPath = "Assets/Singularis/StackVR/Prefabs/UIQuestion.prefab";
                         UIQuestion UIQuestionPrefab = AssetDatabase.LoadAssetAtPath<UIQuestion>(UIQuestionPrefabPath);
-
-
                         UIQuestion UIQuestionInstance = (UIQuestion)PrefabUtility.InstantiatePrefab(UIQuestionPrefab);
                         UIQuestionInstance.FillData(
                             hotspot.question,
@@ -137,14 +133,10 @@ namespace Singularis.StackVR.Narrative.Editor {
                             Quaternion.LookRotation(position - spotInstance.position)
                         );
 
-
                         hotspotInstance.uiQuestion = UIQuestionInstance;
-
                         experienceManager.AddHotspot(hotspotInstance);
-
                     }
                     else {
-
                         HotspotLocation hotspotInstance = (HotspotLocation)PrefabUtility.InstantiatePrefab(hotspotPrefab);
                         hotspotInstance.SetIcon(AssetDatabase.LoadAssetAtPath<Texture2D>(hotspot.iconPath));
                         hotspotInstance.SetTarget(hotspot.nodeId);
@@ -165,7 +157,6 @@ namespace Singularis.StackVR.Narrative.Editor {
                         );
 
                         experienceManager.AddHotspot(hotspotInstance);
-
                     }
 
                 }
