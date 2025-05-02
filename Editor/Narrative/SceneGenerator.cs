@@ -70,9 +70,9 @@ namespace Singularis.StackVR.Narrative.Editor {
 
 
 
-            string hotspotPrefabPath = "Assets/Singularis/StackVR/Prefabs/HotspotLocation.prefab";
+            string hotspotPrefabPath = "Packages/com.singularisvr.stackvr/Runtime/Prefabs/HotspotLocation.prefab";
             HotspotLocation hotspotPrefab = AssetDatabase.LoadAssetAtPath<HotspotLocation>(hotspotPrefabPath);
-            string hotspotPrefabQuestionPath = "Assets/Singularis/StackVR/Prefabs/HotspotQuestion.prefab";
+            string hotspotPrefabQuestionPath = "Packages/com.singularisvr.stackvr/Runtime/Prefabs/HotspotQuestion.prefab";
             HotspotQuestion hotspotPrefabQuestion = AssetDatabase.LoadAssetAtPath<HotspotQuestion>(hotspotPrefabQuestionPath);
 
 
@@ -116,7 +116,7 @@ namespace Singularis.StackVR.Narrative.Editor {
                         );
 
 
-                        string UIQuestionPrefabPath = "Assets/Singularis/StackVR/Prefabs/UIQuestion.prefab";
+                        string UIQuestionPrefabPath = "Packages/com.singularisvr.stackvr/Runtime/Prefabs/UIQuestion.prefab";
                         UIQuestion UIQuestionPrefab = AssetDatabase.LoadAssetAtPath<UIQuestion>(UIQuestionPrefabPath);
                         UIQuestion UIQuestionInstance = (UIQuestion)PrefabUtility.InstantiatePrefab(UIQuestionPrefab);
                         UIQuestionInstance.FillData(
