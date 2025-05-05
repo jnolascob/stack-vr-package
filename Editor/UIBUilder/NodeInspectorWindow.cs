@@ -90,6 +90,19 @@ namespace Singularis.StackVR.UIBuilder.Editor {
             imageContainer.style.backgroundImage = new StyleBackground((Texture2D)node.image);
             AdjustImageSize(imageBg);
 
+            if (node.isStereo) {
+                Debug.Log($"[NodeInspectorWindow - OnEnable] node stereo ({imageBg.resolvedStyle.width})");
+
+                imageBg.schedule.Execute(() => {
+                    imageBg.style.width = new StyleLength(imageBg.resolvedStyle.width * 2);
+                    imageBg.style.backgroundImage = new StyleBackground((Texture2D)node.image);
+
+                    imageBg.AddToClassList("stereo");
+                });
+
+                
+            }
+
 
             degressField.schedule.Execute(() => {
                 degressField.value = node.north;

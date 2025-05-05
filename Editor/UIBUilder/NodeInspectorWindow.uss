@@ -41,7 +41,7 @@
 
 #north-bar .handler {
     flex-grow: 1;
-    background-image: url("project://database/Assets/Singularis/StackVR/Sprites/icons/icon_north_active.png?fileID=2800000&guid=abfa8ca3d335f1847b435a60c7863a91&type=3#icon_north_active");
+    background-image: url('project://database/Assets/Singularis/StackVR/Sprites/icons/icon_north_active.png?fileID=2800000&guid=abfa8ca3d335f1847b435a60c7863a91&type=3#icon_north_active');
     width: 32px;
     height: 32px;
     position: absolute;
@@ -116,7 +116,7 @@
 .hotspot .icon {
     width: 20px;
     height: 20px;
-    background-image: url("project://database/Assets/Singularis/StackVR/Sprites/icons/icon%20ToolBarHotspot%20Normal.png?fileID=2800000&guid=69763791eeaecb14c99ac4a51c404c27&type=3#icon ToolBarHotspot Normal");
+    background-image: url('project://database/Assets/Singularis/StackVR/Sprites/icons/icon%20ToolBarHotspot%20Normal.png?fileID=2800000&guid=69763791eeaecb14c99ac4a51c404c27&type=3#icon ToolBarHotspot Normal');
     background-size: 80% 80%;
 }
 
@@ -169,4 +169,9 @@
 
 .toggle Label {
     min-width: auto;
+}
+
+.stereo {
+    background-size: 100% 200%;
+    background-position-y: top 0;
 }
