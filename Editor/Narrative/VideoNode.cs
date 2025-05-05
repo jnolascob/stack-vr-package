@@ -23,11 +23,21 @@ namespace Singularis.StackVR.Narrative.Editor {
             nodeTypeField = new EnumField("Node Type", KindOfNode.video);
             nodeTypeField.Init(KindOfNode.video);
 
+
+            string bgImage = $"Packages/com.singularisvr.stackvr/Editor/Sprites/PlaceHolderVideo.jpg";
+            Texture2D nodeBGTexture = AssetDatabase.LoadAssetAtPath<Texture2D>(bgImage);
+
+            if (nodeBGTexture == null)
+            {
+                Debug.Log("La Imagen es Nula" + nodeBGTexture);
+            }
+
+
             Texture2D iconImage = Resources.Load<Texture2D>("video_icon");
             this.Q<VisualElement>("Icon").style.backgroundImage = new StyleBackground(iconImage);
 
             var defaultImage = Resources.Load<Texture2D>("PlaceHolderVideo");
-            UpdateImage(defaultImage);
+            UpdateImage(nodeBGTexture);
         }
 
 

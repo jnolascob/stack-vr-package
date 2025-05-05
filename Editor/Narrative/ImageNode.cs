@@ -17,12 +17,17 @@ namespace Singularis.StackVR.Narrative.Editor {
 
             kindOfNode = KindOfNode.image;
 
-            string bgImage = $"Packages/com.singularisvr.stackvr/Editor/Sprites/ico_image.png";
+            string bgImage = $"Packages/com.singularisvr.stackvr/Editor/Sprites/PlaceHolderImage.jpg";
             Texture2D nodeBGTexture = AssetDatabase.LoadAssetAtPath<Texture2D>(bgImage);
+
+            if (nodeBGTexture == null)
+            {
+                Debug.Log("La Imagen es Nula" + nodeBGTexture);
+            }
 
             this.Q<VisualElement>("Icon").style.backgroundImage = new StyleBackground(nodeBGTexture);
             var defaultImage = Resources.Load<Texture2D>("PlaceHolderImage");
-            UpdateImage(defaultImage);
+            UpdateImage(nodeBGTexture);
         }
 
         // Metodo para obtener el path de la imagen
