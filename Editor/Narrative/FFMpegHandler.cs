@@ -14,8 +14,9 @@ namespace Singularis.StackVR.Narrative.Editor {
             //ffmpegPath = Path.Combine(Application.dataPath, "Singularis", "StackVR", "Plugins", "FFmpeg", "ffmpeg.exe");
 
 
+            string fullPath = Path.GetFullPath("Assets/Plugins/FFMpeg/ffmpeg.exe");
 
-            ffmpegPath = "D:\\UnityGames\\PackageStackVR\\Plugins\\Editor\\FFmpeg\\ffmpeg.exe";
+            ffmpegPath = fullPath;
 
             // Comprobar si FFmpeg existe en la ruta especificada
             if (!File.Exists(ffmpegPath)) {
