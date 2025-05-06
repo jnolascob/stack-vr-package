@@ -37,12 +37,11 @@ public static class FFMPegInstaller
         {
             if (addedPackage.name == "com.singularisvr.stackvr") // Tu nombre exacto de package
             {
-                Debug.Log("¡Tu package fue instalado!");
+                Debug.Log("Tu package fue instalado!");
                 DownloadAndExtractLibrary();
             }
         }
     }
-
 
     [MenuItem("Singularis/Develop/DownloadFFMpeg")]
     public static void ManualDownloadAndExtract()
@@ -50,19 +49,32 @@ public static class FFMPegInstaller
         DownloadAndExtractLibrary();
     }
 
-
-
     private static void RunFirstTimeSetup()
     {
-        // Descarga tu librería, muestra popup, etc.
+        // Descarga tu librerÃ­a, muestra popup, etc.
         Debug.Log("Ejecutando setup inicial...");
     }
 
-
-
     public static void DownloadAndExtractLibrary()
     {
-        Debug.Log("Descargando librería externa...");
+#if UNITY_STANDALONE_OSX
+        Debug.Log("Descargando libreria externa para macOS...");
+
+        // Ensure the directory exists
+        if (!Directory.Exists(ExtractPath))
+            Directory.CreateDirectory(ExtractPath);
+
+        // Download the file as "ffmpeg" into the ExtractPath directory
+        string targetPath = Path.Combine(ExtractPath, "FFMpeg");
+        using (var client = new WebClient())
+        {
+            client.DownloadFile(DownloadUrl, targetPath);
+        }
+
+        AssetDatabase.Refresh();
+        Debug.Log("Libreria descargada para macOS!");
+#else
+        Debug.Log("Descargando libreria externa...");
 
         using (var client = new WebClient())
         {
@@ -77,9 +89,8 @@ public static class FFMPegInstaller
         File.Delete(TempZipPath);
         AssetDatabase.Refresh();
 
-        Debug.Log("¡Librería descargada y extraída!");
+        Debug.Log("Libreria descargada y extraida!");
+#endif
     }
-
-
 }
 #endif
