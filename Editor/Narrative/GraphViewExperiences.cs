@@ -6,8 +6,9 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.UIElements;
 using UnityEngine.Video;
-using UnityEditor.Experimental.GraphView;
 using UnityEditor;
+using UnityEditor.Experimental.GraphView;
+using UnityEditor.UIElements;
 using Newtonsoft.Json;
 using YamlDotNet.Serialization;
 using YamlDotNet.Serialization.NamingConventions;
@@ -199,6 +200,21 @@ namespace Singularis.StackVR.Narrative.Editor {
 
                 if (selectedNode != null) {
                     selectedNode.isSteroscopic = e.newValue;
+
+                    NodeData nodeData = currentNarrative.nodes.Find(node => node.id == selectedNode.id);
+                    if (nodeData != null) {
+                        nodeData.isStereo = e.newValue;
+                    }
+
+                    Debug.Log($"[GraphViewExperiences] {selectedNode.imageNode.name}");
+                    if (e.newValue) {
+                        selectedNode.imageNode.AddToClassList("stereo");
+                        selectedNode.imageNode.RemoveFromClassList("mono");
+                    }
+                    else { 
+                        selectedNode.imageNode.AddToClassList("mono");
+                        selectedNode.imageNode.RemoveFromClassList("stereo");
+                    }
                 }
 
             });
@@ -226,7 +242,7 @@ namespace Singularis.StackVR.Narrative.Editor {
             }
 
 
-            inspectorPanel.Q<UnityEditor.UIElements.ObjectField>("NodeSprite").RegisterValueChangedCallback(async evt => {
+            inspectorPanel.Q<ObjectField>("NodeSprite").RegisterValueChangedCallback(async evt => {
 
                 if (selectedNode is VideoNode) {
 
