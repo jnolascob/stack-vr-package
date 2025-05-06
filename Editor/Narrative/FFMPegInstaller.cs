@@ -10,8 +10,13 @@ using UnityEngine;
 public static class FFMPegInstaller
 {
 
-
+#if UNITY_STANDALONE_OSX    
     private const string DownloadUrl = "https://assets.singularisvr.com/develop/stackvr/ffmpeg/windows/ffmpeg.zip";
+#elif UNITY_STANDALONE_WIN
+    private const string DownloadUrl = "https://assets.singularisvr.com/develop/stackvr/ffmpeg/macos/ffmpeg";
+#endif
+
+
     private const string ExtractPath = "Assets/Plugins";
     private const string TempZipPath = "Temp/libreria_temp.zip";
 
