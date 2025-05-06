@@ -20,7 +20,7 @@ GridBackground {
     -unity-text-align: middle-right;
     padding-right: 10px;
     padding-left: 10px;
-    -unity-font-definition: url("project://database/Packages/com.singularisvr.stackvr/Editor/UIBUilder/Fonts/micross.ttf");
+    -unity-font-definition: url("project://database/Packages/com.singularisvr.stackvr/Editor/UIBUilder/Fonts/micross.ttf?fileID=12800000&guid=f93e646c1d1dc434093e10676cf9aabd&type=3#micross");
     white-space: nowrap;
     align-items: flex-start;
     align-self: flex-start;
@@ -103,7 +103,7 @@ GridBackground {
     border-top-color: rgb(45, 45, 45);
     border-bottom-color: rgb(45, 45, 45);
     background-color: rgb(86, 86, 86);
-    -unity-font-definition: url("project://database/Packages/com.singularisvr.stackvr/Editor/UIBUilder/Fonts/micross.ttf");
+    -unity-font-definition: url("project://database/Packages/com.singularisvr.stackvr/Editor/UIBUilder/Fonts/micross.ttf?fileID=12800000&guid=f93e646c1d1dc434093e10676cf9aabd&type=3#micross");
     border-top-left-radius: 5px;
     border-top-right-radius: 5px;
     border-bottom-right-radius: 5px;
@@ -117,6 +117,7 @@ GridBackground {
 .ButtonSelector:active {
     background-color: rgb(191, 191, 191);
 }
+
 .radial-progress {
     min-width: 26px;
     min-height: 20px;
@@ -129,7 +130,7 @@ GridBackground {
     margin-bottom: 5px;
     flex-direction: row;
     justify-content: center;
-    width: 100px; 
+    width: 100px;
     height: 100px;
 }
 
@@ -138,18 +139,15 @@ GridBackground {
     color: var(--percentage-color);
 }
 
-
-
 .edge {
-    --ghost-edge-color :rgb(191, 191, 191);
+    --ghost-edge-color: rgb(191, 191, 191);
     --selected-edge-color: rgb(191, 191, 191);
     --edge-color: rgb(191, 191, 191);
     --layer: 10;
-
     border-top-width: 2px;
-    border-top-color: var(--edge-color, red); /* Default color red if --edge-color is not defined */
+    border-top-color: var(--edge-color, red);
 }
 
 .edge.highlighted {
-    border-top-color: rgb(191, 191, 191); /* Custom style for a highlighted edge */
+    border-top-color: rgb(191, 191, 191);
 }

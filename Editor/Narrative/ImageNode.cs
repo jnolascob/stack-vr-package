@@ -33,8 +33,8 @@ namespace Singularis.StackVR.Narrative.Editor {
             }
 
             pathImage = AssetDatabase.GetAssetPath(sprite);
-            Debug.Log("The Current Path is" + pathImage);
-
+            Debug.Log($"The Current Path is: {pathImage} | isStereo: {isSteroscopic}");
+            
             imageNode.style.backgroundImage = new StyleBackground(sprite);
             this.MarkDirtyRepaint();
             amountOfUpdates++;

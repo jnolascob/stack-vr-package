@@ -1,0 +1,9 @@
+.mono {
+	background-position-y: top 0;
+    background-size: 270px 140px;
+}
+
+.stereo {
+	background-position-y: top 0;
+    background-size: 270px 270px;
+}
