@@ -10,11 +10,15 @@ namespace Singularis.StackVR.Narrative.Editor {
 
 
         public static bool InitFMpeg() {
-            // TODO : Cambiar la ruta de ffmpeg a una ruta relativa al proyecto
-            //ffmpegPath = Path.Combine(Application.dataPath, "Singularis", "StackVR", "Plugins", "FFmpeg", "ffmpeg.exe");
-
-
-            string fullPath = Path.GetFullPath("Assets/Plugins/FFMpeg/ffmpeg.exe");
+            // Set ffmpegPath based on platform
+#if UNITY_EDITOR_OSX || UNITY_STANDALONE_OSX
+            string fullPath = Path.GetFullPath("Assets/Plugins/Macos/FFMpeg/ffmpeg");
+#elif UNITY_EDITOR_WIN || UNITY_STANDALONE_WIN
+            string fullPath = Path.GetFullPath("Assets/Plugins/Windows/FFMpeg/ffmpeg.exe");
+#else
+            UnityEngine.Debug.LogError("Unsupported platform for FFmpeg.");
+            return false;
+#endif
 
             ffmpegPath = fullPath;
 

@@ -17,7 +17,7 @@ public static class FFMPegInstaller
 #endif
 
 #if UNITY_STANDALONE_OSX
-    private const string ExtractPath = "Assets/Plugins/Mac";
+    private const string ExtractPath = "Assets/Plugins/Macos";
 #endif
 
 #if UNITY_STANDALONE_WIN
