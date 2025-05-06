@@ -77,6 +77,16 @@ namespace Singularis.StackVR.Narrative.Editor {
                 File.Delete(filePath);
                 AssetDatabase.Refresh();
             }
+            string directoryPath = Path.GetDirectoryName(filePath);
+
+            if (!Directory.Exists(directoryPath))
+            {
+                Directory.CreateDirectory(directoryPath);
+                AssetDatabase.Refresh();
+            }
+
+
+
 
 
             ProcessStartInfo startInfo = new ProcessStartInfo {
