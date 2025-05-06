@@ -16,8 +16,13 @@ public static class FFMPegInstaller
     private const string DownloadUrl = "https://assets.singularisvr.com/develop/stackvr/ffmpeg/macos/ffmpeg";
 #endif
 
+#if UNITY_STANDALONE_OSX
+    private const string ExtractPath = "Assets/Plugins/Mac";
+#endif
 
-    private const string ExtractPath = "Assets/Plugins";
+#if UNITY_STANDALONE_WIN
+    private const string ExtractPath = "Assets/Plugins/Windows";
+#endif
     private const string TempZipPath = "Temp/libreria_temp.zip";
 
 
