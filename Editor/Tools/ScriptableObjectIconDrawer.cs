@@ -4,7 +4,7 @@ using UnityEditor;
 using UnityEngine;
 using Singularis.StackVR.Scriptables.Editor;
 
-namespace Singularis.StackVR.Editor {
+namespace Singularis.StackVR.Tools.Editor {
     [InitializeOnLoad]
     public class ScriptableObjectIconDrawer {
         static Dictionary<Type, Texture2D> typeIcons = new Dictionary<Type, Texture2D>();
