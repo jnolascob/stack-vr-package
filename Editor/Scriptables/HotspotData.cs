@@ -32,11 +32,6 @@ namespace Singularis.StackVR.Scriptables.Editor {
 
         public NodeData target;
         public int targetId;
-
-        public string question;
-        public string answerA;
-        public string answerB;
-        public string answerC;
-        public string correctAnswer;
+     
     }
 }

@@ -45,5 +45,31 @@ namespace Singularis.StackVR.Narrative.Editor {
 
         }
 
+        public static HotspotQuestionData CreateHotspotQuestion(NodeData node, string childName)
+        {
+
+            HotspotQuestionData hostpot = ScriptableObject.CreateInstance<HotspotQuestionData>();
+
+            string assetPath = AssetDatabase.GetAssetPath(node);
+            string folderPath = Path.GetDirectoryName(assetPath);
+            string filePath = Path.Combine(folderPath, $"{childName}.asset");
+
+            //if (File.Exists(filePath)) {
+            //AssetDatabase.DeleteAsset(filePath);
+
+            int i = 0;
+            while (File.Exists(filePath))
+            {
+                Debug.Log($"[NodeInspectorWindow] File Exists: {filePath}");
+                i++;
+                filePath = Path.Combine(folderPath, $"{childName} ({i}).asset");
+            }
+            //}
+            Debug.Log($"[NodeInspectorWindow] Create Asset: {filePath}");
+            AssetDatabase.CreateAsset(hostpot, Path.Combine(filePath));
+            return hostpot;
+
+        }
+
     }
 }
