@@ -508,7 +508,9 @@ namespace Singularis.StackVR.UIBuilder.Editor {
         private void CreateHotspot(HotspotData hotspot, VisualElement hotspotsContainer, VisualElement componentContainer, VisualElement outliner) {
             VisualElement hotspotClone = new VisualElement();
 
-            string assetPath = $"Assets/Singularis/StackVR/Sprites/icons/ico_hotspot_{hotspot.type}.png";
+            
+
+            string assetPath = $"Packages/com.singularisvr.stackvr/Editor/Sprites/ico_hotspot_{hotspot.type}.png";
             Texture2D hotspotTexture = AssetDatabase.LoadAssetAtPath<Texture2D>(assetPath);
             hotspotClone.style.backgroundImage = new StyleBackground(hotspotTexture);
             hotspotClone.style.unityBackgroundImageTintColor = new StyleColor(hotspot.color);
