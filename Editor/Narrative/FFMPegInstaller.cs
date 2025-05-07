@@ -10,20 +10,20 @@ using UnityEngine;
 public static class FFMPegInstaller
 {
 
-    
 
 
-#if UNITY_STANDALONE_OSX    
+
+#if UNITY_EDITOR_OSX
     private const string DownloadUrl = "https://assets.singularisvr.com/develop/stackvr/ffmpeg/macos/ffmpeg";
-#elif UNITY_STANDALONE_WIN
+#elif UNITY_EDITOR_WIN
     private const string DownloadUrl = "https://assets.singularisvr.com/develop/stackvr/ffmpeg/windows/ffmpeg.zip";
 #endif
 
-#if UNITY_STANDALONE_OSX
+#if UNITY_EDITOR_OSX
     private const string ExtractPath = "Assets/Plugins/Macos";
 #endif
 
-#if UNITY_STANDALONE_WIN
+#if UNITY_EDITOR_WIN
     private const string ExtractPath = "Assets/Plugins/Windows";
 #endif
     private const string TempZipPath = "Temp/libreria_temp.zip";
@@ -65,7 +65,7 @@ public static class FFMPegInstaller
         if (!Directory.Exists(ExtractPath))
             Directory.CreateDirectory(ExtractPath);
 
-#if UNITY_STANDALONE_OSX
+#if UNITY_EDITOR_OSX
         Debug.Log("Descargando libreria externa para macOS...");
 
       
