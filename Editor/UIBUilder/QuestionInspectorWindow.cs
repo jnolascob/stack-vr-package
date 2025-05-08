@@ -119,7 +119,7 @@ namespace Singularis.NarrativeEditor {
             root = rootVisualElement;
             root.Clear();
 
-            visualTree = AssetDatabase.LoadAssetAtPath<VisualTreeAsset>("Assets/Singularis/StackVR/Editor/UIBUilder/QuestionWindow.uxml");
+            visualTree = AssetDatabase.LoadAssetAtPath<VisualTreeAsset>("Packages/com.singularisvr.stackvr/Editor/UIBUilder/QuestionWindow.uxml");
             var container = visualTree.CloneTree();
             root.Add(container);
 
@@ -371,7 +371,16 @@ namespace Singularis.NarrativeEditor {
 
             // Hotspot properties
             string originalName = hotspotElement.name;
+
+            
+
             nameTextField.RegisterValueChangedCallback(evt => {
+
+                Debug.Log("The Name is " + originalName);
+                if (outlinerElement == null)
+                {
+                    Debug.Log("The Outliner es nulo");
+                }
                 //hotspotDataStored["name"] = evt.newValue;
                 SaveData("name", evt.newValue);
                 var hotspotOutliner = outlinerElement.Q<VisualElement>(name: originalName);
@@ -440,7 +449,7 @@ namespace Singularis.NarrativeEditor {
 
 
 
-            VisualTreeAsset answerTemplate = AssetDatabase.LoadAssetAtPath<VisualTreeAsset>("Assets/Singularis/StackVR/DefaultAnswer.uxml");
+            VisualTreeAsset answerTemplate = AssetDatabase.LoadAssetAtPath<VisualTreeAsset>("Packages/com.singularisvr.stackvr/Editor/UIBUilder/DefaultAnswer.uxml");
             VisualElement newAnswer = answerTemplate.Instantiate();
 
             parentQuestions.Add(newAnswer);

@@ -602,8 +602,8 @@ namespace Singularis.StackVR.UIBuilder.Editor {
                 }
                 else
                 {
-                    QuestionInspectorWindow.ShowNodeInspector();
-                    QuestionInspectorWindow.FillData(hotspotClone, hotspot);
+                    HotspotInspectorWindow.ShowNodeInspector();
+                    HotspotInspectorWindow.FillData(hotspotClone, hotspot);
                 }
 
 

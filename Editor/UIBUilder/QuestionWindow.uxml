@@ -1,5 +1,5 @@
 <engine:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:engine="UnityEngine.UIElements" xmlns:editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../UIElementsSchema/UIElements.xsd" editor-extension-mode="True">
-    <engine:Template name="DefaultAnswer" src="DefaultAnswer.uxml"/>
+    <engine:Template name="QuestionHostpotElement" src="project://database/Packages/com.singularisvr.stackvr/Editor/UIBUilder/QuestionHostpotElement.uxml?fileID=9197481963319205126&amp;guid=b3126994b81d492489f0aac126d45f5b&amp;type=3#QuestionHostpotElement" />
     <Style src="project://database/Packages/com.singularisvr.stackvr/Editor/UIBUilder/HotspotInspectorWindow.uss?fileID=7433441132597879392&amp;guid=9b2bd7c1acd4056468b36694c0de30d0&amp;type=3#HotspotInspectorWindow" />
     <engine:VisualElement name="default">
         <engine:Label text="Hotspot not selected" />
@@ -13,35 +13,14 @@
                 <engine:Slider label="Angle Y" value="0" high-value="80" show-input-field="true" name="angleYSlider" low-value="-80" />
                 <engine:Slider label="Scale" value="1" high-value="10" show-input-field="true" name="scaleSlider" low-value="0.5" />
                 <engine:VisualElement class="line" />
-                <engine:Label text="Hotspot" class="title" style="background-image: url(&quot;project://database/Assets/Singularis/StackVR/Sprites/icons/icon%20ToolBarHotspot%20Normal.png?fileID=2800000&amp;guid=69763791eeaecb14c99ac4a51c404c27&amp;type=3#icon ToolBarHotspot Normal&quot;);" />
+                <engine:Label text="Hotspot" class="title" style="background-image: url(&apos;project://database/Assets/Singularis/StackVR/Sprites/icons/icon%20ToolBarHotspot%20Normal.png?fileID=2800000&amp;guid=69763791eeaecb14c99ac4a51c404c27&amp;type=3#icon ToolBarHotspot Normal&apos;);" />
                 <engine:TextField label="Name" placeholder-text="filler text" name="nameTextField" />
                 <editor:ObjectField label="Icon" type="UnityEngine.Texture2D, UnityEngine.CoreModule" name="iconObjectField" />
                 <editor:ColorField label="Color" value="#00FFFFFF" name="colorField" />
                 <engine:VisualElement class="line" />
-                <engine:Label text="Navigation" name="Label" class="title" style="background-image: url(&quot;project://database/Assets/Singularis/StackVR/Sprites/icons/icon_inspector_navigate.png?fileID=2800000&amp;guid=54573aa017b16db4bb5908bd64a20cf8&amp;type=3#icon_inspector_navigate&quot;); display: none;" />
+                <engine:Label text="Navigation" name="Label" class="title" style="background-image: url(&apos;project://database/Assets/Singularis/StackVR/Sprites/icons/icon_inspector_navigate.png?fileID=2800000&amp;guid=54573aa017b16db4bb5908bd64a20cf8&amp;type=3#icon_inspector_navigate&apos;); display: none;" />
                 <editor:ObjectField label="Target" type="Singularis.StackVR.Scriptables.Editor.NodeData, SingularisVR.StackVR.Editor" name="targetObjectField" />
-                <engine:VisualElement name="Questions" style="flex-grow: 0; display: flex; max-height: none; height: auto; flex-wrap: nowrap; flex-direction: column; min-height: auto; flex-shrink: 0;">
-                    <engine:VisualElement class="line" />
-                    <engine:Label text="Questions" class="title" style="background-image: url(&quot;project://database/Assets/Singularis/StackVR/Sprites/icons/icon%20ToolBarHotspot%20Normal.png?fileID=2800000&amp;guid=69763791eeaecb14c99ac4a51c404c27&amp;type=3#icon ToolBarHotspot Normal&quot;);" />
-                </engine:VisualElement>
-                <engine:TextField name="NameQuestion" label="Title Question" style="width: 100%; max-width: none; min-width: auto; align-self: center; height: auto; max-height: initial; padding-top: 10px; padding-right: 10px; padding-bottom: 10px; padding-left: 10px;" />
-                <engine:VisualElement style="flex-grow: 0; flex-shrink: 0; flex-direction: row; margin-top: 20px;">
-                    <engine:RadioButtonGroup choices="Single Choice,Multiple Choice" language-direction="Inherit" name="KindOfAnswer" />
-                </engine:VisualElement>
-                <engine:VisualElement name="Media" style="flex-grow: 1; background-color: rgba(22, 45, 255, 0); height: 50px; max-height: 50px; min-height: 50px; width: 100%; max-width: 100%; min-width: auto; align-self: flex-start; margin-top: 20px; margin-right: 0; margin-bottom: 0; margin-left: 10px; align-items: flex-start; justify-content: flex-start; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 10px;">
-                    <editor:ObjectField label="Background" type="UnityEngine.Texture, UnityEngine.CoreModule" name="QuestionBg" />
-                </engine:VisualElement>
-                <engine:VisualElement name="Answers" style="flex-grow: 0; max-height: initial; height: auto; min-height: auto; flex-shrink: 0; margin-top: 20px;">
-                    <engine:VisualElement style="flex-grow: 0; flex-direction: row; max-height: initial; flex-shrink: 0;">
-                        <engine:Label text="CORRECT ANSWER" class="title" style="background-image: none; align-items: stretch; justify-content: flex-end; align-self: flex-start; padding-top: 10px; padding-right: 10px; padding-bottom: 10px; padding-left: 10px; margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0;" />
-                        <engine:Label text="POINTS" class="title" style="background-image: none; align-items: stretch; justify-content: space-between; align-self: stretch; padding-top: 10px; padding-right: 10px; padding-bottom: 10px; padding-left: 10px; margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 60px; align-content: auto; -unity-text-align: middle-right;" />
-                    </engine:VisualElement>
-                    <engine:VisualElement name="ParentAnswers" style="flex-grow: 0; max-height: none; align-items: stretch; justify-content: flex-start; align-self: auto; align-content: flex-start; flex-direction: column; flex-wrap: nowrap; flex-shrink: 0;">
-                        <engine:Instance template="DefaultAnswer" />
-                        <engine:Instance template="DefaultAnswer" />
-                    </engine:VisualElement>
-                    <engine:Button text="Add Element" name="AddElement" style="width: 100px;" />
-                </engine:VisualElement>
+                <engine:Instance template="QuestionHostpotElement" name="QuestionHostpotElement" />
             </engine:VisualElement>
         </engine:ScrollView>
     </engine:VisualElement>

@@ -7,6 +7,6 @@
             <engine:Button text="+" name="Increase" style="height: 50%; max-height: 50%; min-height: 50%; margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0;" />
             <engine:Button text="-" name="Decrease" style="height: 50%; max-height: 50%; min-height: 50%; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0; margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0;" />
         </engine:VisualElement>
-        <engine:Button name="Delete" icon-image="project://database/Assets/Singularis/StackVR/Resources/delete_invert_icon.png?fileID=2800000&amp;guid=18c5752a2d634b645b860121a633c93b&amp;type=3#delete_invert_icon" style="width: 36px; margin-left: 10px;" />
+        <engine:Button name="Delete" icon-image="project://database/Packages/com.singularisvr.stackvr/Editor/Sprites/ico_delete.png?fileID=2800000&amp;guid=f3face5e82323a84886a627cb74b5ee1&amp;type=3#ico_delete" style="width: 36px; margin-left: 10px;" />
     </engine:VisualElement>
 </engine:UXML>
