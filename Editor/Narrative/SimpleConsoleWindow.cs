@@ -9,8 +9,9 @@ namespace Singularis.StackVR.Narrative.Editor {
     public class SimpleConsoleWindow : EditorWindow {
 
 
-        public static bool isImportGraph = false;
-        public static bool isEditGraph = false;
+        private static bool isImportGraph = false;
+        private static bool isEditGraph = false;
+
 
         [MenuItem("Singularis/Narrative/New", priority = 1)]
         public static void ShowWindow() {
@@ -38,8 +39,11 @@ namespace Singularis.StackVR.Narrative.Editor {
             GetWindow<SimpleConsoleWindow>("Simple Console");
         }
 
-        [MenuItem("Singularis/Narrative/Edit", priority = 2)]
+        [MenuItem("Singularis/Narrative/Open", priority = 2)]
         public static void EditWindow() {
+
+            string path = EditorUtility.OpenFilePanel("Open narrative", "Assets/", "narrative.asset");
+
             isImportGraph = false;
             isEditGraph = true;
 
@@ -112,17 +116,7 @@ namespace Singularis.StackVR.Narrative.Editor {
             var nodeMenu = root.Q<VisualElement>("NodeMenu");
             var buildButton = root.Q<Button>("BuildButton");
 
-            //Debug.Log($"templateContainer es nulo: {templateContainer == null}"); 
-            //Debug.Log($"graphViewExperience es nulo: {graphViewExperience == null}");
-            //Debug.Log($"graphContainer es nulo: {graphContainer == null}");
-            //Debug.Log($"dropDownMenu es nulo: {dropDownMenu == null}");
-            //Debug.Log($"boxElement es nulo: {boxElement == null}");
-            //Debug.Log($"nodeMenu es nulo: {nodeMenu == null}");
-            //Debug.Log($"buildButton es nulo: {buildButton == null}");
-
             graphViewExperience.SetVisualElements(dropDownMenu, boxElement, nodeMenu, buildButton);
-
-
 
             var toolbarButtons = root.Query<VisualElement>(className: "ButtonToolbar").ToList();
             foreach (var element in toolbarButtons) {
