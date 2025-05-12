@@ -7,12 +7,7 @@ using Singularis.StackVR.Scriptables.Editor;
 using Singularis.StackVR.UIBuilder.Editor;
 
 
-[System.Serializable]
-public class Answer
-{
-    public int points;
-    public string name;
-}
+
 
 
 namespace Singularis.NarrativeEditor {
@@ -259,15 +254,47 @@ namespace Singularis.NarrativeEditor {
                 });
 
 
-                
+
+
+
+
+
+                questionElements[i].Q<Toggle>("CorrectAnswer").RegisterValueChangedCallback(value => {
+
+                    //Dictionary<string, object> hotspotDataStored = hotspotElement.userData as Dictionary<string, object>;
+                    int totalPoints = questionElements[index].Q<IntegerField>("PointsValue").value;
+                    string nameQuestion = questionElements[index].Q<TextField>("InputQuestion").text;
+                    Answer answer = new Answer();
+
+                    answer.name = nameQuestion;
+                    answer.points = totalPoints;
+                    answer.isCorrect = value.newValue;
+                    //hotspotDataStored[$"Answer{letra}"] = answer;
+                    //hotspotElement.userData = hotspotDataStored;
+
+                    SaveData($"Answer{letra}", answer);
+
+
+                });
+
+
+
+
+
+
+
+
+
 
                 questionElements[i].Q<TextField>("InputQuestion").RegisterValueChangedCallback(value => {
 
                     //Dictionary<string, object> hotspotDataStored = hotspotElement.userData as Dictionary<string, object>;
                     int totalPoints = questionElements[index].Q<IntegerField>("PointsValue").value;
+                    bool result = questionElements[index].Q<Toggle>("CorrectAnswer").value;
                     Answer answer = new Answer();
                     answer.name = value.newValue;
                     answer.points = totalPoints;
+                    answer.isCorrect = result;
                     //hotspotDataStored[$"Answer{letra}"] = answer;
                     //hotspotElement.userData = hotspotDataStored;
 
@@ -281,8 +308,10 @@ namespace Singularis.NarrativeEditor {
                     //Dictionary<string, object> hotspotDataStored = hotspotElement.userData as Dictionary<string, object>;                    
                     Answer answer = new Answer();
                     string nameQuestion = questionElements[index].Q<TextField>("InputQuestion").text;
+                    bool result = questionElements[index].Q<Toggle>("CorrectAnswer").value;
                     answer.name = nameQuestion;
                     answer.points = value.newValue;
+                    answer.isCorrect = result;
                     //hotspotDataStored[$"Answer{letra}"] = answer;
                     //hotspotElement.userData = hotspotDataStored;
                     SaveData($"Answer{letra}", answer);

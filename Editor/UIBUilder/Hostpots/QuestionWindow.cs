@@ -4,6 +4,18 @@ using UnityEngine;
 using UnityEngine.UIElements;
 using UnityEditor.UIElements;
 using UnityEditor;
+using System;
+
+
+
+[System.Serializable]
+public class Answer
+{
+    public int points;
+    public string name;
+    public bool isCorrect;
+}
+
 
 public class QuestionWindow : HostpotBase
 {
@@ -15,7 +27,7 @@ public class QuestionWindow : HostpotBase
     public Button addElementButton;
     public VisualElement parentQuestions;
     public List<VisualElement> questionElements = new List<VisualElement>();
-    public RadioButtonGroup correctAnswer;
+    
 
 
 
@@ -32,7 +44,7 @@ public class QuestionWindow : HostpotBase
         addElementButton = main.Q<Button>("AddElement");
         parentQuestions = main.Q<VisualElement>("ParentAnswers");
         questionElements = main.Query<VisualElement>("Answer").ToList();
-        correctAnswer = main.Q<RadioButtonGroup>("KindOfAnswer");
+        
 
         var questionBg = main.Q<ObjectField>("QuestionBg");
 
@@ -103,13 +115,43 @@ public class QuestionWindow : HostpotBase
 
 
 
+
+
+
+            questionElements[i].Q<Toggle>("CorrectAnswer").RegisterValueChangedCallback(value => {
+
+                //Dictionary<string, object> hotspotDataStored = hotspotElement.userData as Dictionary<string, object>;
+                int totalPoints = questionElements[index].Q<IntegerField>("PointsValue").value;
+                string nameQuestion = questionElements[index].Q<TextField>("InputQuestion").text;
+                Answer answer = new Answer();
+
+                answer.name = nameQuestion;
+                answer.points = totalPoints;
+                answer.isCorrect = value.newValue;
+                //hotspotDataStored[$"Answer{letra}"] = answer;
+                //hotspotElement.userData = hotspotDataStored;
+
+                SaveData($"Answer{letra}", answer);
+
+
+            });
+
+
+
+
+
+
+
+
             questionElements[i].Q<TextField>("InputQuestion").RegisterValueChangedCallback(value => {
 
                 //Dictionary<string, object> hotspotDataStored = hotspotElement.userData as Dictionary<string, object>;
                 int totalPoints = questionElements[index].Q<IntegerField>("PointsValue").value;
+                bool result = questionElements[index].Q<Toggle>("CorrectAnswer").value;
                 Answer answer = new Answer();
                 answer.name = value.newValue;
                 answer.points = totalPoints;
+                answer.isCorrect = result;
                 //hotspotDataStored[$"Answer{letra}"] = answer;
                 //hotspotElement.userData = hotspotDataStored;
 
@@ -123,8 +165,10 @@ public class QuestionWindow : HostpotBase
                 //Dictionary<string, object> hotspotDataStored = hotspotElement.userData as Dictionary<string, object>;                    
                 Answer answer = new Answer();
                 string nameQuestion = questionElements[index].Q<TextField>("InputQuestion").text;
+                bool result = questionElements[index].Q<Toggle>("CorrectAnswer").value;
                 answer.name = nameQuestion;
                 answer.points = value.newValue;
+                answer.isCorrect = result;
                 //hotspotDataStored[$"Answer{letra}"] = answer;
                 //hotspotElement.userData = hotspotDataStored;
                 SaveData($"Answer{letra}", answer);
@@ -137,28 +181,6 @@ public class QuestionWindow : HostpotBase
 
         }
 
-
-
-        if (GetData("kindOfQuestion") != null)
-        {
-            correctAnswer.value = (int)GetData("kindOfQuestion");
-
-        }
-
-        correctAnswer.RegisterValueChangedCallback(result =>
-        {
-            int newValue = result.newValue;
-            Debug.Log("The Value is" + newValue);
-            //Dictionary<string, object> hotspotDataStored = hotspotElement.userData as Dictionary<string, object>;
-
-            //hotspotDataStored["kindOfQuestion"] = newValue;
-
-            //hotspotElement.userData = hotspotDataStored;
-
-            SaveData("kindOfQuestion", newValue);
-
-
-        });
 
 
         //Dictionary<string, object> hotspotDataStored = hotspotElement.userData as Dictionary<string, object>;
@@ -261,13 +283,40 @@ public class QuestionWindow : HostpotBase
 
 
 
+        newAnswer.Q<Toggle>("CorrectAnswer").RegisterValueChangedCallback(value => {
+
+            //Dictionary<string, object> hotspotDataStored = hotspotElement.userData as Dictionary<string, object>;
+            int totalPoints = newAnswer.Q<IntegerField>("PointsValue").value;
+            string nameQuestion = newAnswer.Q<TextField>("InputQuestion").text;
+            Answer answer = new Answer();
+
+            answer.name = nameQuestion;
+            answer.points = totalPoints;
+            answer.isCorrect = value.newValue;
+            //hotspotDataStored[$"Answer{letra}"] = answer;
+            //hotspotElement.userData = hotspotDataStored;
+
+            SaveData($"Answer{letra}", answer);
+
+
+        });
+
+
+
+
+
+
+
         newAnswer.Q<TextField>("InputQuestion").RegisterValueChangedCallback(value => {
 
             //Dictionary<string, object> hotspotDataStored = hotspotElement.userData as Dictionary<string, object>;
             int totalPoints = newAnswer.Q<IntegerField>("PointsValue").value;
+            bool result = newAnswer.Q<Toggle>("CorrectAnswer").value;
             Answer answer = new Answer();
             answer.name = value.newValue;
             answer.points = totalPoints;
+            answer.isCorrect = result;
+            
             //hotspotDataStored[$"Answer{letra}"] = answer;
             //hotspotElement.userData = hotspotDataStored;
 
@@ -283,8 +332,10 @@ public class QuestionWindow : HostpotBase
             //Dictionary<string, object> hotspotDataStored = hotspotElement.userData as Dictionary<string, object>;
             Answer answer = new Answer();
             string nameQuestion = newAnswer.Q<TextField>("InputQuestion").text;
+            bool result = newAnswer.Q<Toggle>("CorrectAnswer").value;
             answer.name = nameQuestion;
             answer.points = value.newValue;
+            answer.isCorrect = result;
             //hotspotDataStored[$"Answer{letra}"] = answer;
             //hotspotElement.userData = hotspotDataStored;
 
