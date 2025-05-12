@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEditor;
 using UnityEngine.UIElements;
 using Singularis.StackVR.Editor;
+using Singularis.StackVR.Scriptables.Editor;
 
 namespace Singularis.StackVR.Narrative.Editor {
     public class SimpleConsoleWindow : EditorWindow {
@@ -11,6 +12,7 @@ namespace Singularis.StackVR.Narrative.Editor {
 
         private static bool isImportGraph = false;
         private static bool isEditGraph = false;
+        private static string narrativePath = string.Empty;
 
 
         [MenuItem("Singularis/Narrative/New", priority = 1)]
@@ -43,10 +45,19 @@ namespace Singularis.StackVR.Narrative.Editor {
         public static void EditWindow() {
 
             string path = EditorUtility.OpenFilePanel("Open narrative", "Assets/", "narrative.asset");
+            narrativePath = "Assets" + path[Application.dataPath.Length..];
+
 
             isImportGraph = false;
             isEditGraph = true;
 
+            GetWindow<SimpleConsoleWindow>("Simple Console");
+        }
+
+        public static void OpenWindow(NarrativeScriptableObject narrative) {
+            isImportGraph = false;
+            isEditGraph = true;
+            narrativePath = AssetDatabase.GetAssetPath(narrative);
             GetWindow<SimpleConsoleWindow>("Simple Console");
         }
 
@@ -158,7 +169,7 @@ namespace Singularis.StackVR.Narrative.Editor {
             }
 
             if (isEditGraph) {
-                graphViewExperience.EditNodes();
+                graphViewExperience.EditNodes(narrativePath);
             }
         }
 

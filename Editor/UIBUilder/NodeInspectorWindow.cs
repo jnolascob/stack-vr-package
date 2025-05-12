@@ -43,25 +43,18 @@ namespace Singularis.StackVR.UIBuilder.Editor {
 
         static public VisualElement hotspotSelected = null;
 
-
-        [MenuItem("Singularis/Develop/NodeInspectorWindow")]
-        public static void ShowNodeInspector() {
-            var sampleNode = AssetDatabase.GUIDToAssetPath("2c448f81d2b4779409d158fa64643319");
+                
+        public static void ShowNodeInspector(string guid) {
+            var sampleNode = AssetDatabase.GUIDToAssetPath(guid);
             node = AssetDatabase.LoadAssetAtPath<NodeData>(sampleNode);
             Debug.Log($"[NodeInspectorWindow - ShowNodeInspector] {node.name}");
-
 
             window = GetWindow<NodeInspectorWindow>();
             window.titleContent = new GUIContent("NodeInspectorWindow");
         }
-        // Constructor Rodrigo Pasa el id del de asset
-        public static void ShowNodeInspector(int data) {
 
-        }
-
-        public static void ShowNodeInspector(string guid) {
-            var sampleNode = AssetDatabase.GUIDToAssetPath(guid);
-            node = AssetDatabase.LoadAssetAtPath<NodeData>(sampleNode);
+        public static void OpenWindow(NodeData nodeData) {
+            node = nodeData;
             Debug.Log($"[NodeInspectorWindow - ShowNodeInspector] {node.name}");
 
             window = GetWindow<NodeInspectorWindow>();
