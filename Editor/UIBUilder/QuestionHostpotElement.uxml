@@ -1,0 +1,28 @@
+<engine:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:engine="UnityEngine.UIElements" xmlns:editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../UIElementsSchema/UIElements.xsd" editor-extension-mode="True">
+    <engine:Template name="DefaultAnswer" src="project://database/Packages/com.singularisvr.stackvr/Editor/UIBUilder/DefaultAnswer.uxml?fileID=9197481963319205126&amp;guid=2db8da81acab05741b606367db5d55dc&amp;type=3#DefaultAnswer" />
+    <engine:VisualElement style="flex-grow: 0; flex-shrink: 0;" />
+    <engine:ScrollView horizontal-scroller-visibility="Hidden">
+        <engine:VisualElement name="Questions" style="flex-grow: 0; display: flex; max-height: none; height: auto; flex-wrap: nowrap; flex-direction: column; min-height: auto; flex-shrink: 0;">
+            <engine:VisualElement class="line" />
+            <engine:Label text="Questions" class="title" style="background-image: url(&apos;project://database/Assets/Singularis/StackVR/Sprites/icons/icon%20ToolBarHotspot%20Normal.png?fileID=2800000&amp;guid=69763791eeaecb14c99ac4a51c404c27&amp;type=3#icon ToolBarHotspot Normal&apos;);" />
+        </engine:VisualElement>
+        <engine:TextField name="NameQuestion" label="Title Question" style="width: 100%; max-width: none; min-width: auto; align-self: center; height: auto; max-height: initial; padding-top: 10px; padding-right: 10px; padding-bottom: 10px; padding-left: 10px;" />
+        <engine:VisualElement style="flex-grow: 0; flex-shrink: 0; flex-direction: row; margin-top: 20px;">
+            <engine:RadioButtonGroup choices="Single Choice,Multiple Choice" language-direction="Inherit" name="KindOfAnswer" />
+        </engine:VisualElement>
+        <engine:VisualElement name="Media" style="flex-grow: 1; background-color: rgba(22, 45, 255, 0); height: 50px; max-height: 50px; min-height: 50px; width: 100%; max-width: 100%; min-width: auto; align-self: flex-start; margin-top: 20px; margin-right: 0; margin-bottom: 0; margin-left: 10px; align-items: flex-start; justify-content: flex-start; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 10px;">
+            <editor:ObjectField label="Background" type="UnityEngine.Texture, UnityEngine.CoreModule" name="QuestionBg" />
+        </engine:VisualElement>
+        <engine:VisualElement name="Answers" style="flex-grow: 0; max-height: initial; height: auto; min-height: auto; flex-shrink: 0; margin-top: 20px;">
+            <engine:VisualElement style="flex-grow: 0; flex-direction: row; max-height: initial; flex-shrink: 0;">
+                <engine:Label text="CORRECT ANSWER" class="title" style="background-image: none; align-items: stretch; justify-content: flex-end; align-self: flex-start; padding-top: 10px; padding-right: 10px; padding-bottom: 10px; padding-left: 10px; margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0;" />
+                <engine:Label text="POINTS" class="title" style="background-image: none; align-items: stretch; justify-content: space-between; align-self: stretch; padding-top: 10px; padding-right: 10px; padding-bottom: 10px; padding-left: 10px; margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 60px; align-content: auto; -unity-text-align: middle-right;" />
+            </engine:VisualElement>
+            <engine:VisualElement name="ParentAnswers" style="flex-grow: 0; max-height: none; align-items: stretch; justify-content: flex-start; align-self: auto; align-content: flex-start; flex-direction: column; flex-wrap: nowrap; flex-shrink: 0;">
+                <engine:Instance template="DefaultAnswer" />
+                <engine:Instance template="DefaultAnswer" />
+            </engine:VisualElement>
+            <engine:Button text="Add Element" name="AddElement" style="width: 100px;" />
+        </engine:VisualElement>
+    </engine:ScrollView>
+</engine:UXML>

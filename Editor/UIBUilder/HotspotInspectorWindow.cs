@@ -4,6 +4,8 @@ using UnityEditor.UIElements;
 using UnityEngine;
 using UnityEngine.UIElements;
 using Singularis.StackVR.Scriptables.Editor;
+using System.Runtime.CompilerServices;
+using Singularis.StackVR.Narrative.Editor;
 
 namespace Singularis.StackVR.UIBuilder.Editor {
     public class HotspotInspectorWindow : EditorWindow {
@@ -44,17 +46,37 @@ namespace Singularis.StackVR.UIBuilder.Editor {
 
             var questions = mainElement.Q<VisualElement>("Questions");
 
+
+            // Instanciar UXML De Pregunta
+
+
+
             if (data.type == HotspotData.HotspotType.question) {
-                Debug.Log("Filling Data" + data.type);
-                questions.style.display = DisplayStyle.Flex;
-                mainElement.style.height = 811f;
+
+
+                VisualTreeAsset questionTree = AssetDatabase.LoadAssetAtPath<VisualTreeAsset>("Packages/com.singularisvr.stackvr/Editor/UIBUilder/QuestionHostpotElement.uxml");
+                VisualElement questionElement = questionTree.Instantiate();
+                mainElement.Add(questionElement);
+
+                QuestionWindow questionWindow = new QuestionWindow(mainElement, hotspotElement);
+                questionWindow.SetCallbacks();
+
+
+
+
             }
-            else {
-                Debug.Log("Filling Data" + data.type);
-                questions.style.display = DisplayStyle.None;
-                mainElement.style.height = 450f;
+            else if (data.type == HotspotData.HotspotType.location)
+            {
+
+                VisualTreeAsset navigationTree = AssetDatabase.LoadAssetAtPath<VisualTreeAsset>("Packages/com.singularisvr.stackvr/Editor/UIBUilder/NavigationHostpot.uxml");
+                VisualElement navigationElement = navigationTree.Instantiate();
+                mainElement.Add(navigationElement);
+
+                NavigationHostpotWindow navigationWindow = new NavigationHostpotWindow(mainElement, hotspotElement);
+                navigationWindow.SetCallbacks();
+
             }
-            questions.MarkDirtyRepaint();
+            //questions.MarkDirtyRepaint();
             mainElement.MarkDirtyRepaint();
 
             window.FillData();
@@ -119,7 +141,7 @@ namespace Singularis.StackVR.UIBuilder.Editor {
             var scaleSlider = main.Q<Slider>("scaleSlider");
             var iconField = main.Q<ObjectField>("iconObjectField");
             var colorField = main.Q<ColorField>("colorField");
-            var targetObjectField = main.Q<ObjectField>("targetObjectField");
+           //var targetObjectField = main.Q<ObjectField>("targetObjectField");
 
 
             Dictionary<string, object> hotspotDataStored = hotspotElement.userData as Dictionary<string, object>;
@@ -139,8 +161,8 @@ namespace Singularis.StackVR.UIBuilder.Editor {
             colorField.value = (Color)hotspotDataStored["color"];
 
 
-            targetObjectField.objectType = typeof(NodeData);
-            targetObjectField.value = hotspotDataStored["target"] as NodeData;
+            //targetObjectField.objectType = typeof(NodeData);
+            //targetObjectField.value = hotspotDataStored["target"] as NodeData;
 
 
 
@@ -197,16 +219,16 @@ namespace Singularis.StackVR.UIBuilder.Editor {
 
 
             // Navigation properties
-            targetObjectField.RegisterValueChangedCallback(evt => {
-                hotspotDataStored["target"] = evt.newValue as NodeData;
-            });
+            //targetObjectField.RegisterValueChangedCallback(evt => {
+            //    hotspotDataStored["target"] = evt.newValue as NodeData;
+            //});
 
 
             if (hotspotSelected.type == HotspotData.HotspotType.question) {
                 Dictionary<string, object> hotspotData = hotspotElement.userData as Dictionary<string, object>;
                 hotspotData["type"] = "question";
                 hotspotElement.userData = hotspotData;
-                SetDataQuestions();
+                
             }
             else {
                 Dictionary<string, object> hotspotData = hotspotElement.userData as Dictionary<string, object>;
@@ -217,46 +239,7 @@ namespace Singularis.StackVR.UIBuilder.Editor {
 
         }
 
-
-        private void SetDataQuestions() {
-            var main = root.Q<VisualElement>("main");
-            var question = main.Q<TextField>("NameQuestion");
-            var firstAnswer = main.Q<TextField>("FirstAnswer");
-            var secondAnswer = main.Q<TextField>("SecondAnswer");
-            var thirdAnswer = main.Q<TextField>("ThirdAnswer");
-            var correctAnswer = main.Q<DropdownField>("CorrectAnswer");
-
-            Dictionary<string, object> hotspotDataStored = hotspotElement.userData as Dictionary<string, object>;
-
-            question.value = hotspotDataStored["question"]?.ToString();
-            firstAnswer.value = hotspotDataStored["answerA"]?.ToString();
-            secondAnswer.value = hotspotDataStored["answerB"]?.ToString();
-            thirdAnswer.value = hotspotDataStored["answerC"]?.ToString();
-            correctAnswer.value = hotspotDataStored["correctAnswer"]?.ToString();
-
-
-
-            question.RegisterValueChangedCallback(evt => {
-                hotspotDataStored["question"] = evt.newValue;
-            });
-
-            firstAnswer.RegisterValueChangedCallback(evt => {
-                hotspotDataStored["answerA"] = evt.newValue;
-            });
-
-            secondAnswer.RegisterValueChangedCallback(evt => {
-                hotspotDataStored["answerB"] = evt.newValue;
-            });
-
-            thirdAnswer.RegisterValueChangedCallback(evt => {
-                hotspotDataStored["answerC"] = evt.newValue;
-            });
-
-            correctAnswer.RegisterValueChangedCallback(evt => {
-                hotspotDataStored["correctAnswer"] = evt.newValue;
-            });
-
-        }
+       
 
 
     }

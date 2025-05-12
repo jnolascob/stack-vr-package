@@ -1,0 +1,6 @@
+<engine:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:engine="UnityEngine.UIElements" xmlns:editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../UIElementsSchema/UIElements.xsd" editor-extension-mode="True">
+    <engine:VisualElement name="Navigation" style="flex-grow: 0; height: auto; min-height: auto; max-height: initial; position: relative; flex-shrink: 0;">
+        <engine:Label text="Navigation" name="Label" class="title" style="background-image: url(&quot;project://database/Packages/com.singularisvr.stackvr/Editor/Sprites/ico_inspector_navigate.png?fileID=21300000&amp;guid=c0f5107b5d18a6b4f8f3e34a98d3b8cf&amp;type=3#ico_inspector_navigate&quot;);" />
+        <editor:ObjectField label="Target" type="Singularis.StackVR.Scriptables.Editor.NodeData, SingularisVR.StackVR.Editor" name="targetObjectField" />
+    </engine:VisualElement>
+</engine:UXML>

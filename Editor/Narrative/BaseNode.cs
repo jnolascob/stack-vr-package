@@ -362,12 +362,12 @@ namespace Singularis.StackVR.Narrative.Editor {
 
                         switch (hostpot.type) {
                             case HotspotData.HotspotType.question:
-                                Debug.Log($"Hotspot Type Question: {hostpot.question}");
-                                newHostpot.question = hostpot.question;
-                                newHostpot.answerA = hostpot.answerA;
-                                newHostpot.answerB = hostpot.answerB;
-                                newHostpot.answerC = hostpot.answerC;
-                                newHostpot.correctAnswer = hostpot.correctAnswer;
+                                //Debug.Log($"Hotspot Type Question: {hostpot.question}");
+                                //newHostpot.question = hostpot.question;
+                                //newHostpot.answerA = hostpot.answerA;
+                                //newHostpot.answerB = hostpot.answerB;
+                                //newHostpot.answerC = hostpot.answerC;
+                                //newHostpot.correctAnswer = hostpot.correctAnswer;
 
                                 break;
                             case HotspotData.HotspotType.location:

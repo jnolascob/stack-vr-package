@@ -15,18 +15,5 @@
         <editor:ObjectField label="Icon" type="UnityEngine.Texture2D, UnityEngine.CoreModule" name="iconObjectField" />
         <editor:ColorField label="Color" value="#00FFFFFF" name="colorField" />
         <engine:VisualElement class="line" />
-        <engine:Label text="Navigation" class="title" style="background-image: url(&quot;project://database/Packages/com.singularisvr.stackvr/Editor/Sprites/ico_inspector_navigate.png?fileID=21300000&amp;guid=c0f5107b5d18a6b4f8f3e34a98d3b8cf&amp;type=3#ico_inspector_navigate&quot;);" />
-        <editor:ObjectField label="Target" type="Singularis.StackVR.Scriptables.Editor.NodeData, SingularisVR.StackVR.Editor" name="targetObjectField" />
-        <engine:VisualElement name="Questions" style="flex-grow: 1; display: flex;">
-            <engine:VisualElement class="line" />
-            <engine:Label text="Questions" class="title" style="background-image: url(&quot;project://database/Packages/com.singularisvr.stackvr/Editor/Sprites/ico_hotspot_question_outline.png?fileID=21300000&amp;guid=aee20e0b56893d043b2ce6bb9058a733&amp;type=3#ico_hotspot_question_outline&quot;);" />
-            <engine:TextField label="Question" name="NameQuestion" />
-            <engine:Label text="ANSWERS" class="title" style="background-image: none; align-items: stretch; justify-content: flex-end; align-self: center; padding-top: 10px; padding-right: 10px; padding-bottom: 10px; padding-left: 10px; margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0;" />
-            <engine:TextField label="First Answer(A)" name="FirstAnswer" />
-            <engine:TextField label="Second Answer(B)" name="SecondAnswer" />
-            <engine:TextField label="Third Answer(C)" name="ThirdAnswer" />
-            <engine:Label text="CORRECT ANSWER" class="title" style="background-image: none; align-items: stretch; justify-content: flex-end; align-self: center; padding-top: 10px; padding-right: 10px; padding-bottom: 10px; padding-left: 10px; margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0;" />
-            <engine:DropdownField label="Answer" choices="A,B,C" name="CorrectAnswer" />
-        </engine:VisualElement>
     </engine:VisualElement>
 </engine:UXML>
