@@ -514,11 +514,14 @@ namespace Singularis.StackVR.UIBuilder.Editor {
         private void CreateHotspot(HotspotData hotspot, VisualElement hotspotsContainer, VisualElement componentContainer, VisualElement outliner) {
             VisualElement hotspotClone = new VisualElement();
 
-            
-
-            string assetPath = $"Packages/com.singularisvr.stackvr/Editor/Sprites/ico_hotspot_{hotspot.type}.png";
-            Texture2D hotspotTexture = AssetDatabase.LoadAssetAtPath<Texture2D>(assetPath);
-            hotspotClone.style.backgroundImage = new StyleBackground(hotspotTexture);
+            if (hotspot.icon != null)
+                hotspotClone.style.backgroundImage = new StyleBackground(hotspot.icon);
+            else {
+                string assetPath = $"Packages/com.singularisvr.stackvr/Editor/Sprites/ico_hotspot_{hotspot.type}.png";
+                Texture2D hotspotTexture = AssetDatabase.LoadAssetAtPath<Texture2D>(assetPath);
+                hotspotClone.style.backgroundImage = new StyleBackground(hotspotTexture);
+                Debug.Log(assetPath);
+            }
             hotspotClone.style.unityBackgroundImageTintColor = new StyleColor(hotspot.color);
 
             hotspotClone.style.width = 40;
@@ -621,25 +624,6 @@ namespace Singularis.StackVR.UIBuilder.Editor {
             string nameHostpot = $"{hotspot.id}-{hotspot.name}";
 
             CreateHostpotInUI(outlinerContainer, hotspot.type.ToString(), nameHostpot);
-            return;
-
-
-            VisualElement outlinerElement = new VisualElement();
-            outlinerElement.name = $"{hotspot.id}-{hotspot.name}";
-            outlinerElement.AddToClassList("hotspot");
-
-            VisualElement outlinerIcon = new VisualElement();
-            outlinerIcon.AddToClassList("icon");
-            outlinerIcon.style.backgroundImage = new StyleBackground(hotspotTexture);
-            outlinerIcon.style.unityBackgroundImageTintColor = new StyleColor(hotspot.color);
-
-            Label outlinerLabel = new Label(hotspot.name);
-
-            outlinerElement.Add(outlinerIcon);
-            outlinerElement.Add(outlinerLabel);
-
-
-            outliner.Add(outlinerElement);
         }
 
         private void CreateHostpotInUI(VisualElement parent, string hostpotName, string nameHotspot) {
