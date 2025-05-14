@@ -4,7 +4,7 @@
     <engine:ScrollView horizontal-scroller-visibility="Hidden">
         <engine:VisualElement name="Questions" style="flex-grow: 0; display: flex; max-height: none; height: auto; flex-wrap: nowrap; flex-direction: column; min-height: auto; flex-shrink: 0;">
             <engine:VisualElement class="line" />
-            <engine:Label text="Questions" class="title" style="background-image: url(&apos;project://database/Assets/Singularis/StackVR/Sprites/icons/icon%20ToolBarHotspot%20Normal.png?fileID=2800000&amp;guid=69763791eeaecb14c99ac4a51c404c27&amp;type=3#icon ToolBarHotspot Normal&apos;);" />
+            <engine:Label text="Questions" class="title" style="background-image: url(&quot;project://database/Packages/com.singularisvr.stackvr/Editor/Sprites/ico_hotspot_question.png?fileID=21300000&amp;guid=4df67c265fe168b46964c3b5abe99e20&amp;type=3#ico_hotspot_question&quot;);" />
         </engine:VisualElement>
         <engine:TextField name="NameQuestion" label="Title Question" style="width: 100%; max-width: none; min-width: auto; align-self: center; height: auto; max-height: initial; padding-top: 10px; padding-right: 10px; padding-bottom: 10px; padding-left: 10px;" />
         <engine:VisualElement name="Media" style="flex-grow: 1; background-color: rgba(22, 45, 255, 0); height: 50px; max-height: 50px; min-height: 50px; width: 100%; max-width: 100%; min-width: auto; align-self: flex-start; margin-top: 20px; margin-right: 0; margin-bottom: 0; margin-left: 10px; align-items: flex-start; justify-content: flex-start; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 10px;">
