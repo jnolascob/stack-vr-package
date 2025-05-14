@@ -48,7 +48,7 @@ namespace Singularis.StackVR.UIBuilder.Editor {
         public static void ShowNodeInspector(string guid) {
             var sampleNode = AssetDatabase.GUIDToAssetPath(guid);
             node = AssetDatabase.LoadAssetAtPath<NodeData>(sampleNode);
-            Debug.Log($"[NodeInspectorWindow - ShowNodeInspector] {node.name}");
+            //Debug.Log($"[NodeInspectorWindow - ShowNodeInspector] {node.name}");
 
             window = GetWindow<NodeInspectorWindow>();
             window.titleContent = new GUIContent("NodeInspectorWindow");
@@ -64,14 +64,14 @@ namespace Singularis.StackVR.UIBuilder.Editor {
 
 
         void CreateGUI() {
-            Debug.Log("[NodeInspectorWindow - CreateGUI]");
+            //Debug.Log("[NodeInspectorWindow - CreateGUI]");
         }
 
         void OnEnable() {
             QueryElements();
 
             // get all spots
-            Debug.Log($"[NodeInspectorWindow - OnEnable] {node.hotspots.Count}");
+            //Debug.Log($"[NodeInspectorWindow - OnEnable] {node.hotspots.Count}");
             node.hotspots.ForEach(hotspot => {
                 if (hotspot.type == HotspotData.HotspotType.location)
                     if (hotspot.target != null)
@@ -207,7 +207,7 @@ namespace Singularis.StackVR.UIBuilder.Editor {
 
 
         private void QueryElements() {
-            Debug.Log("[NodeInspectorWindow - QueryElements]");
+            //Debug.Log("[NodeInspectorWindow - QueryElements]");
 
             // Obtener la ra�z del UI Toolkit
             root = rootVisualElement;
@@ -520,7 +520,6 @@ namespace Singularis.StackVR.UIBuilder.Editor {
                 string assetPath = $"Packages/com.singularisvr.stackvr/Editor/Sprites/ico_hotspot_{hotspot.type}.png";
                 Texture2D hotspotTexture = AssetDatabase.LoadAssetAtPath<Texture2D>(assetPath);
                 hotspotClone.style.backgroundImage = new StyleBackground(hotspotTexture);
-                Debug.Log(assetPath);
             }
             hotspotClone.style.unityBackgroundImageTintColor = new StyleColor(hotspot.color);
 
@@ -557,7 +556,7 @@ namespace Singularis.StackVR.UIBuilder.Editor {
             };
 
 
-            Debug.Log("THe hotspot type is " + hotspot.type);
+            //Debug.Log("THe hotspot type is " + hotspot.type);
 
             hotspotClone.userData = hotspotData;
             hotspotClone.name = $"{hotspot.id}-{hotspot.name}";
