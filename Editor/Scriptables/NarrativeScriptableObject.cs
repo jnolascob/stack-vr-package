@@ -3,7 +3,7 @@ using UnityEngine;
 using Singularis.StackVR.Editor;
 
 namespace Singularis.StackVR.Scriptables.Editor {
-    [CreateAssetMenu(fileName = "NarrativeScriptableObject", menuName = "Singularis/Scriptable Objects/Narrative")]
+    [CreateAssetMenu(fileName = "NewNarrative", menuName = "Singularis/StackVR/Narrative")]
     public class NarrativeScriptableObject : ScriptableObject {
 
         public new string name;

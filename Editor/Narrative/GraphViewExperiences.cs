@@ -17,6 +17,7 @@ using Singularis.StackVR.Scriptables.Editor;
 using Singularis.StackVR.UIBuilder.Editor;
 
 namespace Singularis.StackVR.Narrative.Editor {
+    // TODO remove Linq
     // TODO research UxmlElement attribute
     public partial class GraphViewExperiences : GraphView {
         public new class UxmlFactory : UxmlFactory<GraphViewExperiences, UxmlTraits> { };
@@ -211,7 +212,7 @@ namespace Singularis.StackVR.Narrative.Editor {
                         selectedNode.imageNode.AddToClassList("stereo");
                         selectedNode.imageNode.RemoveFromClassList("mono");
                     }
-                    else { 
+                    else {
                         selectedNode.imageNode.AddToClassList("mono");
                         selectedNode.imageNode.RemoveFromClassList("stereo");
                     }
@@ -989,39 +990,24 @@ namespace Singularis.StackVR.Narrative.Editor {
         }
 
 
-        public async void EditNodes() {
+        public void EditNodes(string narrativePath) {
             if (currentNarrative == null) {
                 Debug.Log("Narrative Not Found");
                 return;
             }
 
-            string yamlContent = File.ReadAllText(StackProjectConfig.currentNarrative.narrativeSavePath);
-            Debug.Log(yamlContent);
-            var deserializer = new DeserializerBuilder()
-                .WithNamingConvention(CamelCaseNamingConvention.Instance)
-                .Build();
-
-            var yamlObject = deserializer.Deserialize(new StringReader(yamlContent));
-            string jsonContent = JsonConvert.SerializeObject(yamlObject, Formatting.Indented);
-
-            // Optionally, deserialize it into a class
-            var resultJson = JsonConvert.DeserializeObject<Tour>(jsonContent);
-
+            var resultJson = AssetDatabase.LoadAssetAtPath<NarrativeScriptableObject>(narrativePath);
+            
             foreach (var node in resultJson.nodes) {
-                string fileName = Path.GetFileName(node.resource.path);
-                Debug.Log(fileName); // Esto imprimirá "7.jpg" y "167-200x302.jpg"
-
-                Vector2 posNode = new Vector2(node.xPos, node.yPos);
+                Vector2 posNode = new Vector2(node.posX, node.posY);
                 NodeData currentNode = new NodeData(); // TODO update code to prevent warning
 
 
-                if (node.type.Equals("image")) {
+                if (node.type == NodeData.NodeType.Image) {
                     ImageNode imageNode = CreateNode(posNode, false) as ImageNode;
 
-                    if (!string.IsNullOrEmpty(node.resource.path)) {
-                        Texture2D image = AssetDatabase.LoadAssetAtPath<Texture2D>(node.resource.path);
-                        imageNode.UpdateImage(image);
-                    }
+                    if (node.image != null)
+                        imageNode.UpdateImage(node.image as Texture2D);
 
                     imageNode.id = node.id;
                     imageNode.north = node.north;
@@ -1030,26 +1016,7 @@ namespace Singularis.StackVR.Narrative.Editor {
                 else {
                     VideoNode videoNode = CreateNode(posNode, true) as VideoNode;
 
-                    if (!string.IsNullOrEmpty(node.resource.path)) {
-                        VideoClip video = AssetDatabase.LoadAssetAtPath<VideoClip>(node.resource.path);
-                        string pathToVideo = AssetDatabase.GetAssetPath(video);
-
-                        Debug.Log("The path tho video is " + pathToVideo);
-
-                        var result = await videoNode.GetVideoImage(videoNode.id, pathToVideo);
-                        string newFileName = Path.GetFileName(result);
-                        string filePath = $"Assets/Singularis/StackVR/ImageVideos/{newFileName}";
-                        var texture = AssetDatabase.LoadAssetAtPath<Texture2D>(filePath);
-
-
-                        if (node.isSteroscopic) {
-                            Debug.Log("Cut Texture");
-                            var readeableTexture = CreateReadableTexture(texture);
-                            texture = CutTextureInHalf(readeableTexture);
-                        }
-
-                        videoNode.UpdateVideo(texture);
-                    }
+                    Debug.Log($"[GraphViewExperiences] EditNodes - node video");
 
                     videoNode.north = node.north;
                     videoNode.id = node.id;
@@ -1063,16 +1030,13 @@ namespace Singularis.StackVR.Narrative.Editor {
 
 
             foreach (var node in resultJson.nodes) {
-                BaseNode currentNode = totalNodes.FirstOrDefault(e => e.id == node.id);
+                BaseNode currentNode = totalNodes.Find(e => e.id == node.id);
 
-                if (node.output != null) {
-                    foreach (var output in node.output) {
-                        foreach (var newNode in totalNodes) {
-                            if (newNode.id == output) {
-                                ConnectTwoNodes(currentNode, newNode);
-                            }
-                        }
+                foreach (var hotspot in node.hotspots) {
+                    if (hotspot.type == HotspotData.HotspotType.location) { 
+                        BaseNode newNode = totalNodes.Find(e => e.id == hotspot.target.id);
 
+                        ConnectTwoNodes(currentNode, newNode);
                     }
                 }
 
