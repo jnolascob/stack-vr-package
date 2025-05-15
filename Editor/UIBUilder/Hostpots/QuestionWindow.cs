@@ -4,53 +4,46 @@ using UnityEngine;
 using UnityEngine.UIElements;
 using UnityEditor.UIElements;
 using UnityEditor;
-using System;
-
 
 
 [System.Serializable]
-public class Answer
-{
+public class Answer {
     public int points;
     public string name;
     public bool isCorrect;
 }
 
 
-public class QuestionWindow : HostpotBase
-{
+public class QuestionWindow : HostpotBase {
 
 
-    
+
     public VisualElement outlinerElement;
     public static VisualElement mainElement;
     public Button addElementButton;
     public VisualElement parentQuestions;
     public List<VisualElement> questionElements = new List<VisualElement>();
-    
 
 
 
 
 
-    public QuestionWindow(VisualElement main, VisualElement hostpotElement) : base(main, hostpotElement)
-    {
+
+    public QuestionWindow(VisualElement main, VisualElement hostpotElement) : base(main, hostpotElement) {
 
     }
 
-    public override void SetCallbacks()
-    {
+    public override void SetCallbacks() {
 
         addElementButton = main.Q<Button>("AddElement");
         parentQuestions = main.Q<VisualElement>("ParentAnswers");
         questionElements = main.Query<VisualElement>("Answer").ToList();
-        
+
 
         var questionBg = main.Q<ObjectField>("QuestionBg");
 
 
-        questionBg.RegisterValueChangedCallback(value =>
-        {
+        questionBg.RegisterValueChangedCallback(value => {
 
             //Dictionary<string, object> hotspotsData = hotspotElement.userData as Dictionary<string, object>;
             //hotspotsData["TextureQuestion"] = (Texture)value.newValue;
@@ -62,8 +55,7 @@ public class QuestionWindow : HostpotBase
 
 
 
-        if (GetData("TextureQuestion") != null)
-        {
+        if (GetData("TextureQuestion") != null) {
 
 
             questionBg.value = GetData("TextureQuestion") as Texture;
@@ -71,8 +63,7 @@ public class QuestionWindow : HostpotBase
         }
 
 
-        for (int i = 0; i < questionElements.Count; i++)
-        {
+        for (int i = 0; i < questionElements.Count; i++) {
             int index = i;
 
             int numero = i + 1; // por ejemplo
@@ -91,8 +82,7 @@ public class QuestionWindow : HostpotBase
 
             //Dictionary<string, object> hotspotsData = hotspotElement.userData as Dictionary<string, object>;
 
-            if (GetData($"Answer{letra}") != null)
-            {
+            if (GetData($"Answer{letra}") != null) {
 
                 Answer answer = GetData($"Answer{letra}") as Answer;
 
@@ -160,8 +150,7 @@ public class QuestionWindow : HostpotBase
 
             });
 
-            questionElements[i].Q<IntegerField>("PointsValue").RegisterValueChangedCallback(value =>
-            {
+            questionElements[i].Q<IntegerField>("PointsValue").RegisterValueChangedCallback(value => {
                 //Dictionary<string, object> hotspotDataStored = hotspotElement.userData as Dictionary<string, object>;                    
                 Answer answer = new Answer();
                 string nameQuestion = questionElements[index].Q<TextField>("InputQuestion").text;
@@ -204,8 +193,7 @@ public class QuestionWindow : HostpotBase
 
 
 
-    private void SetDataQuestions()
-    {        
+    private void SetDataQuestions() {
         var question = main.Q<TextField>("NameQuestion");
 
 
@@ -223,8 +211,7 @@ public class QuestionWindow : HostpotBase
 
         Dictionary<string, object> hotspotDataStored = hotspotElement.userData as Dictionary<string, object>;
 
-        if (hotspotDataStored.ContainsKey("question"))
-        {
+        if (hotspotDataStored.ContainsKey("question")) {
             question.value = hotspotDataStored["question"]?.ToString();
         }
 
@@ -234,11 +221,9 @@ public class QuestionWindow : HostpotBase
     }
 
 
-    private void OnAddAnswer()
-    {
+    private void OnAddAnswer() {
 
-        if (questionElements.Count > 5)
-        {
+        if (questionElements.Count > 5) {
             Debug.Log("YOu get more of 5 questions");
 
             return;
@@ -316,7 +301,7 @@ public class QuestionWindow : HostpotBase
             answer.name = value.newValue;
             answer.points = totalPoints;
             answer.isCorrect = result;
-            
+
             //hotspotDataStored[$"Answer{letra}"] = answer;
             //hotspotElement.userData = hotspotDataStored;
 
@@ -327,8 +312,7 @@ public class QuestionWindow : HostpotBase
 
         });
 
-        newAnswer.Q<IntegerField>("PointsValue").RegisterValueChangedCallback(value =>
-        {
+        newAnswer.Q<IntegerField>("PointsValue").RegisterValueChangedCallback(value => {
             //Dictionary<string, object> hotspotDataStored = hotspotElement.userData as Dictionary<string, object>;
             Answer answer = new Answer();
             string nameQuestion = newAnswer.Q<TextField>("InputQuestion").text;
