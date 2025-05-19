@@ -81,7 +81,6 @@ namespace Singularis.StackVR.Narrative.Editor {
                 string spotPrefabPath = $"Packages/com.singularisvr.stackvr/Runtime/Prefabs/{(node.isStereo ? "Spot-stereo" : "Spot-mono")}.prefab";
                 SpotController spotPrefab = AssetDatabase.LoadAssetAtPath<SpotController>(spotPrefabPath);
                 SpotController spotInstance = (SpotController)PrefabUtility.InstantiatePrefab(spotPrefab);
-                Debug.Log($"[Singularis - SceneGenerator::GenerateScene] Instanciando prefab de spot: {spotPrefabPath}");
                 spotInstance.id = node.id;
                 spotInstance.SetImage(node.image as Texture2D);
 

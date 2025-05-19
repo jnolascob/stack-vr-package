@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.UI;
 using TMPro;
 
 namespace Singularis.StackVR.Narrative {
@@ -6,9 +7,23 @@ namespace Singularis.StackVR.Narrative {
 
         [SerializeField]
         private QuestionAnswer answer = null;
+        [SerializeField]
+        private Color normalColor = Color.white;
+        [SerializeField]
+        private Color selectedColor = Color.white;
 
         public TextMeshProUGUI txtLabel;
+        public Image bg;
 
+
+        public bool isCorrect {
+            get => answer.isCorrect;
+        }
+
+        private bool _isSelected = false;
+        public bool isSelected {
+            get => _isSelected;
+        }
 
         // Start is called once before the first execution of Update after the MonoBehaviour is created
         void Start() {
@@ -30,8 +45,14 @@ namespace Singularis.StackVR.Narrative {
             txtLabel.text = answer.description;
         }
 
-        public void Select() {
-            
+        public void SetBGColor(Color color) {
+            if (bg != null)
+                bg.color = color;
+        }
+
+        public void Select(bool value) {
+            _isSelected = value;
+            SetBGColor(value ? selectedColor : normalColor);
         }
     }
 }
