@@ -3,9 +3,9 @@ using UnityEditor;
 using UnityEditor.UIElements;
 using UnityEngine;
 using UnityEngine.UIElements;
+using Singularis.StackVR.Editor;
 using Singularis.StackVR.Narrative.Editor;
 using Singularis.StackVR.Scriptables.Editor;
-using Singularis.NarrativeEditor;
 
 namespace Singularis.StackVR.UIBuilder.Editor {
     public class NodeInspectorWindow : EditorWindow {
@@ -44,7 +44,7 @@ namespace Singularis.StackVR.UIBuilder.Editor {
 
         static public VisualElement hotspotSelected = null;
 
-                
+
         public static void ShowNodeInspector(string guid) {
             var sampleNode = AssetDatabase.GUIDToAssetPath(guid);
             node = AssetDatabase.LoadAssetAtPath<NodeData>(sampleNode);
@@ -94,7 +94,7 @@ namespace Singularis.StackVR.UIBuilder.Editor {
                     imageBg.AddToClassList("stereo");
                 });
 
-                
+
             }
 
 
@@ -336,20 +336,17 @@ namespace Singularis.StackVR.UIBuilder.Editor {
 
         private void OnButtonSave(float degrees, VisualElement hotspotsContainer) {
 
-            if (editNorth)
-            {
+            if (editNorth) {
                 Debug.Log("[NodeInspectorWindow] Save Node");
 
                 node.north = degrees;
             }
-            else
-            {
+            else {
                 Debug.Log("[NodeInspectorWindow] Save Hotspots");
 
                 List<HotspotData> newHotspots = new List<HotspotData>();
                 var children = hotspotsContainer.Children();
-                foreach (var child in children)
-                {
+                foreach (var child in children) {
 
                     HotspotData hotspot = node.hotspots.Find(h => child.name == $"{h.id}-{h.name}"); // Se busca el hostpot a ver si ya existe
 
@@ -364,17 +361,14 @@ namespace Singularis.StackVR.UIBuilder.Editor {
                     {
                         Debug.Log($"UPDATE Hotspot: {hotspot.id} {hotspot.name}");
                     }
-                    else
-                    { // Creacion De hotspots
+                    else { // Creacion De hotspots
                         Debug.Log($"CREATE Hotspot: {child.name}");
 
-                        if (hotspotData["type"].ToString() == "question")
-                        {
+                        if (hotspotData["type"].ToString() == "question") {
                             Debug.Log("Creating Question");
                             hotspot = NarrativesHelper.CreateHotspotQuestion(node, child.name);
                         }
-                        else
-                        {
+                        else {
                             hotspot = NarrativesHelper.CreateHostpot(node, child.name);
                         }
 
@@ -402,19 +396,16 @@ namespace Singularis.StackVR.UIBuilder.Editor {
                     hotspot.target = hotspotData["target"] as NodeData;
 
 
-                    if (hotspotData["type"].ToString() == "question")
-                    {
+                    if (hotspotData["type"].ToString() == "question") {
                         hotspot.type = HotspotData.HotspotType.question;
 
                         HotspotQuestionData questionData = hotspot as HotspotQuestionData;
 
                         List<Answer> answers = new List<Answer>();
 
-                        foreach (var key in hotspotData.Keys)
-                        {
+                        foreach (var key in hotspotData.Keys) {
                             var value = hotspotData[key];
-                            if (value is Answer)
-                            {
+                            if (value is Answer) {
                                 Answer result = value as Answer;
                                 answers.Add(result);
                             }
@@ -423,22 +414,19 @@ namespace Singularis.StackVR.UIBuilder.Editor {
                         questionData.answers = answers;
                         questionData.kindOfQuestion = (int)hotspotData["kindOfQuestion"];
                         questionData.question = (string)hotspotData["question"];
-                        if (hotspotData.ContainsKey("TextureQuestion"))
-                        {
+                        if (hotspotData.ContainsKey("TextureQuestion")) {
                             questionData.textureElement = hotspotData["TextureQuestion"] as Texture;
                         }
 
                     }
-                    else
-                    {
+                    else {
                         hotspot.type = HotspotData.HotspotType.location;
                     }
 
 
                 }
 
-                if (newHotspots.Count > 0)
-                {
+                if (newHotspots.Count > 0) {
                     Debug.Log($"[NodeInspectorWindow] Create Hotspots: {newHotspots.Count}");
                     node.hotspots.AddRange(newHotspots);
                 }
@@ -589,8 +577,7 @@ namespace Singularis.StackVR.UIBuilder.Editor {
 
             hotspotClone.RegisterCallback<MouseUpEvent>(evt => {
                 if (editNorth) return;
-                if (hotspotDragging == hotspotClone)
-                {
+                if (hotspotDragging == hotspotClone) {
                     hotspotClone.ReleaseMouse();
                     hotspotDragging = null;
 
@@ -602,14 +589,12 @@ namespace Singularis.StackVR.UIBuilder.Editor {
                 hotspotSelected = hotspotClone;
 
 
-                if (hotspot.type == HotspotData.HotspotType.location || hotspot.type == HotspotData.HotspotType.custom)
-                {
+                if (hotspot.type == HotspotData.HotspotType.location || hotspot.type == HotspotData.HotspotType.custom) {
                     HotspotInspectorWindow.ShowNodeInspector();
                     //HotspotInspectorWindow.FillData(hotspot);
                     HotspotInspectorWindow.FillData(hotspotClone, hotspot);
                 }
-                else
-                {
+                else {
                     HotspotInspectorWindow.ShowNodeInspector();
                     HotspotInspectorWindow.FillData(hotspotClone, hotspot);
                 }

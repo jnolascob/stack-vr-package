@@ -4,7 +4,6 @@ using UnityEditor.UIElements;
 using UnityEngine;
 using UnityEngine.UIElements;
 using Singularis.StackVR.Scriptables.Editor;
-using System.Runtime.CompilerServices;
 using Singularis.StackVR.Narrative.Editor;
 
 namespace Singularis.StackVR.UIBuilder.Editor {
@@ -49,21 +48,13 @@ namespace Singularis.StackVR.UIBuilder.Editor {
 
             // Instanciar UXML De Pregunta
 
-
-
             if (data.type == HotspotData.HotspotType.question) {
-
-
                 VisualTreeAsset questionTree = AssetDatabase.LoadAssetAtPath<VisualTreeAsset>("Packages/com.singularisvr.stackvr/Editor/UIBUilder/QuestionHostpotElement.uxml");
                 VisualElement questionElement = questionTree.Instantiate();
                 mainElement.Add(questionElement);
 
                 QuestionWindow questionWindow = new QuestionWindow(mainElement, hotspotElement);
                 questionWindow.SetCallbacks();
-
-
-
-
             }
             else if (data.type == HotspotData.HotspotType.location) {
 

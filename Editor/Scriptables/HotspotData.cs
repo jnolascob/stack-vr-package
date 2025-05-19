@@ -1,4 +1,3 @@
-using Singularis.StackVR.Scriptables.Editor;
 using UnityEngine;
 
 namespace Singularis.StackVR.Scriptables.Editor {

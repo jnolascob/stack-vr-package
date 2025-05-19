@@ -4,14 +4,11 @@ using TMPro;
 
 namespace Singularis.StackVR.Narrative {
     public class UIQuestion : MonoBehaviour {
-        [SerializeField]
-        private string correctAnswer;
 
-        [Header("Texts")]
         public TextMeshProUGUI txtQuestion;
-        public TextMeshProUGUI txtAnswerA;
-        public TextMeshProUGUI txtAnswerB;
-        public TextMeshProUGUI txtAnswerC;
+
+        [Header("Answers")]
+        public UIQuestionAnswer[] answers;
 
         [Header("Events")]
         public UnityEvent onCorrectAnswer;
@@ -43,24 +40,15 @@ namespace Singularis.StackVR.Narrative {
             onClose?.Invoke();
         }
 
-        public void FillData(string question, string answerA, string answerB, string answerC, string correctAnswer) {
+        public void FillData(string question, QuestionAnswer[] answers) {
             txtQuestion.text = question;
-            txtAnswerA.text = answerA;
-            txtAnswerB.text = answerB;
-            txtAnswerC.text = answerC;
 
-            this.correctAnswer = correctAnswer;
+            for (int i = 0; i < answers.Length; i++)
+                this.answers[i].FillData(answers[i]);
         }
 
         public void SelectAnswer(string answer) {
-            if (answer == correctAnswer) {
-                Debug.Log($"[UIQuestion::SelectAnswer] correct");
-                onCorrectAnswer?.Invoke();
-            }
-            else {
-                Debug.Log($"[UIQuestion::SelectAnswer] incorrect");
-                onIncorrectAnswer?.Invoke();
-            }
+
         }
 
     }

@@ -80,6 +80,7 @@ namespace Singularis.StackVR.Narrative.Editor {
                 string spotPrefabPath = $"Packages/com.singularisvr.stackvr/Runtime/Prefabs/{(node.isStereo ? "Spot-stereo" : "Spot-mono")}.prefab";
                 SpotController spotPrefab = AssetDatabase.LoadAssetAtPath<SpotController>(spotPrefabPath);
                 SpotController spotInstance = (SpotController)PrefabUtility.InstantiatePrefab(spotPrefab);
+                Debug.Log($"[Singularis - SceneGenerator::GenerateScene] Instanciando prefab de spot: {spotPrefabPath}");
                 spotInstance.id = node.id;
                 spotInstance.SetImage(node.image as Texture2D);
 
@@ -121,16 +122,21 @@ namespace Singularis.StackVR.Narrative.Editor {
                         );
 
 
+
+                        HotspotQuestionData hotspotQuestion = (HotspotQuestionData)hotspot;
+                        QuestionAnswer[] answers = new QuestionAnswer[hotspotQuestion.answers.Count];
+                        for (int i = 0; i < answers.Length; i++)
+                            answers[i] = new QuestionAnswer() { 
+                                description = hotspotQuestion.answers[i].name,
+                                points = hotspotQuestion.answers[i].points,
+                                isCorrect = hotspotQuestion.answers[i].isCorrect
+                            };
+
+
                         string UIQuestionPrefabPath = "Packages/com.singularisvr.stackvr/Runtime/Prefabs/UIQuestion.prefab";
                         UIQuestion UIQuestionPrefab = AssetDatabase.LoadAssetAtPath<UIQuestion>(UIQuestionPrefabPath);
                         UIQuestion UIQuestionInstance = (UIQuestion)PrefabUtility.InstantiatePrefab(UIQuestionPrefab);
-                        //UIQuestionInstance.FillData(
-                        //    hotspot.question,
-                        //    hotspot.answerA,
-                        //    hotspot.answerB,
-                        //    hotspot.answerC,
-                        //    hotspot.correctAnswer
-                        //);
+                        UIQuestionInstance.FillData(hotspotQuestion.question, answers);
 
                         position.y = 0;
                         UIQuestionInstance.transform.SetPositionAndRotation(
