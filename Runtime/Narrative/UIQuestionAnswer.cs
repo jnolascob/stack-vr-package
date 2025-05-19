@@ -1,6 +1,5 @@
 using UnityEngine;
 using TMPro;
-using UnityEngine.UI;
 
 namespace Singularis.StackVR.Narrative {
     public class UIQuestionAnswer : MonoBehaviour {
@@ -13,7 +12,7 @@ namespace Singularis.StackVR.Narrative {
 
         // Start is called once before the first execution of Update after the MonoBehaviour is created
         void Start() {
-            gameObject.SetActive(answer != null);
+            
         }
 
         // Update is called once per frame
@@ -21,6 +20,10 @@ namespace Singularis.StackVR.Narrative {
 
         }
 
+
+        public void SetActive(bool value) {
+            gameObject.SetActive(value);
+        }
 
         public void FillData(QuestionAnswer answer) {
             this.answer = answer;

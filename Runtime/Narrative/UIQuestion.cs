@@ -43,8 +43,13 @@ namespace Singularis.StackVR.Narrative {
         public void FillData(string question, QuestionAnswer[] answers) {
             txtQuestion.text = question;
 
-            for (int i = 0; i < answers.Length; i++)
+            for (int i = 0; i < this.answers.Length; i++)
+                this.answers[i].SetActive(false);
+
+            for (int i = 0; i < answers.Length; i++) {
                 this.answers[i].FillData(answers[i]);
+                this.answers[i].SetActive(true);
+            }
         }
 
         public void SelectAnswer(string answer) {

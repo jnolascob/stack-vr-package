@@ -1,5 +1,6 @@
 
 namespace Singularis.StackVR.Narrative {
+    [System.Serializable]
     public class QuestionAnswer {
 
         public int points;

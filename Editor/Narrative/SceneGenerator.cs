@@ -44,7 +44,8 @@ namespace Singularis.StackVR.Narrative.Editor {
 
 
             // Instanciar OVRCameraRig
-            string prefabPath = "Packages/com.meta.xr.sdk.core/Prefabs/OVRCameraRig.prefab";
+            string prefabPath = "Packages/com.singularisvr.stackvr/Runtime/Prefabs/OVRCameraRig.prefab";
+            //string prefabPath = "Packages/com.meta.xr.sdk.core/Prefabs/OVRCameraRig.prefab";
             //string prefabPath = "Packages/com.meta.xr.sdk.core/Prefabs/OVRPlayerController.prefab";
             GameObject prefab = AssetDatabase.LoadAssetAtPath<GameObject>(prefabPath);
 
@@ -67,7 +68,7 @@ namespace Singularis.StackVR.Narrative.Editor {
             PointableCanvasModule pointableCanvasModule = pointableCanvasModuleObj.AddComponent<PointableCanvasModule>();
 
 
-
+            // TODO cambiar para que solo cargue el hotspot que se va a usar y no todos
             string hotspotPrefabPath = "Packages/com.singularisvr.stackvr/Runtime/Prefabs/HotspotLocation.prefab";
             HotspotLocation hotspotPrefab = AssetDatabase.LoadAssetAtPath<HotspotLocation>(hotspotPrefabPath);
             string hotspotPrefabQuestionPath = "Packages/com.singularisvr.stackvr/Runtime/Prefabs/HotspotQuestion.prefab";
@@ -126,7 +127,7 @@ namespace Singularis.StackVR.Narrative.Editor {
                         HotspotQuestionData hotspotQuestion = (HotspotQuestionData)hotspot;
                         QuestionAnswer[] answers = new QuestionAnswer[hotspotQuestion.answers.Count];
                         for (int i = 0; i < answers.Length; i++)
-                            answers[i] = new QuestionAnswer() { 
+                            answers[i] = new QuestionAnswer() {
                                 description = hotspotQuestion.answers[i].name,
                                 points = hotspotQuestion.answers[i].points,
                                 isCorrect = hotspotQuestion.answers[i].isCorrect
