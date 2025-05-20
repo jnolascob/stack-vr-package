@@ -136,7 +136,7 @@ namespace Singularis.StackVR.Narrative.Editor {
                         string UIQuestionPrefabPath = "Packages/com.singularisvr.stackvr/Runtime/Prefabs/UIQuestion.prefab";
                         UIQuestion UIQuestionPrefab = AssetDatabase.LoadAssetAtPath<UIQuestion>(UIQuestionPrefabPath);
                         UIQuestion UIQuestionInstance = (UIQuestion)PrefabUtility.InstantiatePrefab(UIQuestionPrefab);
-                        UIQuestionInstance.FillData(hotspotQuestion.question, answers);
+                        UIQuestionInstance.FillData(hotspotQuestion.question, answers, hotspotQuestion.textureElement as Texture2D);
 
                         position.y = 0;
                         UIQuestionInstance.transform.SetPositionAndRotation(

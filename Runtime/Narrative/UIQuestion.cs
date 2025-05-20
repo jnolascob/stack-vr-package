@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.UI;
 using TMPro;
 
 namespace Singularis.StackVR.Narrative {
@@ -12,6 +13,7 @@ namespace Singularis.StackVR.Narrative {
 
 
         public TextMeshProUGUI txtQuestion;
+        public Image imgQuestion;
 
         [Header("Answers")]
         public UIQuestionAnswer[] answers;
@@ -46,8 +48,16 @@ namespace Singularis.StackVR.Narrative {
             onClose?.Invoke();
         }
 
-        public void FillData(string question, QuestionAnswer[] answers) {
+        public void FillData(string question, QuestionAnswer[] answers, Texture2D image) {
             txtQuestion.text = question;
+
+            if (image != null) {
+                imgQuestion.gameObject.SetActive(true);
+                imgQuestion.sprite = Sprite.Create(image, new Rect(0, 0, image.width, image.height), new Vector2(0.5f, 0.5f), 100.0f);
+            }
+            else {
+                imgQuestion.gameObject.SetActive(false);
+            }
 
             for (int i = 0; i < this.answers.Length; i++)
                 this.answers[i].SetActive(false);
