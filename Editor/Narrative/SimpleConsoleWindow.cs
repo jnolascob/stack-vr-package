@@ -28,7 +28,7 @@ namespace Singularis.StackVR.Narrative.Editor {
             StackProjectConfig.currentNarrative.narrativeSavePath = path;
             StackProjectConfig.currentNarrative.narrativeDirectoryPath = Path.GetDirectoryName(path);
 
-            ResetNarrative();
+            //ResetNarrative();
 
             isImportGraph = false;
             isEditGraph = false;
@@ -63,29 +63,29 @@ namespace Singularis.StackVR.Narrative.Editor {
 
 
 
-        [MenuItem("Singularis/Develop/ResetNarrative")]
-        static public void ResetNarrative() {
-            var currentNarrative = StackProjectConfig.currentNarrative.narrativeScriptableObject;
-            currentNarrative?.nodes.Clear();
+        //[MenuItem("Singularis/Develop/ResetNarrative")]
+        //static public void ResetNarrative() {
+        //    var currentNarrative = StackProjectConfig.currentNarrative.narrativeScriptableObject;
+        //    currentNarrative?.nodes.Clear();
 
-            // TODO check how to delete the scriptable object
-            string folderPath = $"Assets/Singularis/StackVR/Scriptables/";
-            try {
-                foreach (string file in Directory.GetFiles(folderPath)) {
-                    File.Delete(file);
-                }
+        //    // TODO check how to delete the scriptable object
+        //    string folderPath = $"Assets/Singularis/StackVR/Scriptables/";
+        //    try {
+        //        foreach (string file in Directory.GetFiles(folderPath)) {
+        //            File.Delete(file);
+        //        }
 
-                foreach (string dir in Directory.GetDirectories(folderPath)) {
-                    Directory.Delete(dir, true);
-                }
+        //        foreach (string dir in Directory.GetDirectories(folderPath)) {
+        //            Directory.Delete(dir, true);
+        //        }
 
-            }
-            catch (Exception ex) {
-                Debug.LogError($"Error: {ex.Message}");
-            }
+        //    }
+        //    catch (Exception ex) {
+        //        Debug.LogError($"Error: {ex.Message}");
+        //    }
 
-            AssetDatabase.Refresh();
-        }
+        //    AssetDatabase.Refresh();
+        //}
 
 
 
