@@ -571,7 +571,7 @@ namespace Singularis.StackVR.Narrative.Editor {
             addImageButton = dropDownMenu.Q<VisualElement>("AddImage");
 
             toggleSteroscopic = inspectorPanel.Q<Toggle>("Steroscopic");
-
+            // TODO usar boton en lugar de dropdown menu
             dropDownMenu.Q<VisualElement>("AddVideo").RegisterCallback<MouseDownEvent>((e) => {
                 var position = contentViewContainer.WorldToLocal(mousePosition);
                 BaseNode node = CreateVideoNode(position);
@@ -584,10 +584,14 @@ namespace Singularis.StackVR.Narrative.Editor {
                 var position = contentViewContainer.WorldToLocal(mousePosition);
 
                 BaseNode node = CreateImageNode(position);
-                NodeData nodeData = node.SaveAsset();
+                NodeData nodeData = node.SaveAsset(Path.GetDirectoryName(AssetDatabase.GetAssetPath(currentNarrative)));
                 currentNarrative.nodes.Add(nodeData);
-
                 AddElement(node);
+
+                EditorUtility.SetDirty(currentNarrative);
+                AssetDatabase.SaveAssets();
+                AssetDatabase.Refresh();
+
             }, TrickleDown.TrickleDown);
 
 
@@ -649,7 +653,7 @@ namespace Singularis.StackVR.Narrative.Editor {
                 foreach (var node in totalNodes) {
                     node.DisableInitialNode();
                 }
-                
+
                 currentNode.SetInitialNode();
                 HideNodeMenu();
                 HideDropDownMenu();
@@ -747,13 +751,13 @@ namespace Singularis.StackVR.Narrative.Editor {
             }
 
             currentNodes.Add(firstNode);
-            foreach(Node node in nodes) {
+            foreach (Node node in nodes) {
                 if (node is BaseNode baseNode) {
                     currentNodes.Add(baseNode);
                 }
             }
             currentNodes = currentNodes.Distinct().ToList();
-            
+
             int nodeId = 0;
             List<string> pathFiles = new();
             foreach (var node in currentNodes) {

@@ -476,7 +476,7 @@ namespace Singularis.StackVR.Narrative.Editor {
                 filePath = Path.Combine(StackProjectConfig.currentNarrative.narrativeDirectoryPath, $"{newScriptable.name}_{newScriptable.id}.asset");
             }
             else {
-                filePath = Path.Combine(path, $"{newScriptable.name}{newScriptable.id}.asset");
+                filePath = Path.Combine(path, $"{newScriptable.name}_{newScriptable.id}.asset");
             }
 
 
@@ -514,6 +514,7 @@ namespace Singularis.StackVR.Narrative.Editor {
             }
             else {
                 Debug.Log("Scriptable does not exist");
+                Debug.Log($"Creating Scriptable: {filePath}");
                 AssetDatabase.CreateAsset(newScriptable, filePath);
                 AssetDatabase.SaveAssets();
                 AssetDatabase.Refresh();
