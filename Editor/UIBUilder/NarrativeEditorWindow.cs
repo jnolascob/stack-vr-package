@@ -11,11 +11,11 @@ public class NarrativeEditorWindow : EditorWindow {
 
     //TEstubg Cidew
 
-    [MenuItem("Window/UI Toolkit/TestEditorWindow")]
-    public static void ShowExample() {
-        NarrativeEditorWindow wnd = GetWindow<NarrativeEditorWindow>();
-        wnd.titleContent = new GUIContent("TestEditorWindow");
-    }
+    //[MenuItem("Window/UI Toolkit/TestEditorWindow")]
+    //public static void ShowExample() {
+    //    NarrativeEditorWindow wnd = GetWindow<NarrativeEditorWindow>();
+    //    wnd.titleContent = new GUIContent("TestEditorWindow");
+    //}
 
     public void CreateGUI() {
         // Each editor window contains a root VisualElement object

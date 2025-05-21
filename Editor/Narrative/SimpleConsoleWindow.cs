@@ -18,15 +18,27 @@ namespace Singularis.StackVR.Narrative.Editor {
         [MenuItem("Singularis/Narrative/New", priority = 1)]
         public static void ShowWindow() {
 
-            string path = EditorUtility.SaveFilePanelInProject("Save narrative", "narrative.yaml", "yaml", "Please enter a file name to save the narrative to");
+            string path = EditorUtility.SaveFilePanelInProject("Save narrative", "new narrative", "narrative", "Please enter a file name to save the narrative");
 
             if (string.IsNullOrEmpty(path)) {
                 Debug.Log("No path selected. Exiting function.");
                 return;
             }
 
-            StackProjectConfig.currentNarrative.narrativeSavePath = path;
-            StackProjectConfig.currentNarrative.narrativeDirectoryPath = Path.GetDirectoryName(path);
+
+            Debug.Log($"Path: {path}");
+            narrativePath = path + ".asset";
+            Debug.Log($"Narrative Path: {narrativePath}");
+
+            // Create a new instance of the NarrativeScriptableObject
+            NarrativeScriptableObject narrative = ScriptableObject.CreateInstance<NarrativeScriptableObject>();
+            // Set the name of the scriptable object to the file name
+            narrative.name = Path.GetFileNameWithoutExtension(path);
+            // Save the scriptable object to the specified path
+            AssetDatabase.CreateAsset(narrative, narrativePath);
+
+            //StackProjectConfig.currentNarrative.narrativeSavePath = path;
+            //StackProjectConfig.currentNarrative.narrativeDirectoryPath = Path.GetDirectoryName(path);
 
             //ResetNarrative();
 
@@ -63,32 +75,6 @@ namespace Singularis.StackVR.Narrative.Editor {
 
 
 
-        //[MenuItem("Singularis/Develop/ResetNarrative")]
-        //static public void ResetNarrative() {
-        //    var currentNarrative = StackProjectConfig.currentNarrative.narrativeScriptableObject;
-        //    currentNarrative?.nodes.Clear();
-
-        //    // TODO check how to delete the scriptable object
-        //    string folderPath = $"Assets/Singularis/StackVR/Scriptables/";
-        //    try {
-        //        foreach (string file in Directory.GetFiles(folderPath)) {
-        //            File.Delete(file);
-        //        }
-
-        //        foreach (string dir in Directory.GetDirectories(folderPath)) {
-        //            Directory.Delete(dir, true);
-        //        }
-
-        //    }
-        //    catch (Exception ex) {
-        //        Debug.LogError($"Error: {ex.Message}");
-        //    }
-
-        //    AssetDatabase.Refresh();
-        //}
-
-
-
         private void OnEnable() {
             AddGraphView();
         }
@@ -119,7 +105,7 @@ namespace Singularis.StackVR.Narrative.Editor {
             graphViewExperience.Add(graphElement);
             graphContainer.Add(graphViewExperience);
 
-            graphViewExperience.Init();
+            graphViewExperience.Init(narrativePath);
 
             var button = root.Q<Button>("TestButton");
             var boxElement = root.Q<VisualElement>("InspectorPanel");

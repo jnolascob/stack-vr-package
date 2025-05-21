@@ -11,7 +11,7 @@ namespace Singularis.StackVR.Scriptables.Editor {
         public int version;
 
         public int firstNodeId = -1;
-        public List<NodeData> nodes;
+        public List<NodeData> nodes = new();
 
 
         public NarrativeData ToNarrativeData() {
