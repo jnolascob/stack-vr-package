@@ -58,7 +58,7 @@ namespace Singularis.StackVR.Narrative.Editor {
         public VisualElement nodeMenu;
         private VisualElement currentVisualElement;
 
-        public Button buttonSave;
+        public Button buttonSave; // TODO remove this button
         public Button buttonBuild;
         public Button buttonSaveGraph;
         public Button buttonLoadGraph;
@@ -79,9 +79,13 @@ namespace Singularis.StackVR.Narrative.Editor {
 
         }
 
-        public void Init() {
-            currentNarrative = StackProjectConfig.currentNarrative.narrativeScriptableObject;
-
+        public void Init(string narrativePath) {
+            //currentNarrative = StackProjectConfig.currentNarrative.narrativeScriptableObject;
+            currentNarrative = AssetDatabase.LoadAssetAtPath<NarrativeScriptableObject>(narrativePath);
+            if (currentNarrative == null) {
+                Debug.Log("Narrative Not Found");
+                return;
+            }
             // Set Graph Styles
 
             AddManipulators(); // Add Manipulators
@@ -129,22 +133,16 @@ namespace Singularis.StackVR.Narrative.Editor {
 
         public void SetTemplateContainer(TemplateContainer templateContainer) {
             this.templateContainer = templateContainer;
-
         }
 
 
         public void ShowInspectorPanel(BaseNode currentNode) {
-
             var newPos = new Vector2(currentNode.style.left.value.value, currentNode.style.top.value.value);
-
 
             Button configButton = inspectorPanel.Q<Button>("ConfigurationButton");
             configButton.RegisterCallback<ClickEvent>((e) => {
                 selectedNode.OnEnterNode();
-
             });
-
-
 
             Toggle toggleLockNode = inspectorPanel.Q<Toggle>("LockNode");
 
@@ -155,9 +153,7 @@ namespace Singularis.StackVR.Narrative.Editor {
 
                 if (selectedNode != null) {
                     selectedNode.isLockedNode = e.newValue;
-
                 }
-
             });
 
 
@@ -188,7 +184,7 @@ namespace Singularis.StackVR.Narrative.Editor {
 
             });
 
-
+            // TODO remove namespaces
             var iPanel = inspectorPanel.Q<UnityEditor.UIElements.ObjectField>("NodeSprite");
 
             if (selectedNode != null) {
@@ -198,11 +194,9 @@ namespace Singularis.StackVR.Narrative.Editor {
             //iPanel.value = null;
 
             if (selectedNode is VideoNode) {
-
                 iPanel.objectType = typeof(VideoClip);
                 iPanel.MarkDirtyRepaint();
                 inspectorPanel.Q<Label>("NameElement").text = "Video";
-
             }
             else {
                 iPanel.objectType = typeof(Texture2D);
@@ -385,7 +379,6 @@ namespace Singularis.StackVR.Narrative.Editor {
                     }
                 }
 
-
             }
             if (e.button == 1) {
                 CreateDropdownMenu(e.mousePosition);
@@ -450,6 +443,7 @@ namespace Singularis.StackVR.Narrative.Editor {
 
 
             if (!hasConnection) {
+                // TODO change path
                 string iconPath = $"Assets/Singularis/StackVR/Sprites/icons/ico_hotspot_location.png";
                 Texture2D hotspotTexture = AssetDatabase.LoadAssetAtPath<Texture2D>(iconPath);
 
@@ -577,7 +571,7 @@ namespace Singularis.StackVR.Narrative.Editor {
             addImageButton = dropDownMenu.Q<VisualElement>("AddImage");
 
             toggleSteroscopic = inspectorPanel.Q<Toggle>("Steroscopic");
-
+            // TODO usar boton en lugar de dropdown menu
             dropDownMenu.Q<VisualElement>("AddVideo").RegisterCallback<MouseDownEvent>((e) => {
                 var position = contentViewContainer.WorldToLocal(mousePosition);
                 BaseNode node = CreateVideoNode(position);
@@ -590,10 +584,14 @@ namespace Singularis.StackVR.Narrative.Editor {
                 var position = contentViewContainer.WorldToLocal(mousePosition);
 
                 BaseNode node = CreateImageNode(position);
-                NodeData nodeData = node.SaveAsset();
+                NodeData nodeData = node.SaveAsset(Path.GetDirectoryName(AssetDatabase.GetAssetPath(currentNarrative)));
                 currentNarrative.nodes.Add(nodeData);
-
                 AddElement(node);
+
+                EditorUtility.SetDirty(currentNarrative);
+                AssetDatabase.SaveAssets();
+                AssetDatabase.Refresh();
+
             }, TrickleDown.TrickleDown);
 
 
@@ -620,24 +618,10 @@ namespace Singularis.StackVR.Narrative.Editor {
 
         public void OnButtonSave() {
             CheckAllNodes(true);
-            string resourcesPath = StackProjectConfig.currentNarrative.narrativeSavePath.Replace("yaml", "json");
-            string jsonData = File.ReadAllText(resourcesPath);
-
-            Tour tour = JsonConvert.DeserializeObject<Tour>(jsonData);
-
-            var serializer = new SerializerBuilder()
-                .WithNamingConvention(CamelCaseNamingConvention.Instance)
-                .Build();
-
-            File.WriteAllText(StackProjectConfig.currentNarrative.narrativeSavePath, serializer.Serialize(tour));
         }
 
         public void OnButtonBuild() {
             Debug.Log($"Build current node: {AssetDatabase.GetAssetPath(currentNarrative)}");
-            //CheckAllNodes(true);
-
-            //string resourcesPath = StackProjectConfig.currentNarrative.narrativeSavePath.Replace("yaml", "json");
-            //SceneGenerator.GenerateScene(resourcesPath);
             SceneGenerator.GenerateScene(currentNarrative);
         }
 
@@ -669,35 +653,30 @@ namespace Singularis.StackVR.Narrative.Editor {
                 foreach (var node in totalNodes) {
                     node.DisableInitialNode();
                 }
-                ;
+
                 currentNode.SetInitialNode();
                 HideNodeMenu();
                 HideDropDownMenu();
             });
 
             transitionButtonCallback = (e) => {
-
                 Debug.Log("Making Transition");
                 e.StopPropagation();
                 selectedNode.OnMouseDown(newPos);
 
                 HideNodeMenu();
                 HideDropDownMenu();
-
             };
 
             deleteButtonCallback = (e) => {
-
                 e.StopPropagation();
                 DestroyNode(currentNode);
                 HideNodeMenu();
                 HideDropDownMenu();
-
             };
 
             nodeMenu.Q<Button>("ConnectNodes").RegisterCallback<ClickEvent>(transitionButtonCallback);
             nodeMenu.Q<Button>("DeleteNodes").RegisterCallback<ClickEvent>(deleteButtonCallback);
-
         }
 
         private void HideNodeMenu() {
@@ -714,8 +693,6 @@ namespace Singularis.StackVR.Narrative.Editor {
 
         private GraphViewChange OnGraphVieCahnge(GraphViewChange change) // Callback when you change a node to clear the edges
         {
-
-
             if (change.elementsToRemove != null) {
                 foreach (var element in change.elementsToRemove) {
                     if (element is Node) // Deleting Edges
@@ -724,7 +701,6 @@ namespace Singularis.StackVR.Narrative.Editor {
                         foreach (var edge in edges.ToList()) {
                             if (edge.input.node == newNode || edge.output.node == newNode) {
                                 RemoveElement(edge);
-
                             }
                         }
                     }
@@ -738,42 +714,32 @@ namespace Singularis.StackVR.Narrative.Editor {
 
         // Getting Ports 
         public override List<Port> GetCompatiblePorts(Port startPort, NodeAdapter nodeAdapter) {
-
-            List<Port> compatiblesPorts = new List<Port>();
+            List<Port> compatiblesPorts = new();
 
             ports.ForEach(port => {
-
                 if (startPort == port)// Current Port
-                {
                     return;
-                }
 
-                if (startPort.node == port.node) {
+                if (startPort.node == port.node)
                     return;
-                }
 
-                if (startPort.direction == port.direction) {
-
+                if (startPort.direction == port.direction)
                     return;
-                }
+
                 compatiblesPorts.Add(port);
             });
 
-
             return compatiblesPorts;
-
         }
 
 
-        public string[] CheckAllNodes(bool isLocalSave = false) // Compile Nodes To generate Json
-        {
-
-            if (edges.Count() <= 0 || nodes.Count() <= 0) {
+        public string[] CheckAllNodes(bool isLocalSave = false) {
+            if (edges.Count() <= 0) {
                 Debug.Log("Not Edges in Graph");
                 return Array.Empty<string>();
             }
             nodesData.Clear();
-            List<BaseNode> currentNodes = new List<BaseNode>();
+            List<BaseNode> currentNodes = new();
 
             BaseNode firstNode;
 
@@ -785,17 +751,13 @@ namespace Singularis.StackVR.Narrative.Editor {
             }
 
             currentNodes.Add(firstNode);
-            Debug.Log(nodes.Count());
-            var currentEdges = edges.ToList();
-            foreach (var edge in edges.ToList())  // COde to get the nodes from the edges
-            {
-                BaseNode inputNode = edge.input.node as BaseNode;
-                BaseNode outPutNode = edge.output.node as BaseNode;
-                currentNodes.Add(inputNode);
-                currentNodes.Add(outPutNode);
+            foreach (Node node in nodes) {
+                if (node is BaseNode baseNode) {
+                    currentNodes.Add(baseNode);
+                }
             }
             currentNodes = currentNodes.Distinct().ToList();
-            Debug.Log("The nodes are " + currentNodes.Count);
+
             int nodeId = 0;
             List<string> pathFiles = new();
             foreach (var node in currentNodes) {
