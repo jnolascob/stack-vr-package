@@ -49,7 +49,7 @@ namespace Singularis.StackVR.UIBuilder.Editor {
             // Instanciar UXML De Pregunta
 
             if (data.type == HotspotData.HotspotType.question) {
-                VisualTreeAsset questionTree = AssetDatabase.LoadAssetAtPath<VisualTreeAsset>("Packages/com.singularisvr.stackvr/Editor/UIBUilder/QuestionHostpotElement.uxml");
+                VisualTreeAsset questionTree = AssetDatabase.LoadAssetAtPath<VisualTreeAsset>("Packages/com.singularisvr.stackvr/Editor/UIBUilder/Hotspots/QuestionHostpotElement.uxml");
                 VisualElement questionElement = questionTree.Instantiate();
                 mainElement.Add(questionElement);
 
@@ -96,7 +96,7 @@ namespace Singularis.StackVR.UIBuilder.Editor {
             root = rootVisualElement;
             root.Clear();
 
-            visualTree = AssetDatabase.LoadAssetAtPath<VisualTreeAsset>("Packages/com.singularisvr.stackvr/Editor/UIBUilder/HotspotInspectorWindow.uxml");
+            visualTree = AssetDatabase.LoadAssetAtPath<VisualTreeAsset>("Packages/com.singularisvr.stackvr/Editor/UIBUilder/Hotspots/HotspotInspectorWindow.uxml");
             var container = visualTree.CloneTree();
             root.Add(container);
 
