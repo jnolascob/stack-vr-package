@@ -5,18 +5,16 @@ using UnityEngine.EventSystems;
 using Oculus.Interaction;
 using Newtonsoft.Json;
 using Singularis.StackVR.Editor;
+using Singularis.StackVR.Scriptables.Editor;
+using UnityEngine.UIElements;
 
 namespace Singularis.StackVR.Narrative.Editor {
     public class SceneGenerator {
 
-        static public void GenerateScene(string jsonDataPath) {
+        static public void GenerateScene(NarrativeScriptableObject narrative) {
 
-            // Cargar datos del JSON
-            string jsonData = System.IO.File.ReadAllText(jsonDataPath);
-            Tour tour = JsonConvert.DeserializeObject<Tour>(jsonData);
-
-            if (tour == null) {
-                Debug.LogError("[Singularis - SceneGenerator::GenerateScene] Error al cargar datos del JSON: " + jsonDataPath);
+            if (narrative == null) {
+                Debug.LogError($"[Singularis - SceneGenerator::GenerateScene] Error al cargar narrative: {narrative.name} ({AssetDatabase.GetAssetPath(narrative)})");
                 return;
             }
 
@@ -46,13 +44,14 @@ namespace Singularis.StackVR.Narrative.Editor {
 
 
             // Instanciar OVRCameraRig
-            string prefabPath = "Packages/com.meta.xr.sdk.core/Prefabs/OVRCameraRig.prefab";
+            string prefabPath = "Packages/com.singularisvr.stackvr/Runtime/Prefabs/OVRCameraRig.prefab";
+            //string prefabPath = "Packages/com.meta.xr.sdk.core/Prefabs/OVRCameraRig.prefab";
             //string prefabPath = "Packages/com.meta.xr.sdk.core/Prefabs/OVRPlayerController.prefab";
             GameObject prefab = AssetDatabase.LoadAssetAtPath<GameObject>(prefabPath);
 
             if (prefab != null) {
                 GameObject instance = (GameObject)PrefabUtility.InstantiatePrefab(prefab);
-                instance.AddComponent<OVRPlayerControllerHelper>().initialSpotId = tour.start;
+                instance.AddComponent<OVRPlayerControllerHelper>().initialSpotId = narrative.firstNodeId;
             }
             else {
                 Debug.LogError("[Singularis - SceneGenerator::GenerateScene] Prefab no encontrado en: " + prefabPath);
@@ -69,7 +68,7 @@ namespace Singularis.StackVR.Narrative.Editor {
             PointableCanvasModule pointableCanvasModule = pointableCanvasModuleObj.AddComponent<PointableCanvasModule>();
 
 
-
+            // TODO cambiar para que solo cargue el hotspot que se va a usar y no todos
             string hotspotPrefabPath = "Packages/com.singularisvr.stackvr/Runtime/Prefabs/HotspotLocation.prefab";
             HotspotLocation hotspotPrefab = AssetDatabase.LoadAssetAtPath<HotspotLocation>(hotspotPrefabPath);
             string hotspotPrefabQuestionPath = "Packages/com.singularisvr.stackvr/Runtime/Prefabs/HotspotQuestion.prefab";
@@ -78,27 +77,34 @@ namespace Singularis.StackVR.Narrative.Editor {
 
 
 
-            foreach (NodeDataOld node in tour.nodes) {
-                string spotPrefabPath = $"Packages/com.singularisvr.stackvr/Runtime/Prefabs/{(node.isSteroscopic ? "Spot-stereo" : "Spot-mono")}.prefab";
+            foreach (NodeData node in narrative.nodes) {
+                string spotPrefabPath = $"Packages/com.singularisvr.stackvr/Runtime/Prefabs/{(node.isStereo ? "Spot-stereo" : "Spot-mono")}.prefab";
                 SpotController spotPrefab = AssetDatabase.LoadAssetAtPath<SpotController>(spotPrefabPath);
                 SpotController spotInstance = (SpotController)PrefabUtility.InstantiatePrefab(spotPrefab);
                 spotInstance.id = node.id;
-                spotInstance.SetImage(AssetDatabase.LoadAssetAtPath<Texture2D>(node.resource.path));
+                spotInstance.SetImage(node.image as Texture2D);
 
                 spotInstance.gameObject.name += $"_{node.id}-{node.name}";
-                spotInstance.transform.SetPositionAndRotation(new Vector3(node.xPos * 0.1f, 0, node.yPos * 0.1f), Quaternion.Euler(0, node.north, 0));
+                spotInstance.transform.SetPositionAndRotation(new Vector3(node.posX * 0.1f, 0, node.posY * 0.1f), Quaternion.Euler(0, node.north, 0));
 
                 experienceManager.AddNode(spotInstance);
 
 
-                foreach (HotspotDataJson hotspot in node.hotspots) {
+                foreach (HotspotData hotspot in node.hotspots) {
+                    Debug.Log("You Have a Hotspot type of" + hotspot.type);
 
-                    Debug.Log("You Have a Hotspot type of" + hotspot.hostpotType);
 
-                    if (hotspot.hostpotType == "question") {
-
+                    if (hotspot.type == HotspotData.HotspotType.question) {
                         HotspotQuestion hotspotInstance = (HotspotQuestion)PrefabUtility.InstantiatePrefab(hotspotPrefabQuestion);
-                        hotspotInstance.SetIcon(AssetDatabase.LoadAssetAtPath<Texture2D>(hotspot.iconPath));
+
+                        if (hotspot.icon != null)
+                            hotspotInstance.SetIcon(hotspot.icon);
+                        else {
+                            string assetPath = $"Packages/com.singularisvr.stackvr/Editor/Sprites/ico_hotspot_{hotspot.type}.png";
+                            Texture2D hotspotTexture = AssetDatabase.LoadAssetAtPath<Texture2D>(assetPath);
+                            hotspotInstance.SetIcon(hotspotTexture);
+                        }
+
 
                         float theta = hotspot.angleX * Mathf.Deg2Rad;
                         float phi = hotspot.angleY * Mathf.Deg2Rad;
@@ -116,16 +122,21 @@ namespace Singularis.StackVR.Narrative.Editor {
                         );
 
 
+
+                        HotspotQuestionData hotspotQuestion = (HotspotQuestionData)hotspot;
+                        QuestionAnswer[] answers = new QuestionAnswer[hotspotQuestion.answers.Count];
+                        for (int i = 0; i < answers.Length; i++)
+                            answers[i] = new QuestionAnswer() {
+                                description = hotspotQuestion.answers[i].name,
+                                points = hotspotQuestion.answers[i].points,
+                                isCorrect = hotspotQuestion.answers[i].isCorrect
+                            };
+
+
                         string UIQuestionPrefabPath = "Packages/com.singularisvr.stackvr/Runtime/Prefabs/UIQuestion.prefab";
                         UIQuestion UIQuestionPrefab = AssetDatabase.LoadAssetAtPath<UIQuestion>(UIQuestionPrefabPath);
                         UIQuestion UIQuestionInstance = (UIQuestion)PrefabUtility.InstantiatePrefab(UIQuestionPrefab);
-                        UIQuestionInstance.FillData(
-                            hotspot.question,
-                            hotspot.answerA,
-                            hotspot.answerB,
-                            hotspot.answerC,
-                            hotspot.correctAnswer
-                        );
+                        UIQuestionInstance.FillData(hotspotQuestion.question, answers, hotspotQuestion.textureElement as Texture2D);
 
                         position.y = 0;
                         UIQuestionInstance.transform.SetPositionAndRotation(
@@ -138,8 +149,16 @@ namespace Singularis.StackVR.Narrative.Editor {
                     }
                     else {
                         HotspotLocation hotspotInstance = (HotspotLocation)PrefabUtility.InstantiatePrefab(hotspotPrefab);
-                        hotspotInstance.SetIcon(AssetDatabase.LoadAssetAtPath<Texture2D>(hotspot.iconPath));
-                        hotspotInstance.SetTarget(hotspot.nodeId);
+
+                        if (hotspot.icon != null)
+                            hotspotInstance.SetIcon(hotspot.icon);
+                        else {
+                            string assetPath = $"Packages/com.singularisvr.stackvr/Editor/Sprites/ico_hotspot_{hotspot.type}.png";
+                            Texture2D hotspotTexture = AssetDatabase.LoadAssetAtPath<Texture2D>(assetPath);
+                            hotspotInstance.SetIcon(hotspotTexture);
+                        }
+
+                        hotspotInstance.SetTarget(hotspot.id);
 
                         float theta = hotspot.angleX * Mathf.Deg2Rad;
                         float phi = hotspot.angleY * Mathf.Deg2Rad;

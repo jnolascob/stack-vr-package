@@ -4,7 +4,6 @@ using UnityEditor.UIElements;
 using UnityEngine;
 using UnityEngine.UIElements;
 using Singularis.StackVR.Scriptables.Editor;
-using System.Runtime.CompilerServices;
 using Singularis.StackVR.Narrative.Editor;
 
 namespace Singularis.StackVR.UIBuilder.Editor {
@@ -49,24 +48,15 @@ namespace Singularis.StackVR.UIBuilder.Editor {
 
             // Instanciar UXML De Pregunta
 
-
-
             if (data.type == HotspotData.HotspotType.question) {
-
-
                 VisualTreeAsset questionTree = AssetDatabase.LoadAssetAtPath<VisualTreeAsset>("Packages/com.singularisvr.stackvr/Editor/UIBUilder/QuestionHostpotElement.uxml");
                 VisualElement questionElement = questionTree.Instantiate();
                 mainElement.Add(questionElement);
 
                 QuestionWindow questionWindow = new QuestionWindow(mainElement, hotspotElement);
                 questionWindow.SetCallbacks();
-
-
-
-
             }
-            else if (data.type == HotspotData.HotspotType.location)
-            {
+            else if (data.type == HotspotData.HotspotType.location) {
 
                 VisualTreeAsset navigationTree = AssetDatabase.LoadAssetAtPath<VisualTreeAsset>("Packages/com.singularisvr.stackvr/Editor/UIBUilder/NavigationHostpot.uxml");
                 VisualElement navigationElement = navigationTree.Instantiate();
@@ -92,13 +82,13 @@ namespace Singularis.StackVR.UIBuilder.Editor {
         private VisualTreeAsset visualTree = default;
 
         private void OnEnable() {
-            Debug.Log("[HotspotInspectorWindow - OnEnable]");
+            //Debug.Log("[HotspotInspectorWindow - OnEnable]");
 
             LoadUXML();
         }
 
         private void CreateGUI() {
-            Debug.Log("[HotspotInspectorWindow - CreateGUI]");
+            //Debug.Log("[HotspotInspectorWindow - CreateGUI]");
         }
 
 
@@ -141,7 +131,7 @@ namespace Singularis.StackVR.UIBuilder.Editor {
             var scaleSlider = main.Q<Slider>("scaleSlider");
             var iconField = main.Q<ObjectField>("iconObjectField");
             var colorField = main.Q<ColorField>("colorField");
-           //var targetObjectField = main.Q<ObjectField>("targetObjectField");
+            //var targetObjectField = main.Q<ObjectField>("targetObjectField");
 
 
             Dictionary<string, object> hotspotDataStored = hotspotElement.userData as Dictionary<string, object>;
@@ -157,7 +147,14 @@ namespace Singularis.StackVR.UIBuilder.Editor {
             scaleSlider.value = float.Parse(hotspotDataStored["scale"].ToString());
 
             nameTextField.value = hotspotDataStored["name"].ToString();
-            iconField.value = (Texture2D)hotspotDataStored["icon"];
+
+
+            //iconField.value = (Texture2D)hotspotDataStored["icon"];
+            Texture2D texture = (Texture2D)hotspotDataStored["icon"];
+            if (texture != null)
+                iconField.value = (Texture2D)hotspotDataStored["icon"];
+
+
             colorField.value = (Color)hotspotDataStored["color"];
 
 
@@ -228,7 +225,7 @@ namespace Singularis.StackVR.UIBuilder.Editor {
                 Dictionary<string, object> hotspotData = hotspotElement.userData as Dictionary<string, object>;
                 hotspotData["type"] = "question";
                 hotspotElement.userData = hotspotData;
-                
+
             }
             else {
                 Dictionary<string, object> hotspotData = hotspotElement.userData as Dictionary<string, object>;
@@ -239,7 +236,7 @@ namespace Singularis.StackVR.UIBuilder.Editor {
 
         }
 
-       
+
 
 
     }

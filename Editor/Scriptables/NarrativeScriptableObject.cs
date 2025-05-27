@@ -10,6 +10,7 @@ namespace Singularis.StackVR.Scriptables.Editor {
         public string date;
         public int version;
 
+        public int firstNodeId = -1;
         public List<NodeData> nodes;
 
 

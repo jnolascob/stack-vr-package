@@ -146,12 +146,14 @@ namespace Singularis.StackVR.Narrative.Editor {
         public void SetInitialNode() {
             Debug.Log("Set Initial Node");
             isFirstElement = true;
+            graphViewExperiences.currentNarrative.firstNodeId = id;
 
             buttonSetInitialNode.style.visibility = Visibility.Visible;
         }
 
         public void DisableInitialNode() {
             isFirstElement = false;
+            graphViewExperiences.currentNarrative.firstNodeId = -1;
             buttonSetInitialNode.style.visibility = Visibility.Hidden;
         }
 

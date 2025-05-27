@@ -77,37 +77,6 @@ namespace Singularis.StackVR.Narrative.Editor {
 
         public GraphViewExperiences() {
 
-            //currentNarrative = StackProjectConfig.currentNarrative.narrativeScriptableObject;
-
-            //// Set Graph Styles
-
-            //AddManipulators(); // Add Manipulators
-            //AddStyles(); // Add Styles to the Grid      
-            //AddGridBackground();// Create Grid Background      
-            //this.SendToBack();
-
-            //// Events Callbacks
-
-            //this.graphViewChanged = OnGraphVieCahnge;
-            //RegisterCallback<ContextualMenuPopulateEvent>(_ =>
-            //    // Cache the event's mouse position when right-clicking.
-            //    mousePosition = Event.current.mousePosition
-            //);
-
-            //RegisterCallback<MouseMoveEvent>((e) => {
-
-            //    currentMousePosition = e.mousePosition;
-            //    currentVisualElement = this.panel.Pick(e.mousePosition);
-
-
-            //});
-
-            //RegisterCallback<MouseMoveEvent>(OnMouseMove);
-            //RegisterCallback<MouseDownEvent>((e) => { OnMouseDownEvent(e); }, TrickleDown.TrickleDown);
-
-            //RegisterCallback<ContextualMenuPopulateEvent>((e) => { e.menu.ClearItems(); });
-            //this.RegisterCallback<MouseUpEvent>((e) => { OnRelease(); }, TrickleDown.TrickleDown);
-            //FFMpegHandler.InitFMpeg();
         }
 
         public void Init() {
@@ -132,7 +101,6 @@ namespace Singularis.StackVR.Narrative.Editor {
 
                 currentMousePosition = e.mousePosition;
                 currentVisualElement = this.panel.Pick(e.mousePosition);
-
 
             });
 
@@ -665,11 +633,12 @@ namespace Singularis.StackVR.Narrative.Editor {
         }
 
         public void OnButtonBuild() {
-            Debug.Log("Building Node");
-            CheckAllNodes(true);
+            Debug.Log($"Build current node: {AssetDatabase.GetAssetPath(currentNarrative)}");
+            //CheckAllNodes(true);
 
-            string resourcesPath = StackProjectConfig.currentNarrative.narrativeSavePath.Replace("yaml", "json");
-            SceneGenerator.GenerateScene(resourcesPath);
+            //string resourcesPath = StackProjectConfig.currentNarrative.narrativeSavePath.Replace("yaml", "json");
+            //SceneGenerator.GenerateScene(resourcesPath);
+            SceneGenerator.GenerateScene(currentNarrative);
         }
 
 
@@ -991,14 +960,13 @@ namespace Singularis.StackVR.Narrative.Editor {
 
 
         public void EditNodes(string narrativePath) {
+            currentNarrative = AssetDatabase.LoadAssetAtPath<NarrativeScriptableObject>(narrativePath);
             if (currentNarrative == null) {
                 Debug.Log("Narrative Not Found");
                 return;
             }
 
-            var resultJson = AssetDatabase.LoadAssetAtPath<NarrativeScriptableObject>(narrativePath);
-            
-            foreach (var node in resultJson.nodes) {
+            foreach (var node in currentNarrative.nodes) {
                 Vector2 posNode = new Vector2(node.posX, node.posY);
                 NodeData currentNode = new NodeData(); // TODO update code to prevent warning
 
@@ -1022,18 +990,18 @@ namespace Singularis.StackVR.Narrative.Editor {
                     videoNode.id = node.id;
                     videoNode.ChangeLabelText(node.name);
 
-                    NodeData nodeData = currentNarrative.nodes.Find(node => node.id == videoNode.id);
+                    NodeData nodeData = this.currentNarrative.nodes.Find(node => node.id == videoNode.id);
                     nodeData.image = videoNode.currentTexture;
                 }
 
             }
 
 
-            foreach (var node in resultJson.nodes) {
+            foreach (var node in currentNarrative.nodes) {
                 BaseNode currentNode = totalNodes.Find(e => e.id == node.id);
 
                 foreach (var hotspot in node.hotspots) {
-                    if (hotspot.type == HotspotData.HotspotType.location) { 
+                    if (hotspot.type == HotspotData.HotspotType.location) {
                         BaseNode newNode = totalNodes.Find(e => e.id == hotspot.target.id);
 
                         ConnectTwoNodes(currentNode, newNode);

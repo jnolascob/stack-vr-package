@@ -1,4 +1,3 @@
-using Singularis.StackVR.Editor;
 using System.Collections.Generic;
 
 namespace Singularis.StackVR.Editor {
