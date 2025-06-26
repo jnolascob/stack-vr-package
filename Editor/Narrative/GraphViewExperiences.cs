@@ -118,6 +118,10 @@ namespace Singularis.StackVR.Narrative.Editor {
 
         private void OnRelease() {
             if (selectedNode != null) {
+                NodeData nodeData = currentNarrative.nodes.Find(node => node.id == selectedNode.id);
+                nodeData.posX = selectedNode.style.left.value.value;
+                nodeData.posY = selectedNode.style.top.value.value;
+
                 ShowInspectorPanel(selectedNode);
             }
         }

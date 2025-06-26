@@ -296,15 +296,17 @@ namespace Singularis.StackVR.UIBuilder.Editor {
                 Debug.Log($"CreateHostpot: {target.name}");
 
                 HotspotData hotspot = ScriptableObject.CreateInstance<HotspotData>();
-                hotspot.id = hotspotsContainer.childCount + 1;
-                hotspot.name = target.name;
-
+                
                 if (target.name == "hotspot-question") {
+                    hotspot = ScriptableObject.CreateInstance<HotspotQuestionData>();
                     hotspot.type = HotspotData.HotspotType.question;
                 }
                 else {
                     hotspot.type = HotspotData.HotspotType.location;
                 }
+
+                hotspot.id = hotspotsContainer.childCount + 1;
+                hotspot.name = target.name;
 
                 CreateHotspot(hotspot, hotspotsContainer, componentContainer, outliner);
 
@@ -357,7 +359,6 @@ namespace Singularis.StackVR.UIBuilder.Editor {
 
 
                     if (hotspot != null)  // Chequear si el hotspot no existe
-
                     {
                         Debug.Log($"UPDATE Hotspot: {hotspot.id} {hotspot.name}");
                     }
@@ -395,9 +396,9 @@ namespace Singularis.StackVR.UIBuilder.Editor {
 
                     hotspot.target = hotspotData["target"] as NodeData;
 
-
+                    Debug.Log($"Hotspot: {hotspot.type} - {hotspotData["type"]}");
                     if (hotspotData["type"].ToString() == "question") {
-                        hotspot.type = HotspotData.HotspotType.question;
+                        //hotspot.type = HotspotData.HotspotType.question;
 
                         HotspotQuestionData questionData = hotspot as HotspotQuestionData;
 
@@ -411,6 +412,7 @@ namespace Singularis.StackVR.UIBuilder.Editor {
                             }
                         }
 
+                        questionData.type = HotspotData.HotspotType.question;
                         questionData.answers = answers;
                         questionData.kindOfQuestion = (int)hotspotData["kindOfQuestion"];
                         questionData.question = (string)hotspotData["question"];
@@ -544,7 +546,15 @@ namespace Singularis.StackVR.UIBuilder.Editor {
             };
 
 
-            //Debug.Log("THe hotspot type is " + hotspot.type);
+            Debug.Log("THe hotspot type is " + hotspot.type);
+            if (hotspot.type == HotspotData.HotspotType.question) {
+                HotspotQuestionData questionData = hotspot as HotspotQuestionData;
+                Debug.Log($"HotspotQuestionData: {questionData == null}");
+                hotspotData.Add("kindOfQuestion", questionData.kindOfQuestion);
+                hotspotData.Add("question", questionData.question);
+                hotspotData.Add("answers", questionData.answers);
+                hotspotData.Add("TextureQuestion", questionData.textureElement);
+            }
 
             hotspotClone.userData = hotspotData;
             hotspotClone.name = $"{hotspot.id}-{hotspot.name}";

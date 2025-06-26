@@ -449,6 +449,9 @@ namespace Singularis.StackVR.Narrative.Editor {
             newScriptable.name = node.name;
             newScriptable.north = node.north;
 
+            newScriptable.posX = node.xPos;
+            newScriptable.posY = node.yPos;
+
             Enum.TryParse<KindOfNode>(node.type, out kindOfNode);
             Debug.Log(kindOfNode);
 

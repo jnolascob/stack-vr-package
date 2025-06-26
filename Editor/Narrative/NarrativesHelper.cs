@@ -6,7 +6,6 @@ using System.Collections.Generic;
 using Singularis.StackVR.Editor;
 using Singularis.StackVR.Scriptables.Editor;
 
-
 namespace Singularis.StackVR.Narrative.Editor {
     public static class NarrativesHelper {
 
@@ -45,10 +44,10 @@ namespace Singularis.StackVR.Narrative.Editor {
 
         }
 
-        public static HotspotQuestionData CreateHotspotQuestion(NodeData node, string childName)
-        {
+        public static HotspotQuestionData CreateHotspotQuestion(NodeData node, string childName) {
 
-            HotspotQuestionData hostpot = ScriptableObject.CreateInstance<HotspotQuestionData>();
+            HotspotQuestionData hotspot = ScriptableObject.CreateInstance<HotspotQuestionData>();
+            hotspot.type = HotspotData.HotspotType.question;
 
             string assetPath = AssetDatabase.GetAssetPath(node);
             string folderPath = Path.GetDirectoryName(assetPath);
@@ -58,17 +57,15 @@ namespace Singularis.StackVR.Narrative.Editor {
             //AssetDatabase.DeleteAsset(filePath);
 
             int i = 0;
-            while (File.Exists(filePath))
-            {
+            while (File.Exists(filePath)) {
                 Debug.Log($"[NodeInspectorWindow] File Exists: {filePath}");
                 i++;
                 filePath = Path.Combine(folderPath, $"{childName} ({i}).asset");
             }
             //}
             Debug.Log($"[NodeInspectorWindow] Create Asset: {filePath}");
-            AssetDatabase.CreateAsset(hostpot, Path.Combine(filePath));
-            return hostpot;
-
+            AssetDatabase.CreateAsset(hotspot, Path.Combine(filePath));
+            return hotspot;
         }
 
     }
