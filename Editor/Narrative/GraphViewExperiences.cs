@@ -80,6 +80,10 @@ namespace Singularis.StackVR.Narrative.Editor {
         }
 
         public void Init(string narrativePath) {
+
+            // CODIGO ADICIONAL
+            this.AddManipulator(new ClickSelector()); // Permite clicks en áreas vacías
+
             //currentNarrative = StackProjectConfig.currentNarrative.narrativeScriptableObject;
             currentNarrative = AssetDatabase.LoadAssetAtPath<NarrativeScriptableObject>(narrativePath);
             if (currentNarrative == null) {
@@ -367,6 +371,10 @@ namespace Singularis.StackVR.Narrative.Editor {
                 if (e.target is GraphViewExperiences) {
                     e.StopPropagation();
                     Debug.Log("You Pressed Out");
+
+                    //CODIGO ADICIONAL
+                    ClearSelection(); // Método nativo de GraphView
+
                     selectedNode = null;
 
                     if (isDrawingLine) {
@@ -894,14 +902,38 @@ namespace Singularis.StackVR.Narrative.Editor {
 
         private void AddManipulators() // Manipulators to allow move zoom and drag elements in the node
         {
-            SetupZoom(ContentZoomer.DefaultMinScale, ContentZoomer.DefaultMaxScale);
-            defaultMinScale = ContentZoomer.DefaultMinScale;
-            defaultMaxScale = ContentZoomer.DefaultMaxScale;
-            this.AddManipulator(new ContentDragger());
-            this.AddManipulator(new SelectionDragger());
+            //SetupZoom(ContentZoomer.DefaultMinScale, ContentZoomer.DefaultMaxScale);
+            //defaultMinScale = ContentZoomer.DefaultMinScale;
+            //defaultMaxScale = ContentZoomer.DefaultMaxScale;
+            //this.AddManipulator(new ContentDragger());
+            //this.AddManipulator(new SelectionDragger());
 
+            ////this.AddManipulator(new RectangleSelector());
+            //this.AddManipulator(CreateNodeContextualMenu());
+
+
+
+            //CÓDIGO ADICIONAL
+            // Valores personalizados (ejemplo: zoom out 0.1x, zoom in 3x)
+            float minScale = 0.1f;  // Zoom mínimo (alejarse más)
+            float maxScale = 3f;    // Zoom máximo (acercarse más)
+
+            SetupZoom(minScale, maxScale); // ¡Aquí aplicas los nuevos límites!
+
+            // 1. Selector rectangular
             //this.AddManipulator(new RectangleSelector());
+
+            // 2. Manipuladores de arrastre
+            this.AddManipulator(new SelectionDragger());
+            this.AddManipulator(new ContentDragger());
+
+
+            // 3. Menú contextual
             this.AddManipulator(CreateNodeContextualMenu());
+            //---------------------------------
+
+
+
         }
 
         private void AddStyles() // Add Style sheet to graph

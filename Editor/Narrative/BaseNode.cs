@@ -82,6 +82,27 @@ namespace Singularis.StackVR.Narrative.Editor {
             titleNode = this.Q<Label>();
             border.style.backgroundColor = blackColor;
 
+            //CODIGO ADICIONAL
+            border = this.Q<VisualElement>("Border");
+            // Configuración INICIAL del borde
+            border.style.borderTopWidth = 1;
+            border.style.borderRightWidth = 1;
+            border.style.borderBottomWidth = 1;
+            border.style.borderLeftWidth = 1;
+            border.style.borderTopColor = blackColor;
+            border.style.borderRightColor = blackColor;
+            border.style.borderBottomColor = blackColor;
+            border.style.borderLeftColor = blackColor;
+            //-------------------
+
+            //CODIGO ADICIONAL
+            AddToClassList("base-node"); // Asegura que el nodo sea seleccionable
+            //----------------
+
+
+
+
+
             RegisterCallback<MouseOutEvent>((e) => { OnMouseOutEvent(); }, TrickleDown.TrickleDown);
 
             border.RegisterCallback<MouseDownEvent>(OnConnectNodes);
@@ -241,6 +262,20 @@ namespace Singularis.StackVR.Narrative.Editor {
 
         public override void OnSelected() {
             base.OnSelected();
+
+
+            //CODIGO ADICIONAL
+            border.style.borderTopWidth = 5;
+            border.style.borderRightWidth = 5;
+            border.style.borderBottomWidth = 5;
+            border.style.borderLeftWidth = 5;
+            border.style.borderTopColor = new Color(0f, 1f, 1f); // Celeste neón
+            border.style.borderRightColor = new Color(0f, 1f, 1f);
+            border.style.borderBottomColor = new Color(0f, 1f, 1f);
+            border.style.borderLeftColor = new Color(0f, 1f, 1f);
+            //----------------
+
+
             Debug.Log("Selected Node");
             graphViewExperiences.selectedNode = this;
 
@@ -252,6 +287,24 @@ namespace Singularis.StackVR.Narrative.Editor {
         public override void OnUnselected() {
             var bg = this.Q<VisualElement>("Background");
             var border = this.Q<VisualElement>("Border");
+
+
+
+            //CODIGO ADICIONAL
+            border.style.borderTopWidth = 1;
+            border.style.borderRightWidth = 1;
+            border.style.borderBottomWidth = 1;
+            border.style.borderLeftWidth = 1;
+            border.style.borderTopColor = blackColor;
+            border.style.borderRightColor = blackColor;
+            border.style.borderBottomColor = blackColor;
+            border.style.borderLeftColor = blackColor;
+            border.style.unityBackgroundImageTintColor = Color.clear;
+            //---------
+
+
+
+
 
             graphViewExperiences.selectedNode = null;
             base.OnUnselected();
