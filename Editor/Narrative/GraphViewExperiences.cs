@@ -241,6 +241,12 @@ namespace Singularis.StackVR.Narrative.Editor {
                                 videoNode.UpdateVideo(texture);
 
                                 nodeData.image = texture;
+
+
+                                EditorUtility.SetDirty(nodeData); // Marca el asset como modificado
+
+                                AssetDatabase.SaveAssets();
+                                AssetDatabase.Refresh();
                             }
 
                         }
@@ -259,6 +265,11 @@ namespace Singularis.StackVR.Narrative.Editor {
                             NodeData nodeData = currentNarrative.nodes.Find(node => node.id == imageNode.id);
                             if (nodeData != null) {
                                 nodeData.image = selectedSprite;
+                                EditorUtility.SetDirty(nodeData); // Marca el asset como modificado
+
+                                AssetDatabase.SaveAssets();
+                                AssetDatabase.Refresh();
+
                             }
                         }
                     }
@@ -299,6 +310,19 @@ namespace Singularis.StackVR.Narrative.Editor {
                 }
             });
 
+        }
+
+
+        public bool CheckIfObectFieldIsEmpty()
+        {
+           if (inspectorPanel.Q<ObjectField>("NodeSprite").value == null)
+            {
+                return true;
+            }
+            else
+            {
+            return false;
+             }
         }
 
         public void HideInspectorPanel() {
@@ -947,13 +971,28 @@ namespace Singularis.StackVR.Narrative.Editor {
             var connectedEdges = edges.ToList().Where(edge =>
                 edge.input.node == node || edge.output.node == node).ToList();
 
+
+            for (int i = 0; i < currentNarrative.nodes.Count; i++)
+            {
+                if (currentNarrative.nodes[i].id == node.id)
+                {
+                    string path = AssetDatabase.GetAssetPath(currentNarrative.nodes[i]);
+                    AssetDatabase.DeleteAsset(path);
+                    AssetDatabase.SaveAssets();
+                    AssetDatabase.Refresh();
+                    currentNarrative.nodes.RemoveAt(i);
+                }
+
+            }
+          
+
             foreach (var edge in connectedEdges) {
                 RemoveElement(edge);
             }
-
-
             totalNodes.Remove(node);
             RemoveElement(node);
+            
+
         }
 
 
@@ -1000,6 +1039,9 @@ namespace Singularis.StackVR.Narrative.Editor {
 
                 foreach (var hotspot in node.hotspots) {
                     if (hotspot.type == HotspotData.HotspotType.location) {
+
+                        Debug.Log("Checking Nodes" + totalNodes.Count);
+
                         BaseNode newNode = totalNodes.Find(e => e.id == hotspot.target.id);
 
                         ConnectTwoNodes(currentNode, newNode);

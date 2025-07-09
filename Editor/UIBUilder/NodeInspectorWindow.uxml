@@ -13,8 +13,9 @@
         <engine:DropdownField label="Navigate" name="dropdown-navigation" class="btn-right-aligned" />
         <editor:ToolbarButton text="Go" name="btn-change-spot" class="btn-right-aligned" />
     </editor:Toolbar>
-    <engine:VisualElement name="image-container" style="-unity-background-scale-mode: scale-to-fit;">
+    <engine:VisualElement name="image-container" style="-unity-background-scale-mode: scale-to-fit; scale: 1 1; background-image: none; -unity-background-image-tint-color: rgba(255, 255, 255, 0);">
         <engine:VisualElement name="image-bg">
+            <engine:VisualElement name="imgBackground" style="flex-grow: 1; width: 100%; min-width: initial; min-height: initial; background-image: none; max-width: none; position: absolute; height: 100%;" />
             <engine:VisualElement name="hotspots-container" style="flex-grow: 1; width: 100%; height: 100%; position: absolute;" />
             <engine:VisualElement name="north-bar">
                 <engine:VisualElement name="north-bar-handler" class="handler" style="background-image: url(&quot;project://database/Packages/com.singularisvr.stackvr/Editor/Sprites/ico_north_active.png?fileID=21300000&amp;guid=2deba240219ce0f4e89fd607f8a44ed6&amp;type=3#ico_north_active&quot;);" />

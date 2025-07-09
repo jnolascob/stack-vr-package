@@ -25,6 +25,7 @@ namespace Singularis.StackVR.UIBuilder.Editor {
         VisualElement componentContainer;
         VisualElement outliner;
         VisualElement imageContainer;
+        VisualElement imgBackground;
         VisualElement imageBG;
         VisualElement imageBg;
         VisualElement container;
@@ -84,6 +85,8 @@ namespace Singularis.StackVR.UIBuilder.Editor {
             imageContainer.style.backgroundImage = new StyleBackground((Texture2D)node.image);
             AdjustImageSize(imageBg);
 
+            imgBackground.style.backgroundImage = new StyleBackground((Texture2D)node.image);
+
             if (node.isStereo) {
                 Debug.Log($"[NodeInspectorWindow - OnEnable] node stereo ({imageBg.resolvedStyle.width})");
 
@@ -97,7 +100,7 @@ namespace Singularis.StackVR.UIBuilder.Editor {
 
             }
 
-
+            ScaleBackground();
             degressField.schedule.Execute(() => {
                 degressField.value = node.north;
             });
@@ -226,6 +229,7 @@ namespace Singularis.StackVR.UIBuilder.Editor {
             toolbarToggle = mainToolbar.Q<Toggle>("show-panels");
             imageContainer = root.Q<VisualElement>("image-container");
             imageBg = root.Q<VisualElement>("image-bg");
+            imgBackground = root.Q<VisualElement>("imgBackground");
             northBar = imageBg.Q<VisualElement>("north-bar");
             //var degressField = root.Q<FloatField>(className: "unity-base-field");
             degressField = root.Q<FloatField>(name: "degress-field");
@@ -235,8 +239,71 @@ namespace Singularis.StackVR.UIBuilder.Editor {
             btnDiscard = mainToolbar.Q<ToolbarButton>("btn-discard");
             degreesContainer = root.Q<VisualElement>(name: "degrees-container");
             outlinerContainer = root.Q<VisualElement>("outlinerContainer");
+            
         }
 
+
+        public void ScaleBackground()
+        {
+            float zoomFactor = 1f;
+            float maxValue = 1f;
+           
+            Vector2 dragStartPos = Vector2.zero;
+            Vector2 currentOffset = Vector2.zero;
+            bool isDragging = false;
+
+            imageContainer.RegisterCallback<WheelEvent>(evt =>
+            {
+                float delta = evt.delta.y > 0 ? -0.1f : 0.1f;
+               zoomFactor = Mathf.Clamp(zoomFactor + delta, 0.2f, 5f);
+                
+                if (zoomFactor < maxValue)
+                {
+                    
+                        zoomFactor = maxValue;
+                    
+                }
+
+                imageBg.style.scale = new Scale(new Vector3(zoomFactor, zoomFactor, 1f));
+            });
+
+
+
+            // DRAG con middle mouse (scroll click)
+            imageContainer.RegisterCallback<MouseDownEvent>(evt =>
+            {
+                if (evt.button == (int)MouseButton.MiddleMouse)
+                {
+                    isDragging = true;
+                    dragStartPos = evt.mousePosition;
+                    evt.StopPropagation();
+                }
+            });
+
+
+            imageContainer.RegisterCallback<MouseMoveEvent>(evt =>
+            {
+                if (isDragging)
+                {
+                    Vector2 delta = evt.mousePosition - dragStartPos;
+                    dragStartPos = evt.mousePosition;
+                    currentOffset += delta;
+
+                    imgBackground.style.translate = new Translate(currentOffset.x, currentOffset.y, 0);
+                    evt.StopPropagation();
+                }
+            });
+
+            imageContainer.RegisterCallback<MouseUpEvent>(evt =>
+            {
+                if (evt.button == (int)MouseButton.MiddleMouse)
+                {
+                    isDragging = false;
+                    evt.StopPropagation();
+                }
+            });
+
+        }
 
         private void OnButtonChange() {
             if (dropdownNavigation.text == null) return;

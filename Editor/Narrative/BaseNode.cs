@@ -52,6 +52,7 @@ namespace Singularis.StackVR.Narrative.Editor {
         public bool isFull;
         public bool isLockedNode;
         public UnityEngine.Object currentImage;
+        public NodeData nodeData;
 
 
         public BaseNode() : base("Packages/com.singularisvr.stackvr/Editor/UIBUilder/NodeElement.uxml") {
@@ -212,6 +213,12 @@ namespace Singularis.StackVR.Narrative.Editor {
 
 
         public void OnEnterNode() {
+
+            if (graphViewExperiences.CheckIfObectFieldIsEmpty())
+            {
+                return;
+            }
+
             Debug.Log($"[BaseNode] OnEnterNode: {id}");
             var currentNarrative = graphViewExperiences.currentNarrative;
             var node = currentNarrative.nodes.Find(n => n.id == id);
@@ -496,6 +503,7 @@ namespace Singularis.StackVR.Narrative.Editor {
         public NodeData SaveAsset(string path = "", Texture2D texture = null) {
             NodeData newScriptable = ScriptableObject.CreateInstance<NodeData>();
 
+            this.nodeData = newScriptable;
             KindOfNode kindOfNode;
             var node = GetNode();
             newScriptable.id = node.id;
@@ -539,6 +547,7 @@ namespace Singularis.StackVR.Narrative.Editor {
             NodeData existingScriptable = AssetDatabase.LoadAssetAtPath<NodeData>(filePath);
 
             if (existingScriptable != null) {
+                this.nodeData = existingScriptable;
                 Debug.Log("Scriptable already exists");
                 existingScriptable.id = node.id;
                 existingScriptable.name = node.name;
@@ -574,7 +583,7 @@ namespace Singularis.StackVR.Narrative.Editor {
                 AssetDatabase.CreateAsset(newScriptable, filePath);
                 AssetDatabase.SaveAssets();
                 AssetDatabase.Refresh();
-
+                nodeData = newScriptable;
                 return newScriptable;
             }
 
