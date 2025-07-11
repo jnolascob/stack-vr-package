@@ -950,6 +950,8 @@ namespace Singularis.StackVR.Narrative.Editor {
             // 2. Manipuladores de arrastre
             this.AddManipulator(new SelectionDragger());
             this.AddManipulator(new ContentDragger());
+            this.AddManipulator(new ClickSelector());
+
 
 
             // 3. Menú contextual
