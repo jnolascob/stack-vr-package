@@ -1,14 +1,17 @@
 {
-  "name": "com.singularisvr.stackvr",
-  "version": "0.0.1",
-  "displayName": "SingularisVR - StackVR",
-  "description": "This is an example package",
-  "unity": "6000.0",
-  "author": {
-    "name": "SingularisVR"
-  },
-  "keywords": [
-    "stackvr"
-  ],
-  "unityRelease": "11f1"
+    "name": "com.singularisvr.stackvr",
+    "version": "0.0.1",
+    "displayName": "SingularisVR - StackVR",
+    "description": "This is an example package",
+    "unity": "6000.0",
+    "dependencies": {
+        "com.unity.xr.oculus": "4.0.0"
+    },
+    "author": {
+        "name": "SingularisVR"
+    },
+    "keywords": [
+        "stackvr"
+    ],
+    "unityRelease": "11f1"
 }

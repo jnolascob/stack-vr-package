@@ -80,6 +80,10 @@ namespace Singularis.StackVR.Narrative.Editor {
         }
 
         public void Init(string narrativePath) {
+
+            // CODIGO ADICIONAL
+            this.AddManipulator(new ClickSelector()); // Permite clicks en áreas vacías
+
             //currentNarrative = StackProjectConfig.currentNarrative.narrativeScriptableObject;
             currentNarrative = AssetDatabase.LoadAssetAtPath<NarrativeScriptableObject>(narrativePath);
             if (currentNarrative == null) {
@@ -237,6 +241,12 @@ namespace Singularis.StackVR.Narrative.Editor {
                                 videoNode.UpdateVideo(texture);
 
                                 nodeData.image = texture;
+
+
+                                EditorUtility.SetDirty(nodeData); // Marca el asset como modificado
+
+                                AssetDatabase.SaveAssets();
+                                AssetDatabase.Refresh();
                             }
 
                         }
@@ -255,6 +265,11 @@ namespace Singularis.StackVR.Narrative.Editor {
                             NodeData nodeData = currentNarrative.nodes.Find(node => node.id == imageNode.id);
                             if (nodeData != null) {
                                 nodeData.image = selectedSprite;
+                                EditorUtility.SetDirty(nodeData); // Marca el asset como modificado
+
+                                AssetDatabase.SaveAssets();
+                                AssetDatabase.Refresh();
+
                             }
                         }
                     }
@@ -295,6 +310,19 @@ namespace Singularis.StackVR.Narrative.Editor {
                 }
             });
 
+        }
+
+
+        public bool CheckIfObectFieldIsEmpty()
+        {
+           if (inspectorPanel.Q<ObjectField>("NodeSprite").value == null)
+            {
+                return true;
+            }
+            else
+            {
+            return false;
+             }
         }
 
         public void HideInspectorPanel() {
@@ -367,6 +395,10 @@ namespace Singularis.StackVR.Narrative.Editor {
                 if (e.target is GraphViewExperiences) {
                     e.StopPropagation();
                     Debug.Log("You Pressed Out");
+
+                    //CODIGO ADICIONAL
+                    ClearSelection(); // Método nativo de GraphView
+
                     selectedNode = null;
 
                     if (isDrawingLine) {
@@ -894,14 +926,40 @@ namespace Singularis.StackVR.Narrative.Editor {
 
         private void AddManipulators() // Manipulators to allow move zoom and drag elements in the node
         {
-            SetupZoom(ContentZoomer.DefaultMinScale, ContentZoomer.DefaultMaxScale);
-            defaultMinScale = ContentZoomer.DefaultMinScale;
-            defaultMaxScale = ContentZoomer.DefaultMaxScale;
-            this.AddManipulator(new ContentDragger());
-            this.AddManipulator(new SelectionDragger());
+            //SetupZoom(ContentZoomer.DefaultMinScale, ContentZoomer.DefaultMaxScale);
+            //defaultMinScale = ContentZoomer.DefaultMinScale;
+            //defaultMaxScale = ContentZoomer.DefaultMaxScale;
+            //this.AddManipulator(new ContentDragger());
+            //this.AddManipulator(new SelectionDragger());
 
+            ////this.AddManipulator(new RectangleSelector());
+            //this.AddManipulator(CreateNodeContextualMenu());
+
+
+
+            //CÓDIGO ADICIONAL
+            // Valores personalizados (ejemplo: zoom out 0.1x, zoom in 3x)
+            float minScale = 0.1f;  // Zoom mínimo (alejarse más)
+            float maxScale = 3f;    // Zoom máximo (acercarse más)
+
+            SetupZoom(minScale, maxScale); // ¡Aquí aplicas los nuevos límites!
+
+            // 1. Selector rectangular
             //this.AddManipulator(new RectangleSelector());
+
+            // 2. Manipuladores de arrastre
+            this.AddManipulator(new SelectionDragger());
+            this.AddManipulator(new ContentDragger());
+            this.AddManipulator(new ClickSelector());
+
+
+
+            // 3. Menú contextual
             this.AddManipulator(CreateNodeContextualMenu());
+            //---------------------------------
+
+
+
         }
 
         private void AddStyles() // Add Style sheet to graph
@@ -915,13 +973,28 @@ namespace Singularis.StackVR.Narrative.Editor {
             var connectedEdges = edges.ToList().Where(edge =>
                 edge.input.node == node || edge.output.node == node).ToList();
 
+
+            for (int i = 0; i < currentNarrative.nodes.Count; i++)
+            {
+                if (currentNarrative.nodes[i].id == node.id)
+                {
+                    string path = AssetDatabase.GetAssetPath(currentNarrative.nodes[i]);
+                    AssetDatabase.DeleteAsset(path);
+                    AssetDatabase.SaveAssets();
+                    AssetDatabase.Refresh();
+                    currentNarrative.nodes.RemoveAt(i);
+                }
+
+            }
+          
+
             foreach (var edge in connectedEdges) {
                 RemoveElement(edge);
             }
-
-
             totalNodes.Remove(node);
             RemoveElement(node);
+            
+
         }
 
 
@@ -968,6 +1041,9 @@ namespace Singularis.StackVR.Narrative.Editor {
 
                 foreach (var hotspot in node.hotspots) {
                     if (hotspot.type == HotspotData.HotspotType.location) {
+
+                        Debug.Log("Checking Nodes" + totalNodes.Count);
+
                         BaseNode newNode = totalNodes.Find(e => e.id == hotspot.target.id);
 
                         ConnectTwoNodes(currentNode, newNode);

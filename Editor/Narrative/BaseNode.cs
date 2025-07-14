@@ -52,6 +52,7 @@ namespace Singularis.StackVR.Narrative.Editor {
         public bool isFull;
         public bool isLockedNode;
         public UnityEngine.Object currentImage;
+        public NodeData nodeData;
 
 
         public BaseNode() : base("Packages/com.singularisvr.stackvr/Editor/UIBUilder/NodeElement.uxml") {
@@ -81,6 +82,27 @@ namespace Singularis.StackVR.Narrative.Editor {
             buttonSetInitialNode.style.visibility = Visibility.Hidden;
             titleNode = this.Q<Label>();
             border.style.backgroundColor = blackColor;
+
+            //CODIGO ADICIONAL
+            border = this.Q<VisualElement>("Border");
+            // Configuración INICIAL del borde
+            border.style.borderTopWidth = 1;
+            border.style.borderRightWidth = 1;
+            border.style.borderBottomWidth = 1;
+            border.style.borderLeftWidth = 1;
+            border.style.borderTopColor = blackColor;
+            border.style.borderRightColor = blackColor;
+            border.style.borderBottomColor = blackColor;
+            border.style.borderLeftColor = blackColor;
+            //-------------------
+
+            //CODIGO ADICIONAL
+            AddToClassList("base-node"); // Asegura que el nodo sea seleccionable
+            //----------------
+
+
+
+
 
             RegisterCallback<MouseOutEvent>((e) => { OnMouseOutEvent(); }, TrickleDown.TrickleDown);
 
@@ -191,6 +213,12 @@ namespace Singularis.StackVR.Narrative.Editor {
 
 
         public void OnEnterNode() {
+
+            if (graphViewExperiences.CheckIfObectFieldIsEmpty())
+            {
+                return;
+            }
+
             Debug.Log($"[BaseNode] OnEnterNode: {id}");
             var currentNarrative = graphViewExperiences.currentNarrative;
             var node = currentNarrative.nodes.Find(n => n.id == id);
@@ -241,6 +269,20 @@ namespace Singularis.StackVR.Narrative.Editor {
 
         public override void OnSelected() {
             base.OnSelected();
+
+
+            //CODIGO ADICIONAL
+            border.style.borderTopWidth = 5;
+            border.style.borderRightWidth = 5;
+            border.style.borderBottomWidth = 5;
+            border.style.borderLeftWidth = 5;
+            border.style.borderTopColor = new Color(0f, 1f, 1f); // Celeste neón
+            border.style.borderRightColor = new Color(0f, 1f, 1f);
+            border.style.borderBottomColor = new Color(0f, 1f, 1f);
+            border.style.borderLeftColor = new Color(0f, 1f, 1f);
+            //----------------
+
+
             Debug.Log("Selected Node");
             graphViewExperiences.selectedNode = this;
 
@@ -252,6 +294,24 @@ namespace Singularis.StackVR.Narrative.Editor {
         public override void OnUnselected() {
             var bg = this.Q<VisualElement>("Background");
             var border = this.Q<VisualElement>("Border");
+
+
+
+            //CODIGO ADICIONAL
+            border.style.borderTopWidth = 1;
+            border.style.borderRightWidth = 1;
+            border.style.borderBottomWidth = 1;
+            border.style.borderLeftWidth = 1;
+            border.style.borderTopColor = blackColor;
+            border.style.borderRightColor = blackColor;
+            border.style.borderBottomColor = blackColor;
+            border.style.borderLeftColor = blackColor;
+            border.style.unityBackgroundImageTintColor = Color.clear;
+            //---------
+
+
+
+
 
             graphViewExperiences.selectedNode = null;
             base.OnUnselected();
@@ -443,6 +503,7 @@ namespace Singularis.StackVR.Narrative.Editor {
         public NodeData SaveAsset(string path = "", Texture2D texture = null) {
             NodeData newScriptable = ScriptableObject.CreateInstance<NodeData>();
 
+            this.nodeData = newScriptable;
             KindOfNode kindOfNode;
             var node = GetNode();
             newScriptable.id = node.id;
@@ -486,6 +547,7 @@ namespace Singularis.StackVR.Narrative.Editor {
             NodeData existingScriptable = AssetDatabase.LoadAssetAtPath<NodeData>(filePath);
 
             if (existingScriptable != null) {
+                this.nodeData = existingScriptable;
                 Debug.Log("Scriptable already exists");
                 existingScriptable.id = node.id;
                 existingScriptable.name = node.name;
@@ -521,7 +583,7 @@ namespace Singularis.StackVR.Narrative.Editor {
                 AssetDatabase.CreateAsset(newScriptable, filePath);
                 AssetDatabase.SaveAssets();
                 AssetDatabase.Refresh();
-
+                nodeData = newScriptable;
                 return newScriptable;
             }
 
