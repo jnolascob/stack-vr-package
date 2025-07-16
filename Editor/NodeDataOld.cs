@@ -18,5 +18,6 @@ namespace Singularis.StackVR.Editor {
         public Resource resource { get; set; }
         public List<HotspotDataJson> hotspots { get; set; }
         public bool isSteroscopic { get; set; }
+        public bool isEmpty { get; set; }
     }
 }

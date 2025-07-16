@@ -6,7 +6,7 @@ namespace Singularis.StackVR.Narrative.Editor {
     public class ImageNode : BaseNode {
 
         int amountOfUpdates;
-
+        public  string placeHolderImage = $"Packages/com.singularisvr.stackvr/Editor/Sprites/PlaceHolderImage.jpg";
 
         public ImageNode() : base() {
 
@@ -16,9 +16,8 @@ namespace Singularis.StackVR.Narrative.Editor {
             base.Draw();
 
             kindOfNode = KindOfNode.image;
-
-            string bgImage = $"Packages/com.singularisvr.stackvr/Editor/Sprites/PlaceHolderImage.jpg";
-            Texture2D nodeBGTexture = AssetDatabase.LoadAssetAtPath<Texture2D>(bgImage);
+            
+            Texture2D nodeBGTexture = AssetDatabase.LoadAssetAtPath<Texture2D>(placeHolderImage);
 
             if (nodeBGTexture == null)
             {
@@ -30,14 +29,46 @@ namespace Singularis.StackVR.Narrative.Editor {
             UpdateImage(nodeBGTexture);
         }
 
-        // Metodo para obtener el path de la imagen
-        public void UpdateImage(Texture2D sprite) {
-            if (amountOfUpdates >= 1) {
-                isFull = true;
-                currentImage = sprite;
+        public void DrawEmptyNode()
+        {
+            isEmpty = true;
+            Texture2D nodeBGTexture = AssetDatabase.LoadAssetAtPath<Texture2D>(placeHolderImage);
+
+            if (nodeBGTexture == null)
+            {
+                Debug.Log("La Imagen es Nula" + nodeBGTexture);
             }
 
+            this.Q<VisualElement>("Icon").style.backgroundImage = new StyleBackground(nodeBGTexture);
+            var defaultImage = Resources.Load<Texture2D>("PlaceHolderImage");
+            UpdateImage(nodeBGTexture, isEmpty);
+        }
+
+
+        
+
+        // Metodo para obtener el path de la imagen
+        public void UpdateImage(Texture2D sprite, bool isEmptyNode = false) {
+           
+           
             pathImage = AssetDatabase.GetAssetPath(sprite);
+
+            if (amountOfUpdates >= 1)
+            {
+                isFull = true;
+                currentImage = sprite;
+                if (pathImage == placeHolderImage)
+                {
+                    isEmpty = true;
+                }
+                else
+                {
+                    isEmpty = false;
+                }
+
+            }
+            Debug.Log("El nodo es " + isEmpty);
+
             Debug.Log($"The Current Path is: {pathImage} | isStereo: {isSteroscopic}");
             
             imageNode.style.backgroundImage = new StyleBackground(sprite);
