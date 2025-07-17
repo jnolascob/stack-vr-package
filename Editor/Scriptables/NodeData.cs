@@ -29,5 +29,6 @@ namespace Singularis.StackVR.Scriptables.Editor {
         public float north;
         public Texture image;
         public List<HotspotData> hotspots;
+        public bool isEmpty;
     }
 }

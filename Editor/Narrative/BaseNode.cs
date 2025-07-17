@@ -49,6 +49,7 @@ namespace Singularis.StackVR.Narrative.Editor {
         public VisualElement imageNode;
         public float north;
         public bool isSteroscopic;
+        public bool isEmpty = true;
         public bool isFull;
         public bool isLockedNode;
         public UnityEngine.Object currentImage;
@@ -159,10 +160,27 @@ namespace Singularis.StackVR.Narrative.Editor {
                 Debug.Log("Title Node Null");
             }
             else {
-                titleNode.text = text;
+
+
+                titleNode.text = ShortString(text);
                 titleNode.MarkDirtyRepaint();
             }
         }
+
+
+
+
+
+        public string ShortString(string input, int maxLength = 5)
+        {
+            if (string.IsNullOrEmpty(input)) return input;
+
+            if (input.Length <= maxLength)
+                return input;
+            else
+                return input.Substring(0, maxLength) + "...";
+        }
+
 
 
         public void SetInitialNode() {
@@ -212,10 +230,18 @@ namespace Singularis.StackVR.Narrative.Editor {
         }
 
 
-        public void OnEnterNode() {
+        public void OnEnterNode(MouseDownEvent e = null) {
 
-            if (graphViewExperiences.CheckIfObectFieldIsEmpty())
+            if (graphViewExperiences.CheckIfObectFieldIsEmpty() || isEmpty)
             {
+                e.StopImmediatePropagation();
+
+                EditorUtility.DisplayDialog(
+           "Empty Node",                      // Título
+           "Add Image Or Video To Node", // Mensaje
+           "OK"                             // Botón
+                         );
+
                 return;
             }
 
@@ -231,7 +257,7 @@ namespace Singularis.StackVR.Narrative.Editor {
             if (e.clickCount == 2) {
 
                 Debug.Log("Double Click");
-                OnEnterNode();
+                OnEnterNode(e);
 
             }
 
@@ -404,6 +430,7 @@ namespace Singularis.StackVR.Narrative.Editor {
             nodeData.id = id;
             nodeData.north = north;
             nodeData.isSteroscopic = isSteroscopic;
+            nodeData.isEmpty = isEmpty; 
 
             List<HotspotDataJson> hotspost = new List<HotspotDataJson>();
 
@@ -512,6 +539,7 @@ namespace Singularis.StackVR.Narrative.Editor {
 
             newScriptable.posX = node.xPos;
             newScriptable.posY = node.yPos;
+            newScriptable.isEmpty = node.isEmpty;   
 
             Enum.TryParse<KindOfNode>(node.type, out kindOfNode);
             Debug.Log(kindOfNode);
@@ -551,6 +579,7 @@ namespace Singularis.StackVR.Narrative.Editor {
                 Debug.Log("Scriptable already exists");
                 existingScriptable.id = node.id;
                 existingScriptable.name = node.name;
+                existingScriptable.isEmpty = node.isEmpty;
 
                 Enum.TryParse<KindOfNode>(node.type, out kindOfNode);
                 existingScriptable.type = kindOfNode switch {

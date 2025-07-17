@@ -10,7 +10,7 @@ namespace Singularis.StackVR.Narrative.Editor {
         public Texture2D currentTextureIcon;
         public string pathToVideoImage;
         public Texture currentTexture;
-
+        public string placeHolderVideo = "Packages/com.singularisvr.stackvr/Editor/Sprites/PlaceHolderVideo.jpg";
 
         public VideoNode() : base() {
         }
@@ -41,6 +41,24 @@ namespace Singularis.StackVR.Narrative.Editor {
         }
 
 
+        public void DrawEmptyNode()
+        {
+            isEmpty = true;
+            Texture2D nodeBGTexture = AssetDatabase.LoadAssetAtPath<Texture2D>(placeHolderVideo);
+
+            if (nodeBGTexture == null)
+            {
+                Debug.Log("La Imagen es Nula" + nodeBGTexture);
+            }
+
+            this.Q<VisualElement>("Icon").style.backgroundImage = new StyleBackground(nodeBGTexture);
+            var defaultImage = Resources.Load<Texture2D>("PlaceHolderImage");
+            UpdateImage(nodeBGTexture);
+        }
+
+
+
+
         public async Task<string> GetVideoImage(int id, string pathToVideo) {
             string videPath = Path.GetFullPath(pathToVideo);
             FFMpegHandler.InitFMpeg();
@@ -56,6 +74,20 @@ namespace Singularis.StackVR.Narrative.Editor {
         public void UpdateVideo(Texture2D texture) {
             isFull = true;
             currentImage = texture;
+
+            pathImage = AssetDatabase.GetAssetPath(currentImage);
+
+
+            if (pathImage == placeHolderVideo)
+            {
+                isEmpty = true;
+            }
+            else
+            {
+                isEmpty = false;
+            }
+
+            Debug.Log("EL nodo es " + isEmpty);
 
             Debug.Log("The Current Path is" + pathImage);
             currentTexture = texture;
@@ -81,7 +113,25 @@ namespace Singularis.StackVR.Narrative.Editor {
         }
 
         public void UpdateImage(Texture2D sprite) {
+                     
+
+
             pathImage = AssetDatabase.GetAssetPath(sprite);
+
+
+            if (pathImage == placeHolderVideo)
+            {
+                isEmpty = true;
+            }
+            else
+            {
+                isEmpty = false;
+            }
+
+            Debug.Log("EL nodo es " + isEmpty);
+
+
+
             imageNode.style.backgroundImage = new StyleBackground(sprite);
             this.MarkDirtyRepaint();
         }

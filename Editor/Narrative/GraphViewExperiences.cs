@@ -66,7 +66,7 @@ namespace Singularis.StackVR.Narrative.Editor {
         // Events
         private EventCallback<ClickEvent> transitionButtonCallback;
         private EventCallback<ClickEvent> deleteButtonCallback;
-
+        public static string placeHolderImage = "Packages/com.singularisvr.stackvr/Editor/Sprites/PlaceHolderImage.jpg";
 
         // Drawing Line Variables
         public LineElement currentLine;
@@ -217,8 +217,23 @@ namespace Singularis.StackVR.Narrative.Editor {
 
                 if (selectedNode is VideoNode) {
 
+                    if (evt.newValue == null)
+                    {
+
+                        var videoNode = selectedNode as VideoNode;
+                        videoNode.isEmpty = true;
+                        videoNode.DrawEmptyNode();
+                        return;
+                    }
+
                     if (evt.newValue is VideoClip) {
                         VideoClip selectedVideo = (VideoClip)evt.newValue;
+
+
+                        if (evt.newValue == null)
+                        {
+                            Debug.Log("You Pressed a button");
+                        }
 
                         if (selectedVideo != null) {
                             var videoNode = selectedNode as VideoNode;
@@ -255,10 +270,31 @@ namespace Singularis.StackVR.Narrative.Editor {
 
                 }
                 else {
+
+                  
+
+
                     Debug.Log("Selecting Image");
-                    Texture2D selectedSprite = (Texture2D)evt.newValue;
+                    
                     if (selectedNode is ImageNode) {
+
+
+                        if (evt.newValue == null)
+                        {
+                            Debug.Log("Boton Nulo");
+                            var imageNode = selectedNode as ImageNode;
+                            imageNode.isEmpty = true;
+                            imageNode.DrawEmptyNode();
+                            return;
+                        }
+
+
+
+
+                        Texture2D selectedSprite = (Texture2D)evt.newValue;
                         if (selectedSprite != null) {
+                                                     
+
                             var imageNode = selectedNode as ImageNode;
                             imageNode.UpdateImage(selectedSprite);
 
@@ -393,7 +429,7 @@ namespace Singularis.StackVR.Narrative.Editor {
             if (e.button == 0) {
 
                 if (e.target is GraphViewExperiences) {
-                    e.StopPropagation();
+                    //e.StopPropagation();
                     Debug.Log("You Pressed Out");
 
                     //CODIGO ADICIONAL
@@ -951,7 +987,7 @@ namespace Singularis.StackVR.Narrative.Editor {
             this.AddManipulator(new SelectionDragger());
             this.AddManipulator(new ContentDragger());
             this.AddManipulator(new ClickSelector());
-
+            this.AddManipulator(new RectangleSelector());
 
 
             // 3. Menú contextual
@@ -1023,7 +1059,14 @@ namespace Singularis.StackVR.Narrative.Editor {
                 else {
                     VideoNode videoNode = CreateNode(posNode, true) as VideoNode;
 
+
+
                     Debug.Log($"[GraphViewExperiences] EditNodes - node video");
+                    if (node.image != null)
+                    {
+                        videoNode.UpdateVideo(node.image as Texture2D);
+                        videoNode.UpdateImage(node.image as Texture2D);
+                    }
 
                     videoNode.north = node.north;
                     videoNode.id = node.id;
