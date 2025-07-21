@@ -5,6 +5,7 @@ using UnityEditor;
 using UnityEngine.UIElements;
 using Singularis.StackVR.Editor;
 using Singularis.StackVR.Scriptables.Editor;
+using UnityEditor.Build.Reporting;
 
 namespace Singularis.StackVR.Narrative.Editor {
     public class SimpleConsoleWindow : EditorWindow {
@@ -65,6 +66,99 @@ namespace Singularis.StackVR.Narrative.Editor {
 
             GetWindow<SimpleConsoleWindow>("Simple Console");
         }
+
+
+        [MenuItem("Singularis/Narrative/Build", priority = 3)]
+        public static void BuildScene()
+        {
+
+            Debug.Log("Try To Build Scene");
+
+            // Ruta de salida
+            // Mostrar diálogo para seleccionar ruta de guardado
+            string buildPath = EditorUtility.SaveFilePanel(
+                "Guardar APK",
+                "",
+                "MiEscena.apk",
+                "apk"
+            );
+
+            if (string.IsNullOrEmpty(buildPath))
+            {
+                Debug.Log("?? Build cancelado por el usuario.");
+                return;
+            }
+
+            // Obtener la escena activa
+            string scenePath = UnityEngine.SceneManagement.SceneManager.GetActiveScene().path;
+
+            if (string.IsNullOrEmpty(scenePath))
+            {
+                EditorUtility.DisplayDialog(
+                   "Not Active Scene",                      // Título
+                    "Please save the scene before building", // Mensaje
+                   "OK"                             // Botón
+                  );
+                return;
+            }
+
+            // Crear carpeta si no existe
+            string dir = Path.GetDirectoryName(buildPath);
+            if (!Directory.Exists(dir))
+                Directory.CreateDirectory(dir);
+
+            // Configurar opciones de build
+            BuildPlayerOptions buildPlayerOptions = new BuildPlayerOptions
+            {
+                scenes = new[] { scenePath },
+                locationPathName = buildPath,
+                target = BuildTarget.Android,
+                options = BuildOptions.None
+            };
+
+            // Ejecutar build
+            BuildReport report = BuildPipeline.BuildPlayer(buildPlayerOptions);
+            BuildSummary summary = report.summary;
+
+            if (summary.result == BuildResult.Succeeded)
+            {
+                Debug.Log($"? Build APK exitoso: {summary.totalSize / 1024 / 1024} MB en {buildPath}");
+                EditorUtility.RevealInFinder(buildPath);
+
+                EditorUtility.DisplayDialog(
+                 "Succes",                      // Título
+                  "Succes Building Scene", // Mensaje
+                 "OK"                             // Botón
+                );
+
+
+            }
+            else if (summary.result == BuildResult.Failed)
+            {
+                EditorUtility.DisplayDialog(
+                   "Error",                      // Título
+                    "Error Building Scene", // Mensaje
+                   "OK"                             // Botón
+                  );
+            }
+
+
+
+
+
+
+
+
+            //GetWindow<SimpleConsoleWindow>("Simple Console");
+        }
+
+
+
+
+
+
+
+
 
         public static void OpenWindow(NarrativeScriptableObject narrative) {
             isImportGraph = false;

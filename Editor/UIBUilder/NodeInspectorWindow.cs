@@ -676,7 +676,7 @@ namespace Singularis.StackVR.UIBuilder.Editor {
                     HotspotInspectorWindow.FillData(hotspotClone, hotspot);
                 }
 
-
+                OnButtonSave(degressField.value, hotspotsContainer);
             });
 
             hotspotsContainer.Add(hotspotClone);
@@ -698,6 +698,8 @@ namespace Singularis.StackVR.UIBuilder.Editor {
 
             parent.Add(buttonInstance);
             parent.MarkDirtyRepaint();
+
+            OnButtonSave(degressField.value, hotspotsContainer);
         }
 
         private void AdjustImageSize(VisualElement imageElement) {

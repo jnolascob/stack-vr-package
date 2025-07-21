@@ -15,6 +15,15 @@ namespace Singularis.StackVR.Narrative.Editor {
 
             if (narrative == null) {
                 Debug.LogError($"[Singularis - SceneGenerator::GenerateScene] Error al cargar narrative: {narrative.name} ({AssetDatabase.GetAssetPath(narrative)})");
+
+                EditorUtility.DisplayDialog(
+                    "Error",                      // Título
+                     "Error Loading Narative", // Mensaje
+                    "OK"                             // Botón
+                   );
+
+
+
                 return;
             }
 
@@ -180,6 +189,13 @@ namespace Singularis.StackVR.Narrative.Editor {
 
                 }
             }
+
+            EditorUtility.DisplayDialog(
+                    "Succes",                      // Título
+                     "Succes Generating Scene", // Mensaje
+                    "OK"                             // Botón
+                   );
+
 
         }
 

@@ -317,7 +317,7 @@ namespace Singularis.StackVR.Narrative.Editor {
                 inspectorPanel.Q<TextField>("TextName").value = null;
             }
             else {
-                inspectorPanel.Q<TextField>("TextName").value = selectedNode.titleNode.text;
+                inspectorPanel.Q<TextField>("TextName").value = selectedNode.fullTitle;
             }
 
             inspectorPanel.Q<TextField>("TextName").RegisterCallback<ChangeEvent<string>>((value) => {
@@ -333,7 +333,7 @@ namespace Singularis.StackVR.Narrative.Editor {
                 inspectorPanel.Q<TextField>("TextName").value = null;
             }
             else {
-                inspectorPanel.Q<TextField>("TextName").value = selectedNode.titleNode.text;
+                inspectorPanel.Q<TextField>("TextName").value = selectedNode.fullTitle;
             }
 
 
@@ -693,7 +693,9 @@ namespace Singularis.StackVR.Narrative.Editor {
         }
 
         public void OnButtonBuild() {
+
             Debug.Log($"Build current node: {AssetDatabase.GetAssetPath(currentNarrative)}");
+            
             SceneGenerator.GenerateScene(currentNarrative);
         }
 

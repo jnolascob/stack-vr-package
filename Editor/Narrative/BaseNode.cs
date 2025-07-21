@@ -54,6 +54,7 @@ namespace Singularis.StackVR.Narrative.Editor {
         public bool isLockedNode;
         public UnityEngine.Object currentImage;
         public NodeData nodeData;
+        public string fullTitle;
 
 
         public BaseNode() : base("Packages/com.singularisvr.stackvr/Editor/UIBUilder/NodeElement.uxml") {
@@ -86,7 +87,7 @@ namespace Singularis.StackVR.Narrative.Editor {
 
             //CODIGO ADICIONAL
             border = this.Q<VisualElement>("Border");
-            // Configuración INICIAL del borde
+            // Configuraciï¿½n INICIAL del borde
             border.style.borderTopWidth = 1;
             border.style.borderRightWidth = 1;
             border.style.borderBottomWidth = 1;
@@ -161,7 +162,7 @@ namespace Singularis.StackVR.Narrative.Editor {
             }
             else {
 
-
+                fullTitle = text;
                 titleNode.text = ShortString(text);
                 titleNode.MarkDirtyRepaint();
             }
@@ -237,9 +238,9 @@ namespace Singularis.StackVR.Narrative.Editor {
                 e.StopImmediatePropagation();
 
                 EditorUtility.DisplayDialog(
-           "Empty Node",                      // Título
+           "Empty Node",                      // Tï¿½tulo
            "Add Image Or Video To Node", // Mensaje
-           "OK"                             // Botón
+           "OK"                             // Botï¿½n
                          );
 
                 return;
@@ -302,7 +303,7 @@ namespace Singularis.StackVR.Narrative.Editor {
             border.style.borderRightWidth = 5;
             border.style.borderBottomWidth = 5;
             border.style.borderLeftWidth = 5;
-            border.style.borderTopColor = new Color(0f, 1f, 1f); // Celeste neón
+            border.style.borderTopColor = new Color(0f, 1f, 1f); // Celeste neï¿½n
             border.style.borderRightColor = new Color(0f, 1f, 1f);
             border.style.borderBottomColor = new Color(0f, 1f, 1f);
             border.style.borderLeftColor = new Color(0f, 1f, 1f);
@@ -426,7 +427,7 @@ namespace Singularis.StackVR.Narrative.Editor {
         {
             NodeDataOld nodeData = new NodeDataOld();
             nodeData.type = kindOfNode.ToString();
-            nodeData.name = titleNode.text;
+            nodeData.name = fullTitle;
             nodeData.id = id;
             nodeData.north = north;
             nodeData.isSteroscopic = isSteroscopic;
