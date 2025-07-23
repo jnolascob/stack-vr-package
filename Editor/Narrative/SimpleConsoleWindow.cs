@@ -6,6 +6,7 @@ using UnityEngine.UIElements;
 using Singularis.StackVR.Editor;
 using Singularis.StackVR.Scriptables.Editor;
 using UnityEditor.Build.Reporting;
+using Codice.Utils;
 
 namespace Singularis.StackVR.Narrative.Editor {
     public class SimpleConsoleWindow : EditorWindow {
@@ -35,8 +36,28 @@ namespace Singularis.StackVR.Narrative.Editor {
             NarrativeScriptableObject narrative = ScriptableObject.CreateInstance<NarrativeScriptableObject>();
             // Set the name of the scriptable object to the file name
             narrative.name = Path.GetFileNameWithoutExtension(path);
+
+            
             // Save the scriptable object to the specified path
             AssetDatabase.CreateAsset(narrative, narrativePath);
+            AssetDatabase.SaveAssets();
+            AssetDatabase.Refresh();
+            
+            narrative.guid = GetGuidOfObject(narrative);
+            AssetDatabase.SaveAssets();
+            AssetDatabase.Refresh();
+
+            string currentGuid = narrative.guid;
+
+            string folderPath = "Assets/Narratives/" + narrative.guid;
+            AssetDatabase.CreateFolder("Assets/Narratives", narrative.guid);
+            string newPath = folderPath + "/" + narrative.name + ".asset";
+            AssetDatabase.MoveAsset(narrativePath, newPath);
+            narrative.guid = currentGuid;
+            narrativePath = newPath;
+            AssetDatabase.SaveAssets();
+            AssetDatabase.Refresh();
+          
 
             //StackProjectConfig.currentNarrative.narrativeSavePath = path;
             //StackProjectConfig.currentNarrative.narrativeDirectoryPath = Path.GetDirectoryName(path);
@@ -48,6 +69,20 @@ namespace Singularis.StackVR.Narrative.Editor {
             // TODO Create and show the window
             GetWindow<SimpleConsoleWindow>("Simple Console");
         }
+
+
+
+
+        public static string GetGuidOfObject(UnityEngine.Object obj)
+        {
+            string path = AssetDatabase.GetAssetPath(obj);
+            return AssetDatabase.AssetPathToGUID(path);
+        }
+
+
+
+
+
 
         public static void ShowWindow(bool importGraph = false) {
             isImportGraph = importGraph;

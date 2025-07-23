@@ -15,6 +15,7 @@ using YamlDotNet.Serialization.NamingConventions;
 using Singularis.StackVR.Editor;
 using Singularis.StackVR.Scriptables.Editor;
 using Singularis.StackVR.UIBuilder.Editor;
+using System.Net;
 
 namespace Singularis.StackVR.Narrative.Editor {
     // TODO remove Linq
@@ -506,6 +507,10 @@ namespace Singularis.StackVR.Narrative.Editor {
             if (nodeFrom.hotspots.Count() > 0) {
 
                 nodeFrom.hotspots.ForEach(h => {
+                    if (h.target == null)
+                    {
+                        return;   
+                    }
                     if (h.target.id == toId) {
                         hasConnection = true;
                         return;
@@ -521,7 +526,17 @@ namespace Singularis.StackVR.Narrative.Editor {
 
                 HotspotData hotspot = ScriptableObject.CreateInstance<HotspotData>();
                 hotspot.id = nodeFrom.hotspots.Count + 1;
-                hotspot.name = $"{nodeTo.name} - {nodeFrom.name}";
+
+                if (string.IsNullOrEmpty(nodeTo.name) && string.IsNullOrEmpty(nodeTo.name))
+                {
+                    hotspot.name = $"hotspot {nodeFrom.id}";
+                }
+                else
+                {
+                    hotspot.name = $"{nodeTo.name} - {nodeFrom.name}";
+                }
+
+                
                 hotspot.type = HotspotData.HotspotType.location;
                 hotspot.target = nodeTo;
                 hotspot.icon = hotspotTexture;
@@ -1089,9 +1104,20 @@ namespace Singularis.StackVR.Narrative.Editor {
 
                         Debug.Log("Checking Nodes" + totalNodes.Count);
 
-                        BaseNode newNode = totalNodes.Find(e => e.id == hotspot.target.id);
+                        if (hotspot.target != null)
+                        {
+                            BaseNode newNode = totalNodes.Find(e => e.id == hotspot.target.id);
 
-                        ConnectTwoNodes(currentNode, newNode);
+                            if (newNode != null)
+                            {
+                                ConnectTwoNodes(currentNode, newNode);
+                            }
+
+                        }
+
+                        
+
+                        
                     }
                 }
 
@@ -1336,17 +1362,25 @@ namespace Singularis.StackVR.Narrative.Editor {
                 newNarrative.version = 1;
                 newNarrative.name = "New Narrative";
                 newNarrative.nodes = currentNarrative.nodes;
+                
+
+
+
                 string pathNarrative = Path.Combine("Assets", "ImportedFiles", uniqueFolderName, $"New Narrrative.asset");
                 AssetDatabase.CreateAsset(newNarrative, pathNarrative);
                 AssetDatabase.Refresh(); // Crear Nueva Narrativa                
                 StackProjectConfig stackProject = StackProjectConfig.currentNarrative;
                 stackProject.narrativeScriptableObject = newNarrative;
+                Debug.Log("Creating New Narrative");
             }
             else {
                 Debug.LogWarning("No file selected.");
             }
 
         }
+
+
+     
 
 
 

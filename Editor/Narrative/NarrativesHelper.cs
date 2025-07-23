@@ -26,6 +26,8 @@ namespace Singularis.StackVR.Narrative.Editor {
 
         public static HotspotData CreateHostpot(NodeData node, string childName) {
             HotspotData hostpot = ScriptableObject.CreateInstance<HotspotData>();
+            
+            hostpot.name = childName;   
 
             string assetPath = AssetDatabase.GetAssetPath(node);
             string folderPath = Path.GetDirectoryName(assetPath);
@@ -37,7 +39,7 @@ namespace Singularis.StackVR.Narrative.Editor {
                 i++;
                 filePath = Path.Combine(folderPath, $"{childName} ({i}).asset");
             }
-
+          
             Debug.Log($"[NodeInspectorWindow] Create Asset: {filePath}");
             AssetDatabase.CreateAsset(hostpot, Path.Combine(filePath));
             return hostpot;
