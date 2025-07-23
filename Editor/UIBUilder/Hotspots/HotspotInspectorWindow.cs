@@ -5,6 +5,7 @@ using UnityEngine;
 using UnityEngine.UIElements;
 using Singularis.StackVR.Scriptables.Editor;
 using Singularis.StackVR.Narrative.Editor;
+using System.Runtime.CompilerServices;
 
 namespace Singularis.StackVR.UIBuilder.Editor {
     public class HotspotInspectorWindow : EditorWindow {
@@ -15,10 +16,13 @@ namespace Singularis.StackVR.UIBuilder.Editor {
         static VisualElement hotspotElement;
         static VisualElement outlinerElement;
         public static VisualElement mainElement;
+        public static NodeInspectorWindow nodeInspector;
 
 
         [MenuItem("Singularis/Develop/HotspotInspectorWindow")]
-        public static void ShowNodeInspector() {
+        public static void ShowNodeInspector(NodeInspectorWindow nodeInspectorWindow) {
+
+            nodeInspector = nodeInspectorWindow;
             if (window != null) {
                 window.LoadUXML();
                 return;
@@ -118,6 +122,9 @@ namespace Singularis.StackVR.UIBuilder.Editor {
 
             slider.RegisterValueChangedCallback(evt => {
                 Debug.Log($"[HotspotInspectorWindow - OnEnable] slider: {evt.newValue}");
+
+                
+
             });
         }
 
@@ -167,21 +174,25 @@ namespace Singularis.StackVR.UIBuilder.Editor {
             // Transform properties
             distanceSlider.RegisterValueChangedCallback(evt => {
                 hotspotDataStored["distance"] = evt.newValue;
+                
             });
 
             angleXSlider.RegisterValueChangedCallback(evt => {
                 float left = Mathf.InverseLerp(-180f, 180f, evt.newValue);
                 hotspotElement.style.left = Length.Percent(left * 100);
+                
             });
 
             angleYSlider.RegisterValueChangedCallback(evt => {
                 float top = Mathf.InverseLerp(-80f, 80f, evt.newValue);
                 hotspotElement.style.top = Length.Percent(top * 100);
+                
             });
 
             scaleSlider.RegisterValueChangedCallback(evt => {
                 hotspotDataStored["scale"] = evt.newValue;
                 hotspotElement.transform.scale = new Vector3(evt.newValue, evt.newValue);
+                
             });
 
 
@@ -192,6 +203,7 @@ namespace Singularis.StackVR.UIBuilder.Editor {
                 hotspotDataStored["name"] = evt.newValue;
                 var hotspotOutliner = outlinerElement.Q<VisualElement>(name: originalName);
                 hotspotOutliner.Q<Button>().text = evt.newValue;
+                
             });
 
             iconField.RegisterValueChangedCallback(evt => {
@@ -202,6 +214,7 @@ namespace Singularis.StackVR.UIBuilder.Editor {
 
                 var hotspotOutliner = outlinerElement.Q<VisualElement>(name: originalName);
                 hotspotOutliner.Q<VisualElement>("IconElement").style.backgroundImage = newBackground;
+                
             });
 
             colorField.RegisterValueChangedCallback(evt => {
@@ -211,6 +224,7 @@ namespace Singularis.StackVR.UIBuilder.Editor {
 
                 var hotspotOutliner = outlinerElement.Q<VisualElement>(name: originalName);
                 hotspotOutliner.Q<VisualElement>("IconElement").style.unityBackgroundImageTintColor = evt.newValue;
+                
             });
 
 

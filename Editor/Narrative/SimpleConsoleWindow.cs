@@ -55,6 +55,8 @@ namespace Singularis.StackVR.Narrative.Editor {
             AssetDatabase.MoveAsset(narrativePath, newPath);
             narrative.guid = currentGuid;
             narrativePath = newPath;
+            EditorUtility.SetDirty(narrative);  
+
             AssetDatabase.SaveAssets();
             AssetDatabase.Refresh();
           

@@ -410,6 +410,12 @@ namespace Singularis.StackVR.UIBuilder.Editor {
             }
         }
 
+
+        public void SaveHostpos()
+        {
+            OnButtonSave(degressField.value, hotspotsContainer);
+        }
+
         private void OnButtonSave(float degrees, VisualElement hotspotsContainer) {
 
             if (editNorth) {
@@ -544,8 +550,7 @@ namespace Singularis.StackVR.UIBuilder.Editor {
                     hotspot.target = hotspotData["target"] as NodeData;
 
                     EditorUtility.SetDirty(hotspot);
-                    AssetDatabase.SaveAssets();
-                    AssetDatabase.Refresh();
+                  
 
                     Debug.Log($"Hotspot: {hotspot.type} - {hotspotData["type"]}");
                     if (hotspotData["type"].ToString() == "question") {
@@ -575,14 +580,12 @@ namespace Singularis.StackVR.UIBuilder.Editor {
                             questionData.textureElement = hotspotData["TextureQuestion"] as Texture;
                         }
                         EditorUtility.SetDirty(hotspot);
-                        AssetDatabase.SaveAssets();
-                        AssetDatabase.Refresh();
+                       
                     }
                     else {
                         hotspot.type = HotspotData.HotspotType.location;
                         EditorUtility.SetDirty(hotspot);
-                        AssetDatabase.SaveAssets();
-                        AssetDatabase.Refresh();
+                        
                     }
                 }
 
@@ -590,7 +593,8 @@ namespace Singularis.StackVR.UIBuilder.Editor {
                 node.hotspots.AddRange(newHotspots);
 
                 EditorUtility.SetDirty(node);
-
+                AssetDatabase.SaveAssets();
+                AssetDatabase.Refresh();
                 newHotspots.Clear();    
 
             }
@@ -673,7 +677,7 @@ namespace Singularis.StackVR.UIBuilder.Editor {
 
         }
 
-        private void CreateHotspot(HotspotData hotspot, VisualElement hotspotsContainer, VisualElement componentContainer, VisualElement outliner) {
+        private void CreateHotspot(HotspotData hotspot, VisualElement hotspotsContainer, VisualElement componentContainer, VisualElement outliner, bool isFirstTime = false) {
             VisualElement hotspotClone = new VisualElement();
 
             if (hotspot.icon != null)
@@ -772,16 +776,16 @@ namespace Singularis.StackVR.UIBuilder.Editor {
 
 
                 if (hotspot.type == HotspotData.HotspotType.location || hotspot.type == HotspotData.HotspotType.custom) {
-                    HotspotInspectorWindow.ShowNodeInspector();
+                    HotspotInspectorWindow.ShowNodeInspector(this);
                     //HotspotInspectorWindow.FillData(hotspot);
                     HotspotInspectorWindow.FillData(hotspotClone, hotspot);
                 }
                 else {
-                    HotspotInspectorWindow.ShowNodeInspector();
+                    HotspotInspectorWindow.ShowNodeInspector(this);
                     HotspotInspectorWindow.FillData(hotspotClone, hotspot);
                 }
 
-                //OnButtonSave(degressField.value, hotspotsContainer);
+                OnButtonSave(degressField.value, hotspotsContainer);
             });
 
             hotspotsContainer.Add(hotspotClone);
@@ -807,6 +811,11 @@ namespace Singularis.StackVR.UIBuilder.Editor {
             hotspotsContainer.MarkDirtyRepaint();
 
             CreateHostpotInUI(outlinerContainer, hotspot.type.ToString(), nameHostpot);
+            if (!isFirstTime)
+            {
+                OnButtonSave(degressField.value, hotspotsContainer);
+            }
+            
         }
 
         private void CreateHostpotInUI(VisualElement parent, string hostpotName, string nameHotspot) {
@@ -820,8 +829,9 @@ namespace Singularis.StackVR.UIBuilder.Editor {
 
             parent.Add(buttonInstance);
             parent.MarkDirtyRepaint();
+            AssetDatabase.Refresh();
 
-            //OnButtonSave(degressField.value, hotspotsContainer);
+           
         }
 
         private void AdjustImageSize(VisualElement imageElement) {
@@ -924,7 +934,7 @@ namespace Singularis.StackVR.UIBuilder.Editor {
             hotspotsContainer.schedule.Execute(() => {
                 // TODO: create hotspots
                 node.hotspots.ForEach(hotspot => {
-                    CreateHotspot(hotspot, hotspotsContainer, componentContainer, outliner);
+                    CreateHotspot(hotspot, hotspotsContainer, componentContainer, outliner, true);
                 });
             });
 
