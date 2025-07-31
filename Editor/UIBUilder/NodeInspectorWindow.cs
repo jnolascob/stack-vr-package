@@ -22,6 +22,7 @@ namespace Singularis.StackVR.UIBuilder.Editor {
         private float initialMouseX = 0;
         private float initialBarX = 0;
 
+        VisualElement lastHotspot;
         VisualElement hotspotDragging = null;
         VisualElement hotspotsContainer = null;
         VisualElement componentContainer;
@@ -43,6 +44,7 @@ namespace Singularis.StackVR.UIBuilder.Editor {
         ToolbarButton btnDiscard;
         VisualElement degreesContainer;
         VisualElement outlinerContainer;
+        public List<VisualElement> currentHostpots = new List<VisualElement>();
 
 
         static public VisualElement hotspotSelected = null;
@@ -698,7 +700,7 @@ namespace Singularis.StackVR.UIBuilder.Editor {
 
             hotspotClone.style.left = hotspotsContainer.resolvedStyle.width * (Mathf.InverseLerp(-180f, 180f, hotspot.angleX));
             hotspotClone.style.top = hotspotsContainer.resolvedStyle.height * (Mathf.InverseLerp(-80, 80f, hotspot.angleY));
-
+            currentHostpots.Add(hotspotClone);
 
             Dictionary<string, object> hotspotData = new Dictionary<string, object> {
                 { "id", hotspot.id },
@@ -741,8 +743,18 @@ namespace Singularis.StackVR.UIBuilder.Editor {
             hotspotClone.RegisterCallback<MouseDownEvent>(evt => {
                 if (editNorth) return;
 
-                hotspotDragging = hotspotClone;
+                foreach (var hostpotBefore in currentHostpots)
+                {
+                    hostpotBefore.style.unityBackgroundImageTintColor = new StyleColor(Color.red);
+                    hostpotBefore.MarkDirtyRepaint();
+                }
 
+
+                hotspotDragging = hotspotClone;
+                lastHotspot = hotspotClone;
+                hotspotDragging.BringToFront();
+                hotspotClone.style.unityBackgroundImageTintColor = new StyleColor(Color.blue);
+                hotspotClone.MarkDirtyRepaint();  
                 hotspotClone.CaptureMouse();
             });
 
@@ -761,6 +773,26 @@ namespace Singularis.StackVR.UIBuilder.Editor {
                 hotspotClone.style.top = Length.Percent(top * 100f);
             });
 
+            hotspotClone.RegisterCallback<PointerDownEvent>(evt =>
+            {
+                if (evt.clickCount == 2)
+                {
+                    if (hotspot.type == HotspotData.HotspotType.location || hotspot.type == HotspotData.HotspotType.custom)
+                    {
+                        HotspotInspectorWindow.ShowNodeInspector(this);
+                        //HotspotInspectorWindow.FillData(hotspot);
+                        HotspotInspectorWindow.FillData(hotspotClone, hotspot);
+                    }
+                    else
+                    {
+                        HotspotInspectorWindow.ShowNodeInspector(this);
+                        HotspotInspectorWindow.FillData(hotspotClone, hotspot);
+                    }
+                    Debug.Log("¡Doble clic detectado!");
+                    // Tu lógica acá
+                }
+            });
+
             hotspotClone.RegisterCallback<MouseUpEvent>(evt => {
                 if (editNorth) return;
                 if (hotspotDragging == hotspotClone) {
@@ -775,17 +807,17 @@ namespace Singularis.StackVR.UIBuilder.Editor {
                 hotspotSelected = hotspotClone;
 
 
-                if (hotspot.type == HotspotData.HotspotType.location || hotspot.type == HotspotData.HotspotType.custom) {
-                    HotspotInspectorWindow.ShowNodeInspector(this);
-                    //HotspotInspectorWindow.FillData(hotspot);
-                    HotspotInspectorWindow.FillData(hotspotClone, hotspot);
-                }
-                else {
-                    HotspotInspectorWindow.ShowNodeInspector(this);
-                    HotspotInspectorWindow.FillData(hotspotClone, hotspot);
-                }
+                //if (hotspot.type == HotspotData.HotspotType.location || hotspot.type == HotspotData.HotspotType.custom) {
+                //    HotspotInspectorWindow.ShowNodeInspector(this);
+                //    //HotspotInspectorWindow.FillData(hotspot);
+                //    HotspotInspectorWindow.FillData(hotspotClone, hotspot);
+                //}
+                //else {
+                //    HotspotInspectorWindow.ShowNodeInspector(this);
+                //    HotspotInspectorWindow.FillData(hotspotClone, hotspot);
+                //}
 
-                OnButtonSave(degressField.value, hotspotsContainer);
+                //OnButtonSave(degressField.value, hotspotsContainer);
             });
 
             hotspotsContainer.Add(hotspotClone);
@@ -810,7 +842,7 @@ namespace Singularis.StackVR.UIBuilder.Editor {
             hotspotClone.MarkDirtyRepaint();
             hotspotsContainer.MarkDirtyRepaint();
 
-            CreateHostpotInUI(outlinerContainer, hotspot.type.ToString(), nameHostpot);
+            CreateHostpotInUI(outlinerContainer, hotspot.type.ToString(), nameHostpot, hotspot.id);
             if (!isFirstTime)
             {
                 OnButtonSave(degressField.value, hotspotsContainer);
@@ -818,14 +850,56 @@ namespace Singularis.StackVR.UIBuilder.Editor {
             
         }
 
-        private void CreateHostpotInUI(VisualElement parent, string hostpotName, string nameHotspot) {
+        private void CreateHostpotInUI(VisualElement parent, string hostpotName, string nameHotspot, int hostpotId) {
             Debug.Log($"[NodeInspectorWindow] CreateHostpotInUI: {hostpotName} {nameHotspot}");
 
             VisualTreeAsset buttonTemplate = AssetDatabase.LoadAssetAtPath<VisualTreeAsset>("Packages/com.singularisvr.stackvr/Editor/UIBUilder/buttonHotspot.uxml");
             VisualElement buttonInstance = buttonTemplate.Instantiate();
             buttonInstance.name = nameHotspot;
 
+
+            Dictionary<string, object> hotspotData = new Dictionary<string, object> {
+                { "id", hostpotId},
+                { "name", hostpotName },                
+            };
+            buttonInstance.userData = hotspotData;
+
+            buttonInstance.RegisterCallback<MouseDownEvent>(e => {
+                Debug.Log("You clicked a Outliner Element");
+
+                foreach (var hostpot in currentHostpots)
+                {
+                    Dictionary<string, object> resultData = hostpot.userData as Dictionary<string, object>;                    
+                    {
+                        if (resultData.ContainsKey("id"))
+                        {
+                            int id = (int)resultData["id"];
+                            if (hostpotId == id)
+                            {
+                                hostpot.style.unityBackgroundImageTintColor = Color.blue;
+                                hostpot.BringToFront(); 
+                            }
+                            else
+                            {
+                                Color resultColor = (Color)resultData["color"];
+                                hostpot.style.unityBackgroundImageTintColor = Color.red;
+
+                            }
+                            hostpot.MarkDirtyRepaint();
+
+                        }
+
+                        
+                    }
+
+                }
+
+            
+            });
+
+
             buttonInstance.Q<Button>().text = hostpotName;
+            
 
             parent.Add(buttonInstance);
             parent.MarkDirtyRepaint();
