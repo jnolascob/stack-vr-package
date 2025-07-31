@@ -90,14 +90,14 @@
     width: 50px;
 }
 
-#components-container {
+/* #components-container {
     position: absolute;
     width: 115px;
     height: 200px;
     background-color: rgba(91, 91, 91, 0.78);
     left: 0;
     top: 200px;
-}
+} */
 
 .hotspot {
     height: 20px;
@@ -129,14 +129,14 @@
     color: rgb(191, 191, 191);
 }
 
-#outliner {
+/* #outliner {
     position: absolute;
     width: 115px;
     height: 200px;
     background-color: rgba(91, 91, 91, 0.78);
     right: 0;
     top: 200px;
-}
+} */
 
 #show-panels {
     align-self: flex-start;

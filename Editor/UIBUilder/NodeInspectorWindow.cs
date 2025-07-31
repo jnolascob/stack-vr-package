@@ -129,16 +129,16 @@ namespace Singularis.StackVR.UIBuilder.Editor {
             });
 
 
-            toolbarToggle.RegisterValueChangedCallback(evt => {
-                if (evt.newValue) {
-                    componentContainer.style.display = DisplayStyle.Flex;
-                    outliner.style.display = DisplayStyle.Flex;
-                }
-                else {
-                    componentContainer.style.display = DisplayStyle.None;
-                    outliner.style.display = DisplayStyle.None;
-                }
-            });
+            //toolbarToggle.RegisterValueChangedCallback(evt => {
+            //    if (evt.newValue) {
+            //        componentContainer.style.display = DisplayStyle.Flex;
+            //        outliner.style.display = DisplayStyle.Flex;
+            //    }
+            //    else {
+            //        componentContainer.style.display = DisplayStyle.None;
+            //        outliner.style.display = DisplayStyle.None;
+            //    }
+            //});
 
 
             root.RegisterCallback<GeometryChangedEvent>(evt => {
@@ -336,10 +336,10 @@ namespace Singularis.StackVR.UIBuilder.Editor {
             float height = root.resolvedStyle.height;
             imageContainer.style.height = new StyleLength(height - 21);
             AdjustImageSize(imageBg);
-            componentContainer.style.left = new StyleLength(0f);
-            componentContainer.style.top = new StyleLength((imageContainer.resolvedStyle.height * 0.5f) - (componentContainer.resolvedStyle.height * 0.5f));
-            outliner.style.right = new StyleLength(0f);
-            outliner.style.top = new StyleLength((imageContainer.resolvedStyle.height * 0.5f) - (outliner.resolvedStyle.height * 0.5f));
+            //componentContainer.style.left = new StyleLength(0f);
+            //componentContainer.style.top = new StyleLength((imageContainer.resolvedStyle.height * 0.5f) - (componentContainer.resolvedStyle.height * 0.5f));
+            //outliner.style.right = new StyleLength(0f);
+            //outliner.style.top = new StyleLength((imageContainer.resolvedStyle.height * 0.5f) - (outliner.resolvedStyle.height * 0.5f));
         }
 
         private void OnComponentClick(MouseDownEvent evt) {
@@ -917,15 +917,16 @@ namespace Singularis.StackVR.UIBuilder.Editor {
 
             imageContainer = root.Q<VisualElement>("image-container");
 
-            componentContainer.schedule.Execute(() => {
-                componentContainer.style.left = new StyleLength(0f);
-                componentContainer.style.top = new StyleLength((imageContainer.resolvedStyle.height * 0.5f) - (componentContainer.resolvedStyle.height * 0.5f));
-            });
+            //componentContainer.schedule.Execute(() =>
+            //{
+            //    componentContainer.style.left = new StyleLength(0f);
+            //    componentContainer.style.top = new StyleLength((imageContainer.resolvedStyle.height * 0.5f) - (componentContainer.resolvedStyle.height * 0.5f));
+            //});
 
-            outliner.schedule.Execute(() => {
-                outliner.style.right = new StyleLength(0f);
-                outliner.style.top = new StyleLength((imageContainer.resolvedStyle.height * 0.5f) - (outliner.resolvedStyle.height * 0.5f));
-            });
+            //outliner.schedule.Execute(() => {
+            //    outliner.style.right = new StyleLength(0f);
+            //    outliner.style.top = new StyleLength((imageContainer.resolvedStyle.height * 0.5f) - (outliner.resolvedStyle.height * 0.5f));
+            //});
 
             outlinerContainer.Clear();
             //outliner.Clear();
