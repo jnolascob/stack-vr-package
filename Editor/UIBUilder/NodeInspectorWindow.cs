@@ -8,6 +8,7 @@ using Singularis.StackVR.Narrative.Editor;
 using Singularis.StackVR.Scriptables.Editor;
 using Singularis.StackVR.Narrative;
 using System;
+using System.Runtime.CompilerServices;
 
 namespace Singularis.StackVR.UIBuilder.Editor {
     public class NodeInspectorWindow : EditorWindow {
@@ -45,14 +46,16 @@ namespace Singularis.StackVR.UIBuilder.Editor {
         VisualElement degreesContainer;
         VisualElement outlinerContainer;
         public List<VisualElement> currentHostpots = new List<VisualElement>();
+        public static GraphViewExperiences graphViewExperiences;
 
 
         static public VisualElement hotspotSelected = null;
 
 
-        public static void ShowNodeInspector(string guid) {
+        public static void ShowNodeInspector(string guid, GraphViewExperiences graphView) {
             var sampleNode = AssetDatabase.GUIDToAssetPath(guid);
             node = AssetDatabase.LoadAssetAtPath<NodeData>(sampleNode);
+            graphViewExperiences = graphView;
             //Debug.Log($"[NodeInspectorWindow - ShowNodeInspector] {node.name}");
 
             window = GetWindow<NodeInspectorWindow>();
@@ -210,6 +213,23 @@ namespace Singularis.StackVR.UIBuilder.Editor {
             degreesContainer.RegisterCallback<ClickEvent>(evt => {
                 OnDegreesContainer(evt, degressField);
             });
+
+
+            container.focusable = true;
+            container.Focus();
+            container.RegisterCallback<KeyDownEvent>(evt =>
+            {
+                if (evt.keyCode == KeyCode.Delete)
+                {
+                    DeleteHostpot();
+                    Debug.Log("Suprimir presionado desde lambda");
+                    // Acción que querés ejecutar
+                }
+            });
+
+
+
+
         }
 
 
@@ -319,7 +339,7 @@ namespace Singularis.StackVR.UIBuilder.Editor {
                 Debug.Log($"[NodeInspectorWindow] Change Spot: {target.name}");
 
                 string filePath = AssetDatabase.GetAssetPath(target.target);
-                NodeInspectorWindow.ShowNodeInspector(AssetDatabase.AssetPathToGUID(filePath));
+                NodeInspectorWindow.ShowNodeInspector(AssetDatabase.AssetPathToGUID(filePath), graphViewExperiences);
                 root.Clear();
 
                 OnEnable();
@@ -377,7 +397,7 @@ namespace Singularis.StackVR.UIBuilder.Editor {
                     hotspot.type = HotspotData.HotspotType.location;
                 }
 
-                hotspot.id = hotspotsContainer.childCount + 1;
+                hotspot.id = System.Guid.NewGuid().ToString(); 
                 hotspot.name = target.name;
 
                 Debug.Log("THe New hostpot" + hotspot.id);
@@ -438,7 +458,7 @@ namespace Singularis.StackVR.UIBuilder.Editor {
                     Debug.Log("The CHild Name is " + child.name);
                     Dictionary<string, object> hotspotData = child.userData as Dictionary<string, object>;
                     
-                    string hostpotId = hotspotData["id"].ToString();
+                    string hostpotId = (string)hotspotData["id"];
                     Debug.Log("THe User is" + hostpotId);
                     VisualElement hotspotElement = child;                  
                                        
@@ -459,7 +479,7 @@ namespace Singularis.StackVR.UIBuilder.Editor {
 
                             Debug.Log("The hostpot id new is " + hostpotId);
                             Debug.Log("The New ids are " + itemHostpot.id);
-                            if (itemHostpot.id == Int32.Parse(hostpotId))
+                            if (itemHostpot.id == hostpotId)
                             {
                                 
                                 hotspot = itemHostpot;
@@ -534,7 +554,7 @@ namespace Singularis.StackVR.UIBuilder.Editor {
 
                     Debug.Log($"Hotspot: {hotspotData["id"]} {hotspotData["name"]} {hotspotData["distance"]}");
 
-                    hotspot.id = int.Parse(hotspotData["id"].ToString());
+                    hotspot.id = hotspotData["id"].ToString();
 
                     Debug.Log("The new hostpot Id is " + hotspot.id);
                     hotspot.name = hotspotData["name"].ToString();
@@ -678,6 +698,77 @@ namespace Singularis.StackVR.UIBuilder.Editor {
         private void FillNode() {
 
         }
+
+
+
+        public void DeleteHostpot()
+        {
+
+            if (hotspotSelected == null)
+            {
+                Debug.Log("Null Hostpot");
+                return;
+            }
+
+            currentHostpots.Remove(hotspotSelected);
+            hotspotsContainer.Remove(hotspotSelected);
+           
+
+            Dictionary<string, object> hostpotData = hotspotSelected.userData as Dictionary<string, object>;
+
+            string hostpotId = (string)hostpotData["id"];
+
+
+
+            foreach (var hostpot in outlinerContainer.Children())
+            {
+                Dictionary<string, object> resultData = hostpot.userData as Dictionary<string, object>;
+                {
+                    if (resultData.ContainsKey("id"))
+                    {
+                        string id = (string)resultData["id"];
+                        if (hostpotId == id)
+                        {
+
+                            for (int i = 0; i < node.hotspots.Count; i++)
+                            {
+                                if (node.hotspots[i].id == id)
+                                {
+                                    node.hotspots.RemoveAt(i);
+                                    break;
+                                }
+                            }
+
+
+
+                            outlinerContainer.Remove(hostpot);  
+
+                            break;
+                        }
+                        else
+                        {
+                          
+
+                        }
+                        hostpot.MarkDirtyRepaint();
+
+                    }
+
+
+                }
+
+            }
+
+
+
+
+
+
+
+
+
+        }
+
 
         private void CreateHotspot(HotspotData hotspot, VisualElement hotspotsContainer, VisualElement componentContainer, VisualElement outliner, bool isFirstTime = false) {
             VisualElement hotspotClone = new VisualElement();
@@ -850,7 +941,7 @@ namespace Singularis.StackVR.UIBuilder.Editor {
             
         }
 
-        private void CreateHostpotInUI(VisualElement parent, string hostpotName, string nameHotspot, int hostpotId) {
+        private void CreateHostpotInUI(VisualElement parent, string hostpotName, string nameHotspot, string hostpotId) {
             Debug.Log($"[NodeInspectorWindow] CreateHostpotInUI: {hostpotName} {nameHotspot}");
 
             VisualTreeAsset buttonTemplate = AssetDatabase.LoadAssetAtPath<VisualTreeAsset>("Packages/com.singularisvr.stackvr/Editor/UIBUilder/buttonHotspot.uxml");
@@ -864,7 +955,7 @@ namespace Singularis.StackVR.UIBuilder.Editor {
             };
             buttonInstance.userData = hotspotData;
 
-            buttonInstance.RegisterCallback<MouseDownEvent>(e => {
+            buttonInstance.RegisterCallback<PointerDownEvent>(e => {
                 Debug.Log("You clicked a Outliner Element");
 
                 foreach (var hostpot in currentHostpots)
@@ -873,7 +964,7 @@ namespace Singularis.StackVR.UIBuilder.Editor {
                     {
                         if (resultData.ContainsKey("id"))
                         {
-                            int id = (int)resultData["id"];
+                            string id = (string)resultData["id"];
                             if (hostpotId == id)
                             {
                                 hostpot.style.unityBackgroundImageTintColor = Color.blue;

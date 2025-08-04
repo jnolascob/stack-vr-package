@@ -475,8 +475,8 @@ namespace Singularis.StackVR.Narrative.Editor {
         public void ConnectNodes(BaseNode node)// Connect Nodes
         {
             Debug.Log($"Connecting Nodes: from: {inputNode.id} @ to: {node.id}");
-            int fromId = inputNode.id;
-            int toId = node.id;
+            string fromId = inputNode.id;
+            string toId = node.id;
 
             if (!node.inputPort.connected && !node.outPutPort.connected) {
                 node.inputPort.SetStyles(inputNode.outPutPort.leftPos, inputNode.outPutPort.topPos, true);
@@ -525,7 +525,7 @@ namespace Singularis.StackVR.Narrative.Editor {
                 Texture2D hotspotTexture = AssetDatabase.LoadAssetAtPath<Texture2D>(iconPath);
 
                 HotspotData hotspot = ScriptableObject.CreateInstance<HotspotData>();
-                hotspot.id = nodeFrom.hotspots.Count + 1;
+                hotspot.id = System.Guid.NewGuid().ToString();
 
                 if (string.IsNullOrEmpty(nodeTo.name) && string.IsNullOrEmpty(nodeTo.name))
                 {
@@ -562,7 +562,7 @@ namespace Singularis.StackVR.Narrative.Editor {
         }
 
 
-        private NodeData GetNodeFromHostpot(int id) {
+        private NodeData GetNodeFromHostpot(string id) {
             foreach (var node in currentNarrative.nodes) {
                 if (node.id == id) {
                     return node;
@@ -847,7 +847,7 @@ namespace Singularis.StackVR.Narrative.Editor {
             }
             currentNodes = currentNodes.Distinct().ToList();
 
-            int nodeId = 0;
+            string nodeId = "";
             List<string> pathFiles = new();
             foreach (var node in currentNodes) {
                 if (node.isFirstElement) {
@@ -894,9 +894,8 @@ namespace Singularis.StackVR.Narrative.Editor {
 
             ImageNode node = new ImageNode();
             node.Initialize(position, this, inspectorPanel);
-            node.id = currentNode;
-            node.Draw();
-            node.id = currentNode;
+            node.id = System.Guid.NewGuid().ToString();
+            node.Draw();            
             totalNodes.Add(node);
             nodeDictionary.Add(node.id.ToString(), node);
 
@@ -934,9 +933,8 @@ namespace Singularis.StackVR.Narrative.Editor {
             VideoNode node = new VideoNode();
 
             node.Initialize(position, this, inspectorPanel);
-            node.id = currentNode;
-            node.Draw();
-            node.id = currentNode;
+            node.id = System.Guid.NewGuid().ToString(); 
+            node.Draw();            
             totalNodes.Add(node);
             nodeDictionary.Add(node.id.ToString(), node);
             Debug.Log("THe Nodes are" + currentNode);

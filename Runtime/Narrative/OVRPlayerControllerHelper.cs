@@ -18,7 +18,7 @@ namespace Singularis.StackVR.Narrative {
         private CharacterController characterController;
 
 
-        public int initialSpotId = -1;
+        public string initialSpotId = "";
 
 
         private void Awake() {

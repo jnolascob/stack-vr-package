@@ -7,7 +7,7 @@ namespace Singularis.StackVR.Narrative {
         [SerializeField]
         private SpotController target = null;
         [SerializeField]
-        private int targetId = -1;
+        private string targetId = "";
 
 
 
@@ -36,7 +36,7 @@ namespace Singularis.StackVR.Narrative {
             this.target = target;
         }
 
-        public void SetTarget(int targetId) {
+        public void SetTarget(string targetId) {
             this.targetId = targetId;
         }
 

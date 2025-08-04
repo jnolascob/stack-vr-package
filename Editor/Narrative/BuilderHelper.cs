@@ -118,7 +118,7 @@ namespace Singularis.StackVR.Narrative.Editor {
             return null;
         }
 
-        public static void SaveJsonFile(ref List<string> pathFiles, int nodeId, List<NodeDataOld> nodesData) {
+        public static void SaveJsonFile(ref List<string> pathFiles, string nodeId, List<NodeDataOld> nodesData) {
             Tour testExperience = new() {
                 version = 1,
                 date = "000",

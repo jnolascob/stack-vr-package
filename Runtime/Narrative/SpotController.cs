@@ -4,7 +4,7 @@ namespace Singularis.StackVR.Narrative {
     public class SpotController : MonoBehaviour {
 
 
-        public int id = -1;
+        public string id = "";
 
         public Vector3 position {
             get => transform.position;

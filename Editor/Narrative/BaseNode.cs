@@ -23,7 +23,7 @@ namespace Singularis.StackVR.Narrative.Editor {
 
     // Base Class de los nodos 
     public class BaseNode : Node {
-        public int id;
+        public string id;
         protected ObjectField texturePicker;
         protected Image nodeImage;
         protected KindOfNode kindOfNode;
@@ -194,7 +194,7 @@ namespace Singularis.StackVR.Narrative.Editor {
 
         public void DisableInitialNode() {
             isFirstElement = false;
-            graphViewExperiences.currentNarrative.firstNodeId = -1;
+            graphViewExperiences.currentNarrative.firstNodeId = "Empty";
             buttonSetInitialNode.style.visibility = Visibility.Hidden;
         }
 
@@ -250,7 +250,7 @@ namespace Singularis.StackVR.Narrative.Editor {
             var currentNarrative = graphViewExperiences.currentNarrative;
             var node = currentNarrative.nodes.Find(n => n.id == id);
             string filePath = AssetDatabase.GetAssetPath(node);
-            NodeInspectorWindow.ShowNodeInspector(AssetDatabase.AssetPathToGUID(filePath));
+            NodeInspectorWindow.ShowNodeInspector(AssetDatabase.AssetPathToGUID(filePath), graphViewExperiences);
         }
 
         // Click Events
@@ -474,7 +474,7 @@ namespace Singularis.StackVR.Narrative.Editor {
                             newHostpot.nodeId = hostpot.target.id;
                         }
                         else {
-                            newHostpot.nodeId = -1;
+                            newHostpot.nodeId = "-1";
                         }
                         hotspost.Add(newHostpot);
 
@@ -501,8 +501,8 @@ namespace Singularis.StackVR.Narrative.Editor {
             var inputPorts = inputPort.connections.ToList();
 
 
-            List<int> outputNodes = new List<int>();
-            List<int> inputNodes = new List<int>();
+            List<string> outputNodes = new List<string>();
+            List<string> inputNodes = new List<string>();
 
             if (outPutEdges.Count > 0) {
                 foreach (var edge in outPutEdges) {

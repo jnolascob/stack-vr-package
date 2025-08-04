@@ -6,7 +6,7 @@ namespace Singularis.StackVR.Narrative {
 
         static private ExperienceManager instance;
 
-        static public SpotController FindNodeById(int id) {
+        static public SpotController FindNodeById(string id) {
             if (instance != null) {
                 return instance.FindNode(id);
             }
@@ -37,7 +37,7 @@ namespace Singularis.StackVR.Narrative {
             nodes.Add(node);
         }
 
-        public SpotController FindNode(int id) {
+        public SpotController FindNode(string id) {
             return nodes.Find(node => node.id == id);
         }
 
