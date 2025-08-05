@@ -15,6 +15,7 @@ using YamlDotNet.Serialization.NamingConventions;
 using Singularis.StackVR.Editor;
 using Singularis.StackVR.Scriptables.Editor;
 using Singularis.StackVR.UIBuilder.Editor;
+using System.Net;
 
 namespace Singularis.StackVR.Narrative.Editor {
     // TODO remove Linq
@@ -317,7 +318,7 @@ namespace Singularis.StackVR.Narrative.Editor {
                 inspectorPanel.Q<TextField>("TextName").value = null;
             }
             else {
-                inspectorPanel.Q<TextField>("TextName").value = selectedNode.titleNode.text;
+                inspectorPanel.Q<TextField>("TextName").value = selectedNode.fullTitle;
             }
 
             inspectorPanel.Q<TextField>("TextName").RegisterCallback<ChangeEvent<string>>((value) => {
@@ -333,7 +334,7 @@ namespace Singularis.StackVR.Narrative.Editor {
                 inspectorPanel.Q<TextField>("TextName").value = null;
             }
             else {
-                inspectorPanel.Q<TextField>("TextName").value = selectedNode.titleNode.text;
+                inspectorPanel.Q<TextField>("TextName").value = selectedNode.fullTitle;
             }
 
 
@@ -474,8 +475,8 @@ namespace Singularis.StackVR.Narrative.Editor {
         public void ConnectNodes(BaseNode node)// Connect Nodes
         {
             Debug.Log($"Connecting Nodes: from: {inputNode.id} @ to: {node.id}");
-            int fromId = inputNode.id;
-            int toId = node.id;
+            string fromId = inputNode.id;
+            string toId = node.id;
 
             if (!node.inputPort.connected && !node.outPutPort.connected) {
                 node.inputPort.SetStyles(inputNode.outPutPort.leftPos, inputNode.outPutPort.topPos, true);
@@ -506,6 +507,10 @@ namespace Singularis.StackVR.Narrative.Editor {
             if (nodeFrom.hotspots.Count() > 0) {
 
                 nodeFrom.hotspots.ForEach(h => {
+                    if (h.target == null)
+                    {
+                        return;   
+                    }
                     if (h.target.id == toId) {
                         hasConnection = true;
                         return;
@@ -520,8 +525,18 @@ namespace Singularis.StackVR.Narrative.Editor {
                 Texture2D hotspotTexture = AssetDatabase.LoadAssetAtPath<Texture2D>(iconPath);
 
                 HotspotData hotspot = ScriptableObject.CreateInstance<HotspotData>();
-                hotspot.id = nodeFrom.hotspots.Count + 1;
-                hotspot.name = $"{nodeTo.name} - {nodeFrom.name}";
+                hotspot.id = System.Guid.NewGuid().ToString();
+
+                if (string.IsNullOrEmpty(nodeTo.name) && string.IsNullOrEmpty(nodeTo.name))
+                {
+                    hotspot.name = $"hotspot {nodeFrom.id}";
+                }
+                else
+                {
+                    hotspot.name = $"{nodeTo.name} - {nodeFrom.name}";
+                }
+
+                
                 hotspot.type = HotspotData.HotspotType.location;
                 hotspot.target = nodeTo;
                 hotspot.icon = hotspotTexture;
@@ -547,7 +562,7 @@ namespace Singularis.StackVR.Narrative.Editor {
         }
 
 
-        private NodeData GetNodeFromHostpot(int id) {
+        private NodeData GetNodeFromHostpot(string id) {
             foreach (var node in currentNarrative.nodes) {
                 if (node.id == id) {
                     return node;
@@ -647,7 +662,7 @@ namespace Singularis.StackVR.Narrative.Editor {
             dropDownMenu.Q<VisualElement>("AddVideo").RegisterCallback<MouseDownEvent>((e) => {
                 var position = contentViewContainer.WorldToLocal(mousePosition);
                 BaseNode node = CreateVideoNode(position);
-                NodeData nodeData = node.SaveAsset("");
+                NodeData nodeData = node.SaveAsset(Path.GetDirectoryName(AssetDatabase.GetAssetPath(currentNarrative)), null, currentNarrative.nodes.Count);
                 currentNarrative.nodes.Add(nodeData);
                 AddElement(node);
             }, TrickleDown.TrickleDown);
@@ -656,7 +671,7 @@ namespace Singularis.StackVR.Narrative.Editor {
                 var position = contentViewContainer.WorldToLocal(mousePosition);
 
                 BaseNode node = CreateImageNode(position);
-                NodeData nodeData = node.SaveAsset(Path.GetDirectoryName(AssetDatabase.GetAssetPath(currentNarrative)));
+                NodeData nodeData = node.SaveAsset(Path.GetDirectoryName(AssetDatabase.GetAssetPath(currentNarrative)), null, currentNarrative.nodes.Count);
                 currentNarrative.nodes.Add(nodeData);
                 AddElement(node);
 
@@ -693,7 +708,9 @@ namespace Singularis.StackVR.Narrative.Editor {
         }
 
         public void OnButtonBuild() {
+
             Debug.Log($"Build current node: {AssetDatabase.GetAssetPath(currentNarrative)}");
+            
             SceneGenerator.GenerateScene(currentNarrative);
         }
 
@@ -830,7 +847,7 @@ namespace Singularis.StackVR.Narrative.Editor {
             }
             currentNodes = currentNodes.Distinct().ToList();
 
-            int nodeId = 0;
+            string nodeId = "";
             List<string> pathFiles = new();
             foreach (var node in currentNodes) {
                 if (node.isFirstElement) {
@@ -877,9 +894,8 @@ namespace Singularis.StackVR.Narrative.Editor {
 
             ImageNode node = new ImageNode();
             node.Initialize(position, this, inspectorPanel);
-            node.id = currentNode;
-            node.Draw();
-            node.id = currentNode;
+            node.id = System.Guid.NewGuid().ToString();
+            node.Draw();            
             totalNodes.Add(node);
             nodeDictionary.Add(node.id.ToString(), node);
 
@@ -917,9 +933,8 @@ namespace Singularis.StackVR.Narrative.Editor {
             VideoNode node = new VideoNode();
 
             node.Initialize(position, this, inspectorPanel);
-            node.id = currentNode;
-            node.Draw();
-            node.id = currentNode;
+            node.id = System.Guid.NewGuid().ToString(); 
+            node.Draw();            
             totalNodes.Add(node);
             nodeDictionary.Add(node.id.ToString(), node);
             Debug.Log("THe Nodes are" + currentNode);
@@ -1087,9 +1102,20 @@ namespace Singularis.StackVR.Narrative.Editor {
 
                         Debug.Log("Checking Nodes" + totalNodes.Count);
 
-                        BaseNode newNode = totalNodes.Find(e => e.id == hotspot.target.id);
+                        if (hotspot.target != null)
+                        {
+                            BaseNode newNode = totalNodes.Find(e => e.id == hotspot.target.id);
 
-                        ConnectTwoNodes(currentNode, newNode);
+                            if (newNode != null)
+                            {
+                                ConnectTwoNodes(currentNode, newNode);
+                            }
+
+                        }
+
+                        
+
+                        
                     }
                 }
 
@@ -1334,17 +1360,25 @@ namespace Singularis.StackVR.Narrative.Editor {
                 newNarrative.version = 1;
                 newNarrative.name = "New Narrative";
                 newNarrative.nodes = currentNarrative.nodes;
+                
+
+
+
                 string pathNarrative = Path.Combine("Assets", "ImportedFiles", uniqueFolderName, $"New Narrrative.asset");
                 AssetDatabase.CreateAsset(newNarrative, pathNarrative);
                 AssetDatabase.Refresh(); // Crear Nueva Narrativa                
                 StackProjectConfig stackProject = StackProjectConfig.currentNarrative;
                 stackProject.narrativeScriptableObject = newNarrative;
+                Debug.Log("Creating New Narrative");
             }
             else {
                 Debug.LogWarning("No file selected.");
             }
 
         }
+
+
+     
 
 
 

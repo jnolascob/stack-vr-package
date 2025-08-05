@@ -59,7 +59,7 @@ namespace Singularis.StackVR.Narrative.Editor {
 
 
 
-        public async Task<string> GetVideoImage(int id, string pathToVideo) {
+        public async Task<string> GetVideoImage(string id, string pathToVideo) {
             string videPath = Path.GetFullPath(pathToVideo);
             FFMpegHandler.InitFMpeg();
             Debug.Log("Getting Video");

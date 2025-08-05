@@ -24,6 +24,11 @@ namespace Singularis.StackVR.Narrative.Editor {
             parentQuestions = main.Q<VisualElement>("ParentAnswers");
             questionElements = main.Query<VisualElement>("Answer").ToList();
 
+
+
+            int? totalQuestions =  (int?)GetData("totalQuestions");
+
+
             var questionBg = main.Q<ObjectField>("QuestionBg");
             questionBg.RegisterValueChangedCallback(value => {
                 //Dictionary<string, object> hotspotsData = hotspotElement.userData as Dictionary<string, object>;
@@ -35,6 +40,19 @@ namespace Singularis.StackVR.Narrative.Editor {
             if (GetData("TextureQuestion") != null) {
                 questionBg.value = GetData("TextureQuestion") as Texture;
             }
+
+
+            if (totalQuestions != null)
+            {
+               int difQuestions = (int)totalQuestions - questionElements.Count;
+
+                for (int i = 0; i < difQuestions; i++)
+                {
+                    OnAddAnswer();
+                }
+
+            }
+
 
 
             for (int i = 0; i < questionElements.Count; i++) {
@@ -59,6 +77,7 @@ namespace Singularis.StackVR.Narrative.Editor {
 
                     questionElements[i].Q<TextField>("InputQuestion").value = answer.name;
                     questionElements[i].Q<IntegerField>("PointsValue").value = answer.points;
+                    questionElements[i].Q<Toggle>("CorrectAnswer").value = answer.isCorrect;
                 }
 
 
@@ -159,11 +178,16 @@ namespace Singularis.StackVR.Narrative.Editor {
             newAnswer.Q<VisualElement>("Delete").RegisterCallback<ClickEvent>(e => {
                 questionElements.Remove(newAnswer);
                 newAnswer.RemoveFromHierarchy();
+                SaveData("totalQuestions", questionElements.Count);
             });
 
             questionElements.Add(newAnswer);
 
+
+            
+
             int numero = questionElements.Count; // por ejemplo
+            SaveData("totalQuestions", numero);
             char letra = (char)('A' + (numero - 1));
             Debug.Log(letra); // Salida: C
 

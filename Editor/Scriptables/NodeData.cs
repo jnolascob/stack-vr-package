@@ -4,7 +4,7 @@ using UnityEngine;
 namespace Singularis.StackVR.Scriptables.Editor {
     [CreateAssetMenu(fileName = "NodeData", menuName = "Singularis/Narrative/Node")]
     public class NodeData : ScriptableObject {
-        public int id;
+        public string id;
         public new string name;
 
         public enum NodeType {
