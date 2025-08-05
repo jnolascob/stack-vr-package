@@ -528,7 +528,7 @@ namespace Singularis.StackVR.Narrative.Editor {
             return nodeData;
         }
 
-        public NodeData SaveAsset(string path = "", Texture2D texture = null) {
+        public NodeData SaveAsset(string path = "", Texture2D texture = null, int index = 0) {
             NodeData newScriptable = ScriptableObject.CreateInstance<NodeData>();
 
             this.nodeData = newScriptable;
@@ -566,10 +566,10 @@ namespace Singularis.StackVR.Narrative.Editor {
             string filePath = "";
             if (string.IsNullOrEmpty(path)) {
                 //filePath = $"Assets/Singularis/StackVR/Scriptables/{newScriptable.name}_{newScriptable.id}.asset";
-                filePath = Path.Combine(StackProjectConfig.currentNarrative.narrativeDirectoryPath, $"{newScriptable.name}_{newScriptable.id}.asset");
+                filePath = Path.Combine(StackProjectConfig.currentNarrative.narrativeDirectoryPath, $"node_{index}.asset");
             }
             else {
-                filePath = Path.Combine(path, $"{newScriptable.name}_{newScriptable.id}.asset");
+                filePath = Path.Combine(path, $"node_{index}.asset");
             }
 
 

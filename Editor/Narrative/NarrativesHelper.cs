@@ -24,20 +24,20 @@ namespace Singularis.StackVR.Narrative.Editor {
         }
 
 
-        public static HotspotData CreateHostpot(NodeData node, string childName) {
+        public static HotspotData CreateHostpot(NodeData node, string childName, int indexHostpot) {
             HotspotData hostpot = ScriptableObject.CreateInstance<HotspotData>();
             
             hostpot.name = childName;   
 
             string assetPath = AssetDatabase.GetAssetPath(node);
             string folderPath = Path.GetDirectoryName(assetPath);
-            string filePath = Path.Combine(folderPath, $"{childName}.asset");
+            string filePath = Path.Combine(folderPath, $"hotspot{indexHostpot}.asset");
 
             int i = 0;
             while (File.Exists(filePath)) {
                 Debug.Log($"[NodeInspectorWindow] File Exists: {filePath}");
                 i++;
-                filePath = Path.Combine(folderPath, $"{childName} ({i}).asset");
+                filePath = Path.Combine(folderPath, $"hotspot ({i}).asset");
             }
           
             Debug.Log($"[NodeInspectorWindow] Create Asset: {filePath}");
@@ -46,14 +46,14 @@ namespace Singularis.StackVR.Narrative.Editor {
 
         }
 
-        public static HotspotQuestionData CreateHotspotQuestion(NodeData node, string childName) {
+        public static HotspotQuestionData CreateHotspotQuestion(NodeData node, string childName, int indexHotspot) {
 
             HotspotQuestionData hotspot = ScriptableObject.CreateInstance<HotspotQuestionData>();
             hotspot.type = HotspotData.HotspotType.question;
 
             string assetPath = AssetDatabase.GetAssetPath(node);
             string folderPath = Path.GetDirectoryName(assetPath);
-            string filePath = Path.Combine(folderPath, $"{childName}.asset");
+            string filePath = Path.Combine(folderPath, $"hotspot{indexHotspot}.asset");
 
             //if (File.Exists(filePath)) {
             //AssetDatabase.DeleteAsset(filePath);
@@ -62,7 +62,7 @@ namespace Singularis.StackVR.Narrative.Editor {
             while (File.Exists(filePath)) {
                 Debug.Log($"[NodeInspectorWindow] File Exists: {filePath}");
                 i++;
-                filePath = Path.Combine(folderPath, $"{childName} ({i}).asset");
+                filePath = Path.Combine(folderPath, $"hotspot{indexHotspot}.asset");
             }
             //}
             Debug.Log($"[NodeInspectorWindow] Create Asset: {filePath}");

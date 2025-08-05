@@ -662,7 +662,7 @@ namespace Singularis.StackVR.Narrative.Editor {
             dropDownMenu.Q<VisualElement>("AddVideo").RegisterCallback<MouseDownEvent>((e) => {
                 var position = contentViewContainer.WorldToLocal(mousePosition);
                 BaseNode node = CreateVideoNode(position);
-                NodeData nodeData = node.SaveAsset("");
+                NodeData nodeData = node.SaveAsset(Path.GetDirectoryName(AssetDatabase.GetAssetPath(currentNarrative)), null, currentNarrative.nodes.Count);
                 currentNarrative.nodes.Add(nodeData);
                 AddElement(node);
             }, TrickleDown.TrickleDown);
@@ -671,7 +671,7 @@ namespace Singularis.StackVR.Narrative.Editor {
                 var position = contentViewContainer.WorldToLocal(mousePosition);
 
                 BaseNode node = CreateImageNode(position);
-                NodeData nodeData = node.SaveAsset(Path.GetDirectoryName(AssetDatabase.GetAssetPath(currentNarrative)));
+                NodeData nodeData = node.SaveAsset(Path.GetDirectoryName(AssetDatabase.GetAssetPath(currentNarrative)), null, currentNarrative.nodes.Count);
                 currentNarrative.nodes.Add(nodeData);
                 AddElement(node);
 

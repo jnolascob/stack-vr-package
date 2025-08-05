@@ -47,7 +47,7 @@ namespace Singularis.StackVR.UIBuilder.Editor {
         VisualElement outlinerContainer;
         public List<VisualElement> currentHostpots = new List<VisualElement>();
         public static GraphViewExperiences graphViewExperiences;
-
+        public int indexHostpots;
 
         static public VisualElement hotspotSelected = null;
 
@@ -472,7 +472,7 @@ namespace Singularis.StackVR.UIBuilder.Editor {
 
                     if (node.hotspots.Count > 0)
                     {
-                        
+                        indexHostpots = node.hotspots.Count;
 
                         foreach (var itemHostpot in node.hotspots)
                         { 
@@ -503,11 +503,13 @@ namespace Singularis.StackVR.UIBuilder.Editor {
                             if (hotspotData["type"].ToString() == "question")
                             {
                                 Debug.Log("Creating Question");
-                                hotspot = NarrativesHelper.CreateHotspotQuestion(node, child.name);
+                                hotspot = NarrativesHelper.CreateHotspotQuestion(node, child.name, indexHostpots);
+                                indexHostpots++;
                             }
                             else
                             {
-                                hotspot = NarrativesHelper.CreateHostpot(node, child.name);
+                                hotspot = NarrativesHelper.CreateHostpot(node, child.name, indexHostpots);
+                                indexHostpots++;
                             }
 
                             newHotspots.Add(hotspot);
@@ -529,11 +531,13 @@ namespace Singularis.StackVR.UIBuilder.Editor {
                         if (hotspotData["type"].ToString() == "question")
                         {
                             Debug.Log("Creating Question");
-                            hotspot = NarrativesHelper.CreateHotspotQuestion(node, child.name);
+                            hotspot = NarrativesHelper.CreateHotspotQuestion(node, child.name, indexHostpots);
+                            indexHostpots++;
                         }
                         else
                         {
-                            hotspot = NarrativesHelper.CreateHostpot(node, child.name);
+                            hotspot = NarrativesHelper.CreateHostpot(node, child.name, indexHostpots);
+                            indexHostpots++;
                         }                        
 
                         newHotspots.Add(hotspot);
@@ -734,6 +738,10 @@ namespace Singularis.StackVR.UIBuilder.Editor {
                             {
                                 if (node.hotspots[i].id == id)
                                 {
+                                    string path = AssetDatabase.GetAssetPath(node.hotspots[i]);
+                                    AssetDatabase.DeleteAsset(path);
+                                    AssetDatabase.SaveAssets();
+                                    AssetDatabase.Refresh();
                                     node.hotspots.RemoveAt(i);
                                     break;
                                 }
@@ -763,7 +771,7 @@ namespace Singularis.StackVR.UIBuilder.Editor {
 
 
 
-
+      
 
 
 
